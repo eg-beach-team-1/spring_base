@@ -3,7 +3,7 @@ package com.example.infrastructure.persistence.repository.domain
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.ProductDetail
-import com.example.domain.util.OrderUtil
+import com.example.domain.util.OrderUtils
 import com.example.infrastructure.persistence.assembler.OrderProductDetailsDataMapper
 import com.example.infrastructure.persistence.entity.OrderPo
 import com.example.infrastructure.persistence.repository.JpaOrderRepository
@@ -24,7 +24,7 @@ class OrderDomainRepositoryTest extends Specification {
         given:
         LocalDateTime createTime = LocalDateTime.now()
         LocalDateTime updateTime = LocalDateTime.now()
-        String orderIdToSave = OrderUtil.generateOrderId()
+        String orderIdToSave = OrderUtils.generateOrderId()
 
         List<ProductDetail> productDetails = List.of(new ProductDetail(1, "productDetailName1", BigDecimal.ONE, 1))
 

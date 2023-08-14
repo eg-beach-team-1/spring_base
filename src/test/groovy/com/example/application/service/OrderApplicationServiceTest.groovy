@@ -7,7 +7,7 @@ import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
 import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
-import com.example.domain.util.OrderUtil
+import com.example.domain.util.OrderUtils
 import com.example.presentation.vo.*
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
@@ -23,7 +23,7 @@ class OrderApplicationServiceTest extends Specification {
     def "should save order and return correct order id"() {
         given:
         Integer PRODUCT_ID = 11
-        String ORDER_ID = OrderUtil.generateOrderId()
+        String ORDER_ID = OrderUtils.generateOrderId()
         Long QUANTITY = 10L
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
@@ -44,7 +44,7 @@ class OrderApplicationServiceTest extends Specification {
     def "should throw exception given invalid product in order request"() {
         given:
         Integer PRODUCT_ID = 11
-        String ORDER_ID = OrderUtil.generateOrderId()
+        String ORDER_ID = OrderUtils.generateOrderId()
         Long QUANTITY = 10L
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
