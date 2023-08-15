@@ -45,7 +45,7 @@ class OrderApplicationServiceTest extends Specification {
         Assertions.assertThat(result.equals(ORDER_ID))
     }
 
-    def "should retrieve order by consumer id"() {
+    def "should retrieve order by customer id and order id"() {
         given:
         List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
 
@@ -57,59 +57,10 @@ class OrderApplicationServiceTest extends Specification {
                         createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                         updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                         productDetails: productDetailList
-                ),
+                )
         ]
 
-        orderRepository.findByCustomerId(_) >> OrderDetails
-
-        List<OrderProductDetailDto> orderProductDetails = [new OrderProductDetailDto(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
-        List<OrderListDto> expectedOrderList = [
-                new OrderListDto(
-                        id: 1,
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                        totalPrice: BigDecimal.valueOf(10L),
-                        createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        status: OrderStatus.CREATED,
-                        productDetails: orderProductDetails
-                ),
-        ]
-
-        when:
-        def result = orderApplicationService.findOrderByCustomerIdAndOrderId("dcabcfac-6b08-47cd-883a-76c5dc366d88", null)
-
-        then:
-        result[0].orderId == "orderId1"
-        result[0].totalPrice == BigDecimal.valueOf(20L)
-        result[0].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
-        result.size() == 1
-    }
-
-    def "should filter order by order id and customer id when retrieve order"() {
-        given:
-        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
-
-        List<Order> OrderDetails = [
-                new Order(
-                        id: "orderId1",
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                        status: OrderStatus.CREATED,
-                        createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        productDetails: productDetailList
-                ),
-                new Order(
-                        id: "orderId2",
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                        status: OrderStatus.CREATED,
-                        createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        productDetails: productDetailList
-                ),
-        ]
-
-        orderRepository.findByCustomerId(_) >> OrderDetails
-
-        List<OrderProductDetailDto> orderProductDetails = [new OrderProductDetailDto(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
+        orderRepository.findByCustomerIdAndOrderId(_, _) >> OrderDetails
 
 
         when:

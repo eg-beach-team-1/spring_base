@@ -19,10 +19,11 @@ public class OrderDomainRepository implements OrderRepository {
   private final JpaOrderRepository jpaOrderRepository;
   private final OrderProductDetailsDataMapper orderProductDetailsDataMapper;
 
-  public List<Order> findByCustomerId(String customerId) {
+  public List<Order> findByCustomerIdAndOrderId(String customerId, String orderId) {
     List<Order> orders =
         jpaOrderRepository.findByCustomerId(customerId).stream()
             .map(orderProductDetailsDataMapper::mapOrderPoToOrder)
+            .filter(order -> orderId == null || orderId.equals(order.getId()))
             .toList();
     if (orders.isEmpty()) {
       throw new NotFoundException(ExceptionCode.NOT_FOUND, "Not found customer.");

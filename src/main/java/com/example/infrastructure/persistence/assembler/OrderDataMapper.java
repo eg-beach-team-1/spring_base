@@ -6,7 +6,6 @@ import com.example.domain.entity.Order;
 import com.example.domain.entity.ProductDetail;
 import com.example.infrastructure.persistence.entity.OrderPo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
