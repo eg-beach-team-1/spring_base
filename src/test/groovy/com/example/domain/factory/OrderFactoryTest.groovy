@@ -1,9 +1,11 @@
 package com.example.domain.factory
 
-
 import com.example.domain.entity.OrderStatus
+import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
 import spock.lang.Specification
+
+import static com.example.domain.entity.ProductStatus.VALID
 
 class OrderFactoryTest extends Specification {
     def "should create order successfully"() {
@@ -22,5 +24,20 @@ class OrderFactoryTest extends Specification {
         order.getCreateTime() != null
         order.getUpdateTime() != null
         order.getProductDetails() == productDetails
+    }
+
+    def "should build product successfully"() {
+        given:
+        def product = new Product(1, "test", BigDecimal.ONE, VALID)
+        def amount = 1L
+
+        when:
+        def productDetail = OrderFactory.buildProductDetail(product, amount)
+
+        then:
+        productDetail.id == 1
+        productDetail.name == "test"
+        productDetail.price == BigDecimal.ONE
+        productDetail.amount == 1L
     }
 }
