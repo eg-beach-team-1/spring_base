@@ -1,6 +1,5 @@
 package com.example.domain.entity;
 
-import com.example.presentation.vo.ProductStatus;
 import java.math.BigDecimal;
 import lombok.*;
 
@@ -17,4 +16,8 @@ public class Product {
   private BigDecimal price;
 
   private ProductStatus status;
+
+  public boolean isValid() {
+    return status == ProductStatus.VALID;
+  }
 }
