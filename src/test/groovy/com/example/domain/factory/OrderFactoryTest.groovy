@@ -15,7 +15,7 @@ class OrderFactoryTest extends Specification {
         List<ProductDetail> productDetails = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
 
         when:
-        def order = OrderFactory.buildOrder(customerId, status, productDetails)
+        def order = OrderFactory.buildOrder(customerId, productDetails)
 
         then:
         order.getId() != null

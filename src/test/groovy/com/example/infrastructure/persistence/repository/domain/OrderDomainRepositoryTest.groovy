@@ -30,7 +30,7 @@ class OrderDomainRepositoryTest extends Specification {
 
         String productDetailsToSave = objectMapper.writeValueAsString(productDetails)
 
-        Order orderToSave = new Order(null, "consumerId", orderIdToSave, BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetails)
+        Order orderToSave = new Order(orderIdToSave, "consumerId", OrderStatus.CREATED, createTime, updateTime, productDetails)
 
         OrderPo savedOrderPo = new OrderPo(Integer.valueOf(1), orderIdToSave, "consumerId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
 
@@ -58,7 +58,7 @@ class OrderDomainRepositoryTest extends Specification {
                 new OrderPo(
                         id: 1,
                         customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                        orderId: "order id",
+                        orderId: "order id1",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
@@ -68,7 +68,7 @@ class OrderDomainRepositoryTest extends Specification {
                 new OrderPo(
                         id: 2,
                         customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                        orderId: "order id",
+                        orderId: "order id2",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),
@@ -83,18 +83,16 @@ class OrderDomainRepositoryTest extends Specification {
 
         List<Order> expectedOrder = [
                 new Order(
-                        id: 1,
+                        id: "order id1",
                         customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                        orderId: "order id",
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                         updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                         productDetails: productDetailList
                 ),
                 new Order(
-                        id: 2,
+                        id: "order id2",
                         customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                        orderId: "order id",
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),
                         updateTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),

@@ -13,5 +13,7 @@ public interface OrderListDtoMapper {
   OrderListDtoMapper MAPPER = getMapper(OrderListDtoMapper.class);
 
   @Mapping(target = "totalPrice", expression = "java(order.calculateTotalPrice())")
+  @Mapping(target = "orderId", source = "id")
+  @Mapping(target = "id", expression = "java(1)")
   OrderListDto toDto(Order order);
 }
