@@ -1,8 +1,5 @@
 package com.example.domain.entity;
 
-import com.example.domain.util.OrderUtil;
-import com.example.domain.util.ProductDetailSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,20 +15,23 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Order {
-  private Integer id;
+  private String id;
 
   private String customerId;
 
-  @Builder.Default private String orderId = OrderUtil.generateOrderId();
-
-  private BigDecimal totalPrice;
-
   private OrderStatus status;
 
-  @Builder.Default private LocalDateTime createTime = LocalDateTime.now();
+  private LocalDateTime createTime;
 
-  @Builder.Default private LocalDateTime updateTime = LocalDateTime.now();
+  private LocalDateTime updateTime;
 
-  @JsonSerialize(using = ProductDetailSerializer.class)
   private List<ProductDetail> productDetails;
+
+  public BigDecimal calculateTotalPrice() {
+    return productDetails.stream()
+        .map(
+            productDetail ->
+                productDetail.getPrice().multiply(BigDecimal.valueOf(productDetail.getAmount())))
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
 }
