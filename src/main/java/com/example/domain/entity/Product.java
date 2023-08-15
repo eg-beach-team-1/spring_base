@@ -1,5 +1,8 @@
 package com.example.domain.entity;
 
+import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
+
+import com.example.common.exception.BusinessException;
 import java.math.BigDecimal;
 import lombok.*;
 
@@ -17,7 +20,9 @@ public class Product {
 
   private ProductStatus status;
 
-  public boolean isValid() {
-    return status == ProductStatus.VALID;
+  public void validateProduct() {
+    if (this.status == ProductStatus.INVALID) {
+      throw new BusinessException(INVALID_PRODUCT, "This product is invalid!");
+    }
   }
 }
