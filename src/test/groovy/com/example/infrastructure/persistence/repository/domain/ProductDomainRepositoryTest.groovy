@@ -64,4 +64,32 @@ class ProductDomainRepositoryTest extends Specification {
         then:
         thrown(NotFoundException)
     }
+
+    def "should find all products by ids"() {
+        given:
+        List<ProductPo> jpaProducts = [
+                new ProductPo(id: 1, name: "book", price: BigDecimal.valueOf(10L), status: "VALID"),
+                new ProductPo(id: 2, name: "book2", price: BigDecimal.valueOf(10L), status: "INVALID"),
+                new ProductPo(id: 3, name: "book2", price: null, status: "VALID"),
+        ]
+
+        jpaProductRepository.findAllById(_) >> jpaProducts
+
+        List<Product> expectedProducts = [
+                new Product(id: 1, name: "book", price: BigDecimal.valueOf(10L), status: "VALID"),
+                new Product(id: 2, name: "book2", price: BigDecimal.valueOf(10L), status: "INVALID"),
+                new Product(id: 3, name: "book2", price: null, status: "VALID"),
+        ]
+
+        when:
+        def result = productDomainRepository.findAllById(List.of(1, 2, 3))
+
+        then:
+        Assertions.assertThat(result)
+                .usingRecursiveComparison()
+                .ignoringCollectionOrder()
+                .isEqualTo(expectedProducts)
+    }
+
+
 }

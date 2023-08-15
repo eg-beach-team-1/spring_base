@@ -7,4 +7,6 @@ public interface ProductRepository {
   List<Product> findAll();
 
   Product findById(Integer productId);
+
+  List<Product> findAllById(List<Integer> ids);
 }

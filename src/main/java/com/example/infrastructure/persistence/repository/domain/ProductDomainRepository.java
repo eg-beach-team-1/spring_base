@@ -30,4 +30,9 @@ public class ProductDomainRepository implements ProductRepository {
     productPo.orElseThrow(notFoundException(NOT_FOUND_PRODUCT));
     return mapper.toDo(productPo.get());
   }
+
+  @Override
+  public List<Product> findAllById(List<Integer> ids) {
+    return jpaProductRepository.findAllById(ids).stream().map(mapper::toDo).toList();
+  }
 }
