@@ -2,7 +2,7 @@ package com.example.application.service
 
 import com.example.domain.entity.Customer
 import com.example.domain.repository.CustomerRepository
-import com.example.presentation.vo.CustomerDto
+import com.example.presentation.vo.response.CustomerDto
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
 

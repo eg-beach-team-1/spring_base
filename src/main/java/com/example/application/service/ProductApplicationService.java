@@ -2,7 +2,7 @@ package com.example.application.service;
 
 import com.example.application.assembler.ProductDtoMapper;
 import com.example.domain.repository.ProductRepository;
-import com.example.presentation.vo.ProductDto;
+import com.example.presentation.vo.response.ProductDto;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

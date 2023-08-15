@@ -12,10 +12,9 @@ import com.example.domain.entity.ProductDetail;
 import com.example.domain.repository.OrderRepository;
 import com.example.domain.repository.ProductRepository;
 import com.example.domain.util.OrderUtils;
-import com.example.presentation.vo.OrderListDto;
-import com.example.presentation.vo.OrderProductReqDto;
-import com.example.presentation.vo.OrderReqDto;
-import com.example.presentation.vo.ProductStatus;
+import com.example.presentation.vo.request.OrderProductReqDto;
+import com.example.presentation.vo.request.OrderReqDto;
+import com.example.presentation.vo.response.OrderListDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -40,7 +39,7 @@ public class OrderApplicationService {
 
     List<ProductDetail> productDetails = getProductDetails(orderReqDto);
 
-    BigDecimal totalPrice = OrderUtil.calculateTotalPrice(productDetails);
+    BigDecimal totalPrice = OrderUtils.calculateTotalPrice(productDetails);
 
     Order order =
         Order.builder()

@@ -2,7 +2,7 @@ package com.example.application.service;
 
 import com.example.application.assembler.CustomerDtoMapper;
 import com.example.domain.repository.CustomerRepository;
-import com.example.presentation.vo.CustomerDto;
+import com.example.presentation.vo.response.CustomerDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

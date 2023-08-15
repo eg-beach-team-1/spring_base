@@ -1,8 +1,8 @@
 package com.example.presentation.facade;
 
 import com.example.application.service.OrderApplicationService;
-import com.example.presentation.vo.OrderListDto;
-import com.example.presentation.vo.OrderReqDto;
+import com.example.presentation.vo.request.OrderReqDto;
+import com.example.presentation.vo.response.OrderListDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.UUID;

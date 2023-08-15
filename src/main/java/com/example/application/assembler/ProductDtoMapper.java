@@ -3,7 +3,7 @@ package com.example.application.assembler;
 import static org.mapstruct.factory.Mappers.getMapper;
 
 import com.example.domain.entity.Product;
-import com.example.presentation.vo.ProductDto;
+import com.example.presentation.vo.response.ProductDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

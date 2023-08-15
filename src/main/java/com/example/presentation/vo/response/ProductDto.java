@@ -1,4 +1,4 @@
-package com.example.presentation.vo;
+package com.example.presentation.vo.response;
 
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
@@ -10,12 +10,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class OrderProductDetailDto {
+public class ProductDto {
   private Integer id;
 
   private String name;
 
   private BigDecimal price;
 
-  private Long amount;
+  private String status;
 }

@@ -5,10 +5,14 @@ import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
+import com.example.domain.entity.ProductStatus
 import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
 import com.example.domain.util.OrderUtils
-import com.example.presentation.vo.*
+import com.example.presentation.vo.request.OrderProductReqDto
+import com.example.presentation.vo.request.OrderReqDto
+import com.example.presentation.vo.response.OrderListDto
+import com.example.presentation.vo.response.OrderProductDetailDto
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
 

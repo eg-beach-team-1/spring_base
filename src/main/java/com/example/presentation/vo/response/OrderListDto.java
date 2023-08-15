@@ -1,4 +1,4 @@
-package com.example.presentation.vo;
+package com.example.presentation.vo.response;
 
 import com.example.domain.entity.OrderStatus;
 import java.math.BigDecimal;

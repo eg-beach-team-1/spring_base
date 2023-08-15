@@ -1,7 +1,7 @@
 package com.example.presentation.facade;
 
 import com.example.application.service.CustomerApplicationService;
-import com.example.presentation.vo.CustomerDto;
+import com.example.presentation.vo.response.CustomerDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,4 +1,4 @@
-package com.example.presentation.vo;
+package com.example.domain.entity;
 
 public enum ProductStatus {
   INVALID,
