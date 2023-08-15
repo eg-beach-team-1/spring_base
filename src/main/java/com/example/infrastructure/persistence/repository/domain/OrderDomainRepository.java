@@ -8,7 +8,6 @@ import com.example.domain.entity.Order;
 import com.example.domain.repository.OrderRepository;
 import com.example.infrastructure.persistence.assembler.OrderProductDetailsDataMapper;
 import com.example.infrastructure.persistence.repository.JpaOrderRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -32,7 +31,7 @@ public class OrderDomainRepository implements OrderRepository {
   }
 
   @Override
-  public String save(Order order) throws JsonProcessingException {
+  public String save(Order order) {
     return jpaOrderRepository.save(MAPPER.toPo(order)).getOrderId();
   }
 }

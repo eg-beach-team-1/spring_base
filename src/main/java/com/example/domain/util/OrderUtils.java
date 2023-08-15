@@ -14,12 +14,4 @@ public class OrderUtils {
   public static String generateOrderId() {
     return UUID.randomUUID().toString();
   }
-
-  public static BigDecimal calculateTotalPrice(List<ProductDetail> productDetails) {
-    return productDetails.stream()
-        .map(
-            productDetail ->
-                productDetail.getPrice().multiply(BigDecimal.valueOf(productDetail.getAmount())))
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
-  }
 }
