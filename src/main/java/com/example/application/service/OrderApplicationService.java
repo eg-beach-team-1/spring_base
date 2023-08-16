@@ -33,13 +33,15 @@ public class OrderApplicationService {
   public String createOrder(OrderReqDto orderReqDto) {
     List<Product> products = getProducts(orderReqDto);
 
-    validateProducts(products);
+    validateProductsStatus(products);
 
     Map<Integer, Integer> productIdToQuantity =
         orderReqDto.getOrderProducts().stream()
             .collect(
                 Collectors.toMap(
                     OrderProductReqDto::getProductId, OrderProductReqDto::getQuantity));
+
+    validateProductsStock(products, productIdToQuantity);
 
     List<ProductDetail> productDetails = getProductDetails(products, productIdToQuantity);
 
@@ -54,20 +56,15 @@ public class OrderApplicationService {
     return productRepository.findAllById(ids);
   }
 
-  private void validateProducts(List<Product> products) {
+  private void validateProductsStatus(List<Product> products) {
     for (Product product : products) {
       product.validateProduct();
     }
   }
 
-  private static List<ProductDetail> getProductDetails(
-      List<Product> products, Map<Integer, Integer> productIdToQuantity) {
-    List<ProductDetail> productDetails = new ArrayList<>();
-
+  private void validateProductsStock(List<Product> products, Map<Integer, Integer> productIdToQuantity) {
     for (Product product : products) {
-      Integer quantity = productIdToQuantity.get(product.getId());
-      productDetails.add(OrderFactory.buildProductDetail(product, quantity));
+      product.validateStock(productIdToQuantity.get(product.getId()));
     }
-    return productDetails;
   }
 }

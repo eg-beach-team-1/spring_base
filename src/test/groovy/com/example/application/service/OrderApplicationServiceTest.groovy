@@ -20,7 +20,7 @@ class OrderApplicationServiceTest extends Specification {
     OrderRepository orderRepository = Mock()
     OrderApplicationService orderApplicationService = new OrderApplicationService(productRepository, orderRepository)
 
-    def "should save order and return correct order id"() {
+    def "should save order whose all products are valid and return correct order id"() {
         given:
         Integer PRODUCT_ID = 11
         String ORDER_ID = OrderUtils.generateOrderId()

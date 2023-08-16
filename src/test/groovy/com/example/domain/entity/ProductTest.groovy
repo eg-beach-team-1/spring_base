@@ -47,4 +47,15 @@ class ProductTest extends Specification {
         then:
         discountedPrice == null
     }
+
+    def "should valid product stock successfully when stock is enough"() {
+        given:
+        def product = new Product(1, "name", null, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10)
+
+        when:
+        product.validateStock(5)
+
+        then:
+        noExceptionThrown()
+    }
 }

@@ -39,5 +39,11 @@ public class Product {
     return this.price.multiply(this.discount);
   }
 
+  public void validateStock(Integer amount) {
+    if (stock >= amount) {
+      return;
+    }
+  }
+
 
 }
