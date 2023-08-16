@@ -20,6 +20,8 @@ public class Product {
 
   private ProductStatus status;
 
+  private BigDecimal discount;
+
   public void validateProduct() {
     if (this.status == ProductStatus.INVALID) {
       throw new BusinessException(INVALID_PRODUCT, "This product is invalid!");
