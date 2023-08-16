@@ -3,11 +3,14 @@ product:
     name: book
     price: 10.00
     status: VALID
+    discount: 0.8
   - id: 1002
     name: Coffee
     price: 20.00
     status: VALID
+    discount: 0.8
   - id: 1003
     name: Cat can
     price: 30.00
     status: VALID
+    discount: 0.8

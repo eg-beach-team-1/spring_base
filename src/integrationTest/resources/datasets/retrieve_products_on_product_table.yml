@@ -3,3 +3,4 @@ product:
     name: book
     price: 10.00
     status: VALID
+    discount: 0.8
