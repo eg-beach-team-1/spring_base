@@ -67,4 +67,15 @@ public class OrderApplicationService {
       product.validateStock(productIdToQuantity.get(product.getId()));
     }
   }
+
+  private List<ProductDetail> getProductDetails(
+      List<Product> products, Map<Integer, Integer> productIdToQuantity) {
+    List<ProductDetail> productDetails = new ArrayList<>();
+
+    for (Product product : products) {
+      Integer quantity = productIdToQuantity.get(product.getId());
+      productDetails.add(OrderFactory.buildProductDetail(product, quantity));
+    }
+    return productDetails;
+  }
 }
