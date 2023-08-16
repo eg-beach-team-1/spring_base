@@ -33,6 +33,6 @@ public class OrderDomainRepository implements OrderRepository {
 
   @Override
   public String save(Order order) {
-    return jpaOrderRepository.save(MAPPER.toPo(order)).getOrderId();
+    return jpaOrderRepository.save(MAPPER.toPo(order)).getId();
   }
 }

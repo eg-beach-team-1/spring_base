@@ -17,7 +17,6 @@ public interface OrderDataMapper {
   OrderDataMapper MAPPER = getMapper(OrderDataMapper.class);
 
   @Mapping(source = "productDetails", target = "productDetails")
-  @Mapping(source = "orderPo.orderId", target = "id")
   Order toDo(OrderPo orderPo, List<ProductDetail> productDetails);
 
   @Mappings({
@@ -25,8 +24,6 @@ public interface OrderDataMapper {
         target = "productDetails",
         expression = "java(mapToProductDetails(order.getProductDetails()))"),
     @Mapping(target = "totalPrice", expression = "java(order.calculateTotalPrice())"),
-    @Mapping(target = "orderId", source = "id"),
-    @Mapping(target = "id", expression = "java(1)")
   })
   OrderPo toPo(Order order);
 

@@ -1,7 +1,5 @@
 package com.example.infrastructure.persistence.entity;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import com.example.domain.entity.OrderStatus;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -23,8 +21,6 @@ public class OrderPo {
   @GeneratedValue(generator = "system-uuid")
   @GenericGenerator(name = "system-uuid", strategy = "uuid")
   private String id;
-
-  private String orderId;
 
   private String customerId;
 

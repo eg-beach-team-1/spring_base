@@ -33,7 +33,7 @@ class OrderDomainRepositoryTest extends Specification {
 
         Order orderToSave = new Order(orderIdToSave, "consumerId", OrderStatus.CREATED, createTime, updateTime, productDetails)
 
-        OrderPo savedOrderPo = new OrderPo(Integer.valueOf(1), orderIdToSave, "consumerId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
+        OrderPo savedOrderPo = new OrderPo(orderIdToSave, "consumerId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
 
         jpaOrderRepository.save(_) >> savedOrderPo
 
@@ -55,9 +55,8 @@ class OrderDomainRepositoryTest extends Specification {
                 '''
     List<OrderPo> jpaOrdersList = [
             new OrderPo(
-                    id: 1,
+                    id: "546f4304-3be2-11ee-be56-0242ac120001",
                     customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                    orderId: "order id1",
                     totalPrice: BigDecimal.valueOf(10L),
                     status: OrderStatus.CREATED,
                     createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
@@ -65,9 +64,8 @@ class OrderDomainRepositoryTest extends Specification {
                     productDetails: jsonString.toString()
             ),
             new OrderPo(
-                    id: 2,
+                    id: "546f4304-3be2-11ee-be56-0242ac120002",
                     customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                    orderId: "order id2",
                     totalPrice: BigDecimal.valueOf(10L),
                     status: OrderStatus.CREATED,
                     createTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),
@@ -78,44 +76,13 @@ class OrderDomainRepositoryTest extends Specification {
 
     def "should retrieve order list by customer id and order id"() {
         given:
-        def jsonString =
-                ''' [{
-                         "id": 1,
-                         "name": "water",
-                         "price": 10,
-                         "amount": 2
-                     }]
-                '''
-        List<OrderPo> jpaOrdersList = [
-                new OrderPo(
-                        id: 1,
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                        orderId: "order id1",
-                        totalPrice: BigDecimal.valueOf(10L),
-                        status: OrderStatus.CREATED,
-                        createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        productDetails: jsonString.toString()
-                ),
-                new OrderPo(
-                        id: 2,
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                        orderId: "order id2",
-                        totalPrice: BigDecimal.valueOf(10L),
-                        status: OrderStatus.CREATED,
-                        createTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),
-                        updateTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),
-                        productDetails: jsonString.toString()
-                ),
-        ]
-
         jpaOrderRepository.findByCustomerId("dcabcfac-6b08-47cd-883a-76c5dc366d88") >> jpaOrdersList
 
         when:
-        def result = orderDomainRepository.findByCustomerIdAndOrderId("dcabcfac-6b08-47cd-883a-76c5dc366d88", "order id1")
+        def result = orderDomainRepository.findByCustomerIdAndOrderId("dcabcfac-6b08-47cd-883a-76c5dc366d88", "546f4304-3be2-11ee-be56-0242ac120001")
 
         then:
-        result[0].id == "order id1"
+        result[0].id == "546f4304-3be2-11ee-be56-0242ac120001"
         result[0].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
         result[0].status == OrderStatus.CREATED
         result[0].productDetails[0].id == 1
@@ -133,14 +100,14 @@ class OrderDomainRepositoryTest extends Specification {
         def result = orderDomainRepository.findByCustomerIdAndOrderId("dcabcfac-6b08-47cd-883a-76c5dc366d88", null)
 
         then:
-        result[0].id == "order id1"
+        result[0].id == "546f4304-3be2-11ee-be56-0242ac120001"
         result[0].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
         result[0].status == OrderStatus.CREATED
         result[0].productDetails[0].id == 1
         result[0].productDetails[0].name == "water"
         result[0].productDetails[0].price == BigDecimal.valueOf(10L)
         result[0].productDetails[0].amount == 2
-        result[1].id == "order id2"
+        result[1].id == "546f4304-3be2-11ee-be56-0242ac120002"
         result.size() == 2
     }
 
