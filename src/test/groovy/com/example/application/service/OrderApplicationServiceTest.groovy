@@ -1,8 +1,6 @@
 package com.example.application.service
 
-import com.example.common.exception.BusinessException
 import com.example.domain.entity.Order
-import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
 import com.example.domain.entity.ProductStatus
@@ -11,8 +9,6 @@ import com.example.domain.repository.ProductRepository
 import com.example.domain.util.OrderUtils
 import com.example.presentation.vo.request.OrderProductReqDto
 import com.example.presentation.vo.request.OrderReqDto
-import com.example.presentation.vo.response.OrderListDto
-import com.example.presentation.vo.response.OrderProductDetailDto
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
 
@@ -28,7 +24,7 @@ class OrderApplicationServiceTest extends Specification {
         given:
         Integer PRODUCT_ID = 11
         String ORDER_ID = OrderUtils.generateOrderId()
-        Long QUANTITY = 10L
+        Integer QUANTITY = 10
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)

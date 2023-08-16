@@ -15,5 +15,5 @@ public class ProductDetail {
 
   private BigDecimal price;
 
-  private Long amount;
+  private Integer amount;
 }

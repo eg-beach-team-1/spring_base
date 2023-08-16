@@ -18,7 +18,7 @@ public class OrderFactory {
     return new Order(orderId, customerId, CREATED, createTime, createTime, productDetails);
   }
 
-  public static ProductDetail buildProductDetail(Product product, Long quantity) {
+  public static ProductDetail buildProductDetail(Product product, Integer quantity) {
     return new ProductDetail(product.getId(), product.getName(), product.getPrice(), quantity);
   }
 }

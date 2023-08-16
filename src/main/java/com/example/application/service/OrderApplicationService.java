@@ -35,7 +35,7 @@ public class OrderApplicationService {
 
     validateProducts(products);
 
-    Map<Integer, Long> productIdToQuantity =
+    Map<Integer, Integer> productIdToQuantity =
         orderReqDto.getOrderProducts().stream()
             .collect(
                 Collectors.toMap(
@@ -61,11 +61,11 @@ public class OrderApplicationService {
   }
 
   private static List<ProductDetail> getProductDetails(
-      List<Product> products, Map<Integer, Long> productIdToQuantity) {
+      List<Product> products, Map<Integer, Integer> productIdToQuantity) {
     List<ProductDetail> productDetails = new ArrayList<>();
 
     for (Product product : products) {
-      Long quantity = productIdToQuantity.get(product.getId());
+      Integer quantity = productIdToQuantity.get(product.getId());
       productDetails.add(OrderFactory.buildProductDetail(product, quantity));
     }
     return productDetails;
