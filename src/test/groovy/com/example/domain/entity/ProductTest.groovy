@@ -36,4 +36,15 @@ class ProductTest extends Specification {
         then:
         discountedPrice == BigDecimal.valueOf(8)
     }
+
+    def "should return null discounted price when the price of product is null"() {
+        given:
+        def product = new Product(1, "name", null, ProductStatus.INVALID, BigDecimal.valueOf(0.8))
+
+        when:
+        def discountedPrice = product.calculateDiscountedPrice()
+
+        then:
+        discountedPrice == null
+    }
 }
