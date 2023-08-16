@@ -18,4 +18,8 @@ public class ProductDto {
   private BigDecimal price;
 
   private String status;
+
+  private BigDecimal discount;
+
+  private BigDecimal discountedPrice;
 }
