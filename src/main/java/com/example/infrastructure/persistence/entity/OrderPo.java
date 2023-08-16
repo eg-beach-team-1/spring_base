@@ -24,7 +24,7 @@ public class OrderPo {
 
   private String customerId;
 
-  private BigDecimal totalPrice;
+  private BigDecimal paidPrice;
 
   @Enumerated(EnumType.STRING)
   private OrderStatus status;

@@ -23,7 +23,7 @@ public interface OrderDataMapper {
     @Mapping(
         target = "productDetails",
         expression = "java(mapToProductDetails(order.getProductDetails()))"),
-    @Mapping(target = "totalPrice", expression = "java(order.calculateTotalPrice())"),
+    @Mapping(target = "paidPrice", expression = "java(order.calculateTotalPrice())"),
   })
   OrderPo toPo(Order order);
 
