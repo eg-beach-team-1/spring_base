@@ -14,11 +14,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class OrderListDto {
-  private Integer id;
+  private String orderId;
 
   private String customerId;
-
-  private String orderId;
 
   private BigDecimal totalPrice;
 

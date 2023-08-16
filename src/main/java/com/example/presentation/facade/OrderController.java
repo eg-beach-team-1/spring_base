@@ -3,7 +3,6 @@ package com.example.presentation.facade;
 import com.example.application.service.OrderApplicationService;
 import com.example.presentation.vo.request.OrderReqDto;
 import com.example.presentation.vo.response.OrderListDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,7 @@ public class OrderController {
   private final OrderApplicationService orderApplicationService;
 
   @PostMapping("/creation")
-  public String createOrder(@RequestBody OrderReqDto orderReqDto) throws JsonProcessingException {
+  public String createOrder(@RequestBody OrderReqDto orderReqDto) {
     return orderApplicationService.createOrder(orderReqDto);
   }
 
