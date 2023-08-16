@@ -24,6 +24,8 @@ public class Product {
 
   private BigDecimal discount;
 
+  private Integer stock;
+
   public void validateProduct() {
     if (this.status == ProductStatus.INVALID) {
       throw new BusinessException(INVALID_PRODUCT, "This product is invalid!");

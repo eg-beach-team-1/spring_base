@@ -6,7 +6,7 @@ import spock.lang.Specification
 class ProductTest extends Specification {
     def "should not thrown exception when product is valid"() {
         given:
-        def product = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, BigDecimal.valueOf(0.8))
+        def product = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10)
 
         when:
         product.validateProduct()
@@ -17,7 +17,7 @@ class ProductTest extends Specification {
 
     def "should thrown exception when product is invalid"() {
         given:
-        def product = new Product(1, "name", BigDecimal.ONE, ProductStatus.INVALID, BigDecimal.valueOf(0.8))
+        def product = new Product(1, "name", BigDecimal.ONE, ProductStatus.INVALID, BigDecimal.valueOf(0.8), 10)
 
         when:
         product.validateProduct()
@@ -28,7 +28,7 @@ class ProductTest extends Specification {
 
     def "should calculate discounted price successfully"() {
         given:
-        def product = new Product(1, "name", BigDecimal.TEN, ProductStatus.INVALID, BigDecimal.valueOf(0.8))
+        def product = new Product(1, "name", BigDecimal.TEN, ProductStatus.INVALID, BigDecimal.valueOf(0.8), 10)
 
         when:
         def discountedPrice = product.calculateDiscountedPrice()
@@ -39,7 +39,7 @@ class ProductTest extends Specification {
 
     def "should return null discounted price when the price of product is null"() {
         given:
-        def product = new Product(1, "name", null, ProductStatus.INVALID, BigDecimal.valueOf(0.8))
+        def product = new Product(1, "name", null, ProductStatus.INVALID, BigDecimal.valueOf(0.8), 10)
 
         when:
         def discountedPrice = product.calculateDiscountedPrice()

@@ -30,6 +30,7 @@ class OrderFactoryTest extends Specification {
         given:
         def product = new Product(1, "test", BigDecimal.ONE, VALID)
         def amount = 1L
+        def product = new Product(1, "test", BigDecimal.ONE, VALID, BigDecimal.valueOf(0.8), 10)
 
         when:
         def productDetail = OrderFactory.buildProductDetail(product, amount)
