@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `customer_order`
 (
-    `id`              INT   NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `id`              VARCHAR(64)    NOT NULL COMMENT '主键',
     `customer_id`     VARCHAR(64)    NOT NULL COMMENT '客户ID',
     `total_price`     DECIMAL(10, 2) NOT NULL COMMENT '总价',
     `status`          VARCHAR(32)    NOT NULL COMMENT '订单状态',

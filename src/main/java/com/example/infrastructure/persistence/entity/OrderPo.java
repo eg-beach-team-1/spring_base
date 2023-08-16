@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 @Getter
 @Setter
@@ -19,8 +20,9 @@ import lombok.Setter;
 @Table(name = "customer_order")
 public class OrderPo {
   @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private Integer id;
+  @GeneratedValue(generator = "system-uuid")
+  @GenericGenerator(name = "system-uuid", strategy = "uuid")
+  private String id;
 
   private String orderId;
 
