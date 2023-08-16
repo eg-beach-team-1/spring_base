@@ -25,4 +25,15 @@ class ProductTest extends Specification {
         then:
         thrown(BusinessException)
     }
+
+    def "should calculate discounted price successfully"() {
+        given:
+        def product = new Product(1, "name", BigDecimal.TEN, ProductStatus.INVALID, BigDecimal.valueOf(0.8))
+
+        when:
+        def discountedPrice = product.calculateDiscountedPrice()
+
+        then:
+        discountedPrice == BigDecimal.valueOf(8)
+    }
 }

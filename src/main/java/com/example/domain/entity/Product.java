@@ -27,4 +27,10 @@ public class Product {
       throw new BusinessException(INVALID_PRODUCT, "This product is invalid!");
     }
   }
+
+  public BigDecimal calculateDiscountedPrice() {
+    return this.price.multiply(this.discount);
+  }
+
+
 }
