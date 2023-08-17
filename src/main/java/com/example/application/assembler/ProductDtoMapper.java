@@ -16,6 +16,7 @@ import java.util.Objects;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProductDtoMapper {
   ProductDtoMapper MAPPER = getMapper(ProductDtoMapper.class);
+  BigDecimal MIN_DISCOUNTED_PRICE = BigDecimal.valueOf(0.01);
 
   @Mapping(source = "product",target = "discountedPrice", qualifiedByName = "mapToFormattedDiscountedPrice")
 
@@ -27,6 +28,9 @@ public interface ProductDtoMapper {
     if(Objects.isNull(discountedPrice)){
       return null;
     }
-    return discountedPrice.setScale(2, RoundingMode.HALF_DOWN);
+
+    BigDecimal price = discountedPrice.setScale(2, RoundingMode.HALF_DOWN);
+    return price.compareTo(MIN_DISCOUNTED_PRICE) > 0 ? price : MIN_DISCOUNTED_PRICE;
+
   }
 }
