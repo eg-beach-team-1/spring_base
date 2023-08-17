@@ -19,6 +19,8 @@ public class ProductDto {
 
   private String status;
 
+  private Integer stock;
+
   private BigDecimal discount;
 
   private BigDecimal discountedPrice;
