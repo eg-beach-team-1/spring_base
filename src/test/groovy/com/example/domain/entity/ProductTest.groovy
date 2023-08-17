@@ -59,7 +59,7 @@ class ProductTest extends Specification {
         noExceptionThrown()
     }
 
-    def "should thrown business exception when stock is zerp"() {
+    def "should thrown business exception when stock is zero"() {
         given:
         def product = new Product(1, "name", null, ProductStatus.VALID, BigDecimal.valueOf(0.8), 0)
 
@@ -69,5 +69,17 @@ class ProductTest extends Specification {
         then:
         thrown(BusinessException)
     }
+
+    def "should thrown business exception when stock is less than amount"() {
+        given:
+        def product = new Product(1, "name", null, ProductStatus.VALID, BigDecimal.valueOf(0.8), 1)
+
+        when:
+        product.validateStock(2)
+
+        then:
+        thrown(BusinessException)
+    }
+
 
 }
