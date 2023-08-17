@@ -12,7 +12,6 @@ public enum BaseExceptionCode implements IExceptionCode {
   PRODUCT_STOCK_SHORTAGE("the stock of this product is less than the amount"),
   INVALID_PRODUCT("Invalid product.");
 
-
   BaseExceptionCode(String enMsg) {
     this.enMsg = enMsg;
   }

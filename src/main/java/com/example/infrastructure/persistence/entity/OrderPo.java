@@ -8,7 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
@@ -29,9 +31,9 @@ public class OrderPo {
   @Enumerated(EnumType.STRING)
   private OrderStatus status;
 
-  private LocalDateTime createTime = LocalDateTime.now();
+  @CreationTimestamp private LocalDateTime createTime;
 
-  private LocalDateTime updateTime = LocalDateTime.now();
+  @UpdateTimestamp private LocalDateTime updateTime;
 
   @Column(columnDefinition = "json")
   private String productDetails;
