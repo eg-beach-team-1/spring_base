@@ -1,6 +1,7 @@
 package com.example.domain.entity;
 
 import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
+import static com.example.common.exception.BaseExceptionCode.OUT_OF_STOCK;
 
 import com.example.common.exception.BusinessException;
 import java.math.BigDecimal;
@@ -39,8 +40,8 @@ public class Product {
   }
 
   public void validateStock(Integer amount) {
-    if (stock >= amount) {
-      return;
+    if(this.stock == 0) {
+      throw new BusinessException(OUT_OF_STOCK, "This product id out of stock");
     }
   }
 }
