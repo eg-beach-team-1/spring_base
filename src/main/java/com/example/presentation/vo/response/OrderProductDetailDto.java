@@ -15,7 +15,13 @@ public class OrderProductDetailDto {
 
   private String name;
 
-  private BigDecimal price;
+  private BigDecimal unitPrice;
 
-  private Long amount;
+  private Integer quantity;
+
+  private BigDecimal discount;
+
+  private BigDecimal paidPrice;
+
+  private BigDecimal priceDifference;
 }

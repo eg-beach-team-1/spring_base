@@ -20,6 +20,8 @@ public class OrderListDto {
 
   private BigDecimal totalPrice;
 
+  private BigDecimal paidPrice;
+
   private OrderStatus status;
 
   private LocalDateTime createTime;
