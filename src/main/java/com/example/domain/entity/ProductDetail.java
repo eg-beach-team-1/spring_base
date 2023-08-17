@@ -24,10 +24,12 @@ public class ProductDetail {
     if (Objects.isNull(unitPrice)) {
       return null;
     }
-    return unitPrice.multiply(discount).multiply(BigDecimal.valueOf(quantity));
+    return unitPrice.multiply(discount);
   }
 
   public BigDecimal calculatePriceDifference() {
-    return unitPrice.multiply(BigDecimal.valueOf(quantity)).subtract(calculatePaidPrice());
+    return unitPrice
+        .multiply(BigDecimal.valueOf(quantity))
+        .subtract(calculatePaidPrice().multiply(BigDecimal.valueOf(quantity)));
   }
 }
