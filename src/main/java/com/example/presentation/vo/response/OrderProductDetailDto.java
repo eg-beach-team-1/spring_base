@@ -27,6 +27,5 @@ public class OrderProductDetailDto {
   @JsonSerialize(using = BigDecimalSerializer.class)
   private BigDecimal discountedPrice;
 
-  @JsonSerialize(using = BigDecimalSerializer.class)
   private BigDecimal priceDifference;
 }
