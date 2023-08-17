@@ -27,7 +27,7 @@ public interface OrderListDtoMapper {
     return productDetails.stream().map(this::toOrderProductDetailDto).collect(Collectors.toList());
   }
 
-  @Mapping(target = "paidPrice", expression = "java(productDetail.calculatePaidPrice())")
+  @Mapping(target = "discountedPrice", expression = "java(productDetail.calculatePaidPrice())")
   @Mapping(
       target = "priceDifference",
       expression = "java(productDetail.calculatePriceDifference())")

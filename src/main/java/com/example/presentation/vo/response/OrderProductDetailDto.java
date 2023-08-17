@@ -21,7 +21,7 @@ public class OrderProductDetailDto {
 
   private BigDecimal discount;
 
-  private BigDecimal paidPrice;
+  private BigDecimal discountedPrice;
 
   private BigDecimal priceDifference;
 }
