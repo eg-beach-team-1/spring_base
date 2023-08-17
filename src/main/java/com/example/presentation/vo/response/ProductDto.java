@@ -1,5 +1,7 @@
 package com.example.presentation.vo.response;
 
+import com.example.common.BigDecimalSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +17,7 @@ public class ProductDto {
 
   private String name;
 
+  @JsonSerialize(using = BigDecimalSerializer.class)
   private BigDecimal price;
 
   private String status;
@@ -23,5 +26,6 @@ public class ProductDto {
 
   private BigDecimal discount;
 
+  @JsonSerialize(using = BigDecimalSerializer.class)
   private BigDecimal discountedPrice;
 }
