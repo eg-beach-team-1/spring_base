@@ -6,7 +6,6 @@ import com.example.domain.entity.Order;
 import com.example.domain.entity.Product;
 import com.example.domain.entity.ProductDetail;
 import com.example.domain.util.OrderUtils;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,14 +15,6 @@ public class OrderFactory {
   public static Order buildOrder(String customerId, List<ProductDetail> productDetails) {
     String orderId = OrderUtils.generateOrderId();
     LocalDateTime createTime = LocalDateTime.now();
-    BigDecimal paidPrice =
-        productDetails.stream()
-            .map(
-                productDetail ->
-                    productDetail
-                        .calculatePaidPrice()
-                        .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     return new Order(orderId, customerId, CREATED, createTime, createTime, productDetails);
   }
