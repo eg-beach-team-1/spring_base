@@ -18,6 +18,7 @@ class OrderFactoryTest extends Specification {
         def order = OrderFactory.buildOrder(customerId, productDetails)
 
         then:
+        order.getPaidPrice() == BigDecimal.valueOf(16L)
         order.getId() != null
         order.getCustomerId() == customerId
         order.getStatus() == status

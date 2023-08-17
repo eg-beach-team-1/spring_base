@@ -3,7 +3,7 @@ package com.example.domain.entity
 import spock.lang.Specification
 
 class ProductDetailTest extends Specification {
-    def "should calculate paid correctly"() {
+    def "should calculate paid unit price correctly"() {
         given:
         def productDetail = new ProductDetail(1, "test", BigDecimal.TEN, 10, BigDecimal.valueOf(0.8))
 
@@ -11,7 +11,7 @@ class ProductDetailTest extends Specification {
         def result = productDetail.calculatePaidPrice()
 
         then:
-        result == BigDecimal.valueOf(80)
+        result == BigDecimal.valueOf(8)
     }
 
     def "should calculate price difference correctly"() {

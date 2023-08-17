@@ -18,7 +18,11 @@ public class OrderFactory {
     LocalDateTime createTime = LocalDateTime.now();
     BigDecimal paidPrice =
         productDetails.stream()
-            .map(ProductDetail::calculatePaidPrice)
+            .map(
+                productDetail ->
+                    productDetail
+                        .calculatePaidPrice()
+                        .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     return new Order(
