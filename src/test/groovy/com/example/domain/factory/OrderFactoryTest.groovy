@@ -12,7 +12,7 @@ class OrderFactoryTest extends Specification {
         given:
         String customerId = "customer-id"
         OrderStatus status = OrderStatus.CREATED
-        List<ProductDetail> productDetails = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
+        List<ProductDetail> productDetails = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8) )]
 
         when:
         def order = OrderFactory.buildOrder(customerId, productDetails)
@@ -37,7 +37,8 @@ class OrderFactoryTest extends Specification {
         then:
         productDetail.id == 1
         productDetail.name == "test"
-        productDetail.price == BigDecimal.ONE
-        productDetail.amount == 1
+        productDetail.unitPrice == BigDecimal.ONE
+        productDetail.quantity == 1
+        productDetail.discount == BigDecimal.valueOf(0.8)
     }
 }

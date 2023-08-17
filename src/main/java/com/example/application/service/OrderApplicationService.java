@@ -62,7 +62,8 @@ public class OrderApplicationService {
     }
   }
 
-  private void validateProductsStock(List<Product> products, Map<Integer, Integer> productIdToQuantity) {
+  private void validateProductsStock(
+      List<Product> products, Map<Integer, Integer> productIdToQuantity) {
     for (Product product : products) {
       product.validateStock(productIdToQuantity.get(product.getId()));
     }

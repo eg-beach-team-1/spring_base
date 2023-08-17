@@ -1,6 +1,7 @@
 package com.example.application.service
 
 import com.example.domain.entity.Order
+import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
 import com.example.domain.entity.ProductStatus
@@ -43,7 +44,7 @@ class OrderApplicationServiceTest extends Specification {
 
     def "should retrieve order by customer id and order id"() {
         given:
-        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
+        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8) )]
 
         List<Order> OrderDetails = [
                 new Order(
@@ -52,7 +53,8 @@ class OrderApplicationServiceTest extends Specification {
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                         updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        productDetails: productDetailList
+                        productDetails: productDetailList,
+                        paidPrice: BigDecimal.valueOf(16L)
                 )
         ]
 

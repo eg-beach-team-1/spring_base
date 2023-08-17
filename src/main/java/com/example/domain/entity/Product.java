@@ -5,7 +5,6 @@ import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
 import com.example.common.exception.BusinessException;
 import java.math.BigDecimal;
 import java.util.Objects;
-
 import lombok.*;
 
 @Getter
@@ -33,7 +32,7 @@ public class Product {
   }
 
   public BigDecimal calculateDiscountedPrice() {
-    if(Objects.isNull(this.price)) {
+    if (Objects.isNull(this.price)) {
       return null;
     }
     return this.price.multiply(this.discount);
@@ -44,6 +43,4 @@ public class Product {
       return;
     }
   }
-
-
 }

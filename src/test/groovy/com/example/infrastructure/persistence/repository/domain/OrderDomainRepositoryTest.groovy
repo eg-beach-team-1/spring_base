@@ -14,6 +14,9 @@ import spock.lang.Specification
 
 import java.time.LocalDateTime
 
+import static com.example.domain.entity.OrderStatus.CREATED
+import static java.math.BigDecimal.valueOf
+
 class OrderDomainRepositoryTest extends Specification {
 
     JpaOrderRepository jpaOrderRepository = Mock()
@@ -27,13 +30,13 @@ class OrderDomainRepositoryTest extends Specification {
         LocalDateTime updateTime = LocalDateTime.now()
         String orderIdToSave = OrderUtils.generateOrderId()
 
-        List<ProductDetail> productDetails = List.of(new ProductDetail(1, "productDetailName1", BigDecimal.ONE, 1))
+        List<ProductDetail> productDetails = List.of(new ProductDetail(1, "productDetailName1", BigDecimal.TEN, 1, valueOf(0.8)))
 
         String productDetailsToSave = objectMapper.writeValueAsString(productDetails)
 
-        Order orderToSave = new Order(orderIdToSave, "consumerId", OrderStatus.CREATED, createTime, updateTime, productDetails)
+        Order orderToSave = new Order(orderIdToSave, "consumerId", CREATED, createTime, updateTime, productDetails, valueOf(8))
 
-        OrderPo savedOrderPo = new OrderPo(orderIdToSave, "consumerId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
+        OrderPo savedOrderPo = new OrderPo(orderIdToSave, "consumerId", BigDecimal.ONE, CREATED, createTime, updateTime, productDetailsToSave)
 
         jpaOrderRepository.save(_) >> savedOrderPo
 
@@ -49,16 +52,17 @@ class OrderDomainRepositoryTest extends Specification {
             ''' [{
                          "id": 1,
                          "name": "water",
-                         "price": 10,
-                         "amount": 2
+                         "unitPrice": 10,
+                         "quantity": 2,
+                         "discount": 0.8
                      }]
                 '''
     List<OrderPo> jpaOrdersList = [
             new OrderPo(
                     id: "546f4304-3be2-11ee-be56-0242ac120001",
                     customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                    totalPrice: BigDecimal.valueOf(10L),
-                    status: OrderStatus.CREATED,
+                    paidPrice: valueOf(10L),
+                    status: CREATED,
                     createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                     updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                     productDetails: jsonString.toString()
@@ -66,8 +70,8 @@ class OrderDomainRepositoryTest extends Specification {
             new OrderPo(
                     id: "546f4304-3be2-11ee-be56-0242ac120002",
                     customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                    totalPrice: BigDecimal.valueOf(10L),
-                    status: OrderStatus.CREATED,
+                    paidPrice: valueOf(10L),
+                    status: CREATED,
                     createTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),
                     updateTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),
                     productDetails: jsonString.toString()
@@ -84,11 +88,12 @@ class OrderDomainRepositoryTest extends Specification {
         then:
         result[0].id == "546f4304-3be2-11ee-be56-0242ac120001"
         result[0].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
-        result[0].status == OrderStatus.CREATED
+        result[0].status == CREATED
         result[0].productDetails[0].id == 1
         result[0].productDetails[0].name == "water"
-        result[0].productDetails[0].price == BigDecimal.valueOf(10L)
-        result[0].productDetails[0].amount == 2
+        result[0].productDetails[0].unitPrice == valueOf(10L)
+        result[0].productDetails[0].quantity == 2
+        result[0].productDetails[0].discount == valueOf(0.8)
         result.size() == 1
     }
 
@@ -102,11 +107,12 @@ class OrderDomainRepositoryTest extends Specification {
         then:
         result[0].id == "546f4304-3be2-11ee-be56-0242ac120001"
         result[0].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
-        result[0].status == OrderStatus.CREATED
+        result[0].status == CREATED
         result[0].productDetails[0].id == 1
         result[0].productDetails[0].name == "water"
-        result[0].productDetails[0].price == BigDecimal.valueOf(10L)
-        result[0].productDetails[0].amount == 2
+        result[0].productDetails[0].unitPrice == valueOf(10L)
+        result[0].productDetails[0].quantity == 2
+        result[0].productDetails[0].discount == valueOf(0.8)
         result[1].id == "546f4304-3be2-11ee-be56-0242ac120002"
         result.size() == 2
     }
