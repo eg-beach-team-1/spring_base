@@ -87,7 +87,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     String orderReqBody = orderRequest.toJSONString();
 
     Response response =
-        given().contentType(ContentType.JSON).body(orderReqBody).when().post("/orders/creation");
+        given().contentType(ContentType.JSON).body(orderReqBody).when().post("/orders");
     Assertions.assertEquals(OK.value(), response.statusCode());
     Assertions.assertNotNull(response.body());
   }
