@@ -20,6 +20,8 @@ public class ProductControllerIntegrationTest extends BaseIntegrationTest {
         .body("[0].id", equalTo(10))
         .body("[0].name", equalTo("book"))
         .body("[0].price", equalTo(10.0F))
-        .body("[0].status", equalTo("VALID"));
+        .body("[0].status", equalTo("VALID"))
+        .body("[0].discount", equalTo(0.8F))
+        .body("[0].discountedPrice", equalTo(8.0F));
   }
 }
