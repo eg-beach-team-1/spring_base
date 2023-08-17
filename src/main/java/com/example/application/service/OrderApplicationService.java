@@ -1,7 +1,9 @@
 package com.example.application.service;
 
 import static com.example.application.assembler.OrderListDtoMapper.MAPPER;
+import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
 
+import com.example.common.exception.BusinessException;
 import com.example.domain.entity.Order;
 import com.example.domain.entity.Product;
 import com.example.domain.entity.ProductDetail;
@@ -55,7 +57,12 @@ public class OrderApplicationService {
   private List<Product> getProducts(OrderReqDto orderReqDto) {
     List<Integer> ids =
         orderReqDto.getOrderProducts().stream().map(OrderProductReqDto::getProductId).toList();
-    return productRepository.findAllById(ids);
+    List<Product> products = productRepository.findAllById(ids);
+    if (products.size() == ids.size()) {
+      return products;
+    } else {
+      throw new BusinessException(INVALID_PRODUCT, "Some products cannot be found in db");
+    }
   }
 
   private void validateProductsStatus(List<Product> products) {

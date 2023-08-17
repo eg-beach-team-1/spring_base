@@ -1,5 +1,7 @@
 package com.example.application.service
 
+import com.example.common.exception.BusinessException
+import com.example.common.exception.NotFoundException
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.Product
@@ -40,6 +42,27 @@ class OrderApplicationServiceTest extends Specification {
 
         then:
         Assertions.assertThat(result.equals(ORDER_ID))
+    }
+
+    def "should throw exception given some products not in repo"() {
+        given:
+        Integer PRODUCT_ID = 11
+        String ORDER_ID = OrderUtils.generateOrderId()
+        Integer QUANTITY = 10
+
+        List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
+        OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
+
+        List<Product> product = List.of()
+        productRepository.findAllById(_) >> product
+
+        orderRepository.save(_) >> ORDER_ID
+
+        when:
+        orderApplicationService.createOrder(orderReqDto)
+
+        then:
+        thrown(BusinessException)
     }
 
     def "should retrieve order by customer id and order id"() {
