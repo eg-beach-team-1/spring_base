@@ -53,8 +53,7 @@ class OrderApplicationServiceTest extends Specification {
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                         updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        productDetails: productDetailList,
-                        paidPrice: BigDecimal.valueOf(16L)
+                        productDetails: productDetailList
                 )
         ]
 

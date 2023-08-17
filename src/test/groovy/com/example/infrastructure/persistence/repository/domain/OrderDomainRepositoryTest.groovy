@@ -34,9 +34,9 @@ class OrderDomainRepositoryTest extends Specification {
 
         String productDetailsToSave = objectMapper.writeValueAsString(productDetails)
 
-        Order orderToSave = new Order(orderIdToSave, "consumerId", CREATED, createTime, updateTime, productDetails, valueOf(8))
+        Order orderToSave = new Order(orderIdToSave, "consumerId", CREATED, createTime, updateTime, productDetails)
 
-        OrderPo savedOrderPo = new OrderPo(orderIdToSave, "consumerId", BigDecimal.ONE, CREATED, createTime, updateTime, productDetailsToSave)
+        OrderPo savedOrderPo = new OrderPo(orderIdToSave, "consumerId", CREATED, createTime, updateTime, productDetailsToSave)
 
         jpaOrderRepository.save(_) >> savedOrderPo
 
@@ -61,7 +61,6 @@ class OrderDomainRepositoryTest extends Specification {
             new OrderPo(
                     id: "546f4304-3be2-11ee-be56-0242ac120001",
                     customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                    paidPrice: valueOf(10L),
                     status: CREATED,
                     createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                     updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
@@ -70,7 +69,6 @@ class OrderDomainRepositoryTest extends Specification {
             new OrderPo(
                     id: "546f4304-3be2-11ee-be56-0242ac120002",
                     customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
-                    paidPrice: valueOf(10L),
                     status: CREATED,
                     createTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),
                     updateTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),

@@ -25,8 +25,7 @@ public class OrderFactory {
                         .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-    return new Order(
-        orderId, customerId, CREATED, createTime, createTime, productDetails, paidPrice);
+    return new Order(orderId, customerId, CREATED, createTime, createTime, productDetails);
   }
 
   public static ProductDetail buildProductDetail(Product product, Integer quantity) {

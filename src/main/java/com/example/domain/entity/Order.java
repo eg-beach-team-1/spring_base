@@ -27,14 +27,22 @@ public class Order {
 
   private List<ProductDetail> productDetails;
 
-  private BigDecimal paidPrice;
-
   public BigDecimal calculateTotalPrice() {
     return productDetails.stream()
         .map(
             productDetail ->
                 productDetail
                     .getUnitPrice()
+                    .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
+
+  public BigDecimal calculatePaidPrice() {
+    return productDetails.stream()
+        .map(
+            productDetail ->
+                productDetail
+                    .calculatePaidPrice()
                     .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }

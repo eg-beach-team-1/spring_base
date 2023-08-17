@@ -2,7 +2,6 @@ package com.example.infrastructure.persistence.entity;
 
 import com.example.domain.entity.OrderStatus;
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,8 +24,6 @@ public class OrderPo {
   private String id;
 
   private String customerId;
-
-  private BigDecimal paidPrice;
 
   @Enumerated(EnumType.STRING)
   private OrderStatus status;
