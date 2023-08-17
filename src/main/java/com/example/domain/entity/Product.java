@@ -38,7 +38,12 @@ public class Product {
     return this.price.multiply(this.discount);
   }
 
-  public void validateStock(Integer amount) {
+  public void consume(Integer amount) {
+    validateStock(amount);
+    stock -= amount;
+  }
+
+  private void validateStock(Integer amount) {
     if(this.stock == 0) {
       throw new BusinessException(OUT_OF_STOCK, "This product id out of stock");
     }

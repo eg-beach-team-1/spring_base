@@ -12,4 +12,6 @@ public interface ProductDataMapper {
   ProductDataMapper mapper = getMapper(ProductDataMapper.class);
 
   Product toDo(ProductPo productPo);
+
+  ProductPo toPo(Product product);
 }

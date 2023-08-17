@@ -35,4 +35,9 @@ public class ProductDomainRepository implements ProductRepository {
   public List<Product> findAllById(List<Integer> ids) {
     return jpaProductRepository.findAllById(ids).stream().map(mapper::toDo).toList();
   }
+
+  @Override
+  public void save(Product product) {
+    jpaProductRepository.save(mapper.toPo(product));
+  }
 }

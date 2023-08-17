@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -30,6 +31,7 @@ public class OrderApplicationService {
         .toList();
   }
 
+  @Transactional
   public String createOrder(OrderReqDto orderReqDto) {
     List<Product> products = getProducts(orderReqDto);
 
@@ -41,7 +43,7 @@ public class OrderApplicationService {
                 Collectors.toMap(
                     OrderProductReqDto::getProductId, OrderProductReqDto::getQuantity));
 
-    validateProductsStock(products, productIdToQuantity);
+    updateProductsStock(products, productIdToQuantity);
 
     List<ProductDetail> productDetails = getProductDetails(products, productIdToQuantity);
 
@@ -62,11 +64,13 @@ public class OrderApplicationService {
     }
   }
 
-  private void validateProductsStock(
+  private void updateProductsStock(
       List<Product> products, Map<Integer, Integer> productIdToQuantity) {
-    for (Product product : products) {
-      product.validateStock(productIdToQuantity.get(product.getId()));
-    }
+    products.forEach(
+        product -> {
+          product.consume(productIdToQuantity.get(product.getId()));
+          productRepository.save(product);
+        });
   }
 
   private List<ProductDetail> getProductDetails(

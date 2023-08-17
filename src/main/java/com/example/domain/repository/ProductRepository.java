@@ -9,4 +9,6 @@ public interface ProductRepository {
   Product findById(Integer productId);
 
   List<Product> findAllById(List<Integer> ids);
+
+  void save(Product product);
 }
