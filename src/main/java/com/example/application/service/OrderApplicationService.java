@@ -77,8 +77,11 @@ public class OrderApplicationService {
       List<Product> products, Map<Integer, Integer> productIdToQuantity) {
     products.forEach(
         product -> {
-          product.consume(productIdToQuantity.get(product.getId()));
-          productRepository.save(product);
+          if(product.getVersion().equals(productRepository.findById(product.getId()).getVersion())) {
+            product.consume(productIdToQuantity.get(product.getId()));
+            productRepository.save(product);
+          }
+
         });
   }
 
