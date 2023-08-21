@@ -1,8 +1,7 @@
 package com.example.application.service;
 
 import static com.example.application.assembler.OrderListDtoMapper.MAPPER;
-import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
-import static com.example.common.exception.BaseExceptionCode.PRODUCT_STOCK_SHORTAGE;
+import static com.example.common.exception.BaseExceptionCode.*;
 
 import com.example.common.exception.BusinessException;
 import com.example.domain.entity.Order;
@@ -79,7 +78,7 @@ public class OrderApplicationService {
     products.forEach(
         product -> {
           if(!product.getVersion().equals(productRepository.findById(product.getId()).getVersion()) && 1 == product.getStock()) {
-
+            throw new BusinessException(OUT_OF_STOCK,"this product is out of stock.");
           }
 
           product.consume(productIdToQuantity.get(product.getId()));
