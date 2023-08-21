@@ -1,7 +1,6 @@
 package com.example.infrastructure.persistence.repository.domain
 
 import com.example.domain.entity.Order
-import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.ProductDetail
 import com.example.domain.util.OrderUtils
 import com.example.infrastructure.persistence.assembler.OrderProductDetailsDataMapper
@@ -76,31 +75,21 @@ class OrderDomainRepositoryTest extends Specification {
             ),
     ]
 
-    def "should retrieve order list by customer id and order id"() {
+    OrderPo jpaOrder = new OrderPo(
+            id: "546f4304-3be2-11ee-be56-0242ac120001",
+            customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+            status: CREATED,
+            createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
+            updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
+            productDetails: jsonString.toString()
+    )
+
+    def "should retrieve orders by customer id "() {
         given:
         jpaOrderRepository.findByCustomerId("dcabcfac-6b08-47cd-883a-76c5dc366d88") >> jpaOrdersList
 
         when:
-        def result = orderDomainRepository.findByCustomerIdAndOrderId("dcabcfac-6b08-47cd-883a-76c5dc366d88", "546f4304-3be2-11ee-be56-0242ac120001")
-
-        then:
-        result[0].id == "546f4304-3be2-11ee-be56-0242ac120001"
-        result[0].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
-        result[0].status == CREATED
-        result[0].productDetails[0].id == 1
-        result[0].productDetails[0].name == "water"
-        result[0].productDetails[0].unitPrice == valueOf(10L)
-        result[0].productDetails[0].quantity == 2
-        result[0].productDetails[0].discount == valueOf(0.8)
-        result.size() == 1
-    }
-
-    def "should retrieve order list by customer id"() {
-        given:
-        jpaOrderRepository.findByCustomerId("dcabcfac-6b08-47cd-883a-76c5dc366d88") >> jpaOrdersList
-
-        when:
-        def result = orderDomainRepository.findByCustomerIdAndOrderId("dcabcfac-6b08-47cd-883a-76c5dc366d88", null)
+        def result = orderDomainRepository.findByCustomerId("dcabcfac-6b08-47cd-883a-76c5dc366d88")
 
         then:
         result[0].id == "546f4304-3be2-11ee-be56-0242ac120001"
@@ -112,7 +101,33 @@ class OrderDomainRepositoryTest extends Specification {
         result[0].productDetails[0].quantity == 2
         result[0].productDetails[0].discount == valueOf(0.8)
         result[1].id == "546f4304-3be2-11ee-be56-0242ac120002"
+        result[1].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
+        result[1].status == CREATED
+        result[1].productDetails[0].id == 1
+        result[1].productDetails[0].name == "water"
+        result[1].productDetails[0].unitPrice == valueOf(10L)
+        result[1].productDetails[0].quantity == 2
+        result[1].productDetails[0].discount == valueOf(0.8)
         result.size() == 2
+    }
+
+    def "should retrieve order by order id"() {
+        given:
+        jpaOrderRepository.findById(_) >> Optional.of(jpaOrder
+        )
+
+        when:
+        def result = orderDomainRepository.findByOrderId("546f4304-3be2-11ee-be56-0242ac120001")
+
+        then:
+        result.id == "546f4304-3be2-11ee-be56-0242ac120001"
+        result.customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
+        result.status == CREATED
+        result.productDetails[0].id == 1
+        result.productDetails[0].name == "water"
+        result.productDetails[0].unitPrice == valueOf(10L)
+        result.productDetails[0].quantity == 2
+        result.productDetails[0].discount == valueOf(0.8)
     }
 
 }

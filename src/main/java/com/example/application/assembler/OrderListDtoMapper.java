@@ -4,7 +4,7 @@ import static org.mapstruct.factory.Mappers.getMapper;
 
 import com.example.domain.entity.Order;
 import com.example.domain.entity.ProductDetail;
-import com.example.presentation.vo.response.OrderListDto;
+import com.example.presentation.vo.response.OrderDto;
 import com.example.presentation.vo.response.OrderProductDetailDto;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +22,7 @@ public interface OrderListDtoMapper {
   @Mapping(
       target = "productDetails",
       expression = "java(mapProductDetails(order.getProductDetails()))")
-  OrderListDto toDto(Order order);
+  OrderDto toDto(Order order);
 
   default List<OrderProductDetailDto> mapProductDetails(List<ProductDetail> productDetails) {
     return productDetails.stream().map(this::toOrderProductDetailDto).collect(Collectors.toList());

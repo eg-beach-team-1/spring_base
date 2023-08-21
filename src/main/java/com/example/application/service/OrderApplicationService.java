@@ -12,7 +12,7 @@ import com.example.domain.repository.OrderRepository;
 import com.example.domain.repository.ProductRepository;
 import com.example.presentation.vo.request.OrderProductReqDto;
 import com.example.presentation.vo.request.OrderReqDto;
-import com.example.presentation.vo.response.OrderListDto;
+import com.example.presentation.vo.response.OrderDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +27,12 @@ public class OrderApplicationService {
   private final ProductRepository productRepository;
   private final OrderRepository orderRepository;
 
-  public List<OrderListDto> findOrderByCustomerIdAndOrderId(String customerId, String orderId) {
-    return orderRepository.findByCustomerIdAndOrderId(customerId, orderId).stream()
-        .map(MAPPER::toDto)
-        .toList();
+  public List<OrderDto> retrieveOrders(String customerId) {
+    return orderRepository.findByCustomerId(customerId).stream().map(MAPPER::toDto).toList();
+  }
+
+  public OrderDto retrieveOrder(String orderId) {
+    return MAPPER.toDto(orderRepository.findByOrderId(orderId));
   }
 
   @Transactional

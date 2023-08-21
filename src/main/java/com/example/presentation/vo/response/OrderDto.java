@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class OrderListDto {
+public class OrderDto {
   private String orderId;
 
   private String customerId;

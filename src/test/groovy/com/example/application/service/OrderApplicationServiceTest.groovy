@@ -1,7 +1,6 @@
 package com.example.application.service
 
 import com.example.common.exception.BusinessException
-import com.example.common.exception.NotFoundException
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.Product
@@ -65,11 +64,11 @@ class OrderApplicationServiceTest extends Specification {
         thrown(BusinessException)
     }
 
-    def "should retrieve order by customer id and order id"() {
+    def "should retrieve orders by customer id"() {
         given:
         List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8) )]
 
-        List<Order> OrderDetails = [
+        List<Order> orderDetails = [
                 new Order(
                         id: "orderId1",
                         customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
@@ -80,16 +79,46 @@ class OrderApplicationServiceTest extends Specification {
                 )
         ]
 
-        orderRepository.findByCustomerIdAndOrderId(_, _) >> OrderDetails
+        orderRepository.findByCustomerId(_) >> orderDetails
 
 
         when:
-        def result = orderApplicationService.findOrderByCustomerIdAndOrderId("dcabcfac-6b08-47cd-883a-76c5dc366d88", "orderId1")
+        def result = orderApplicationService.retrieveOrders("dcabcfac-6b08-47cd-883a-76c5dc366d88")
 
         then:
         result[0].orderId == "orderId1"
         result[0].totalPrice == BigDecimal.valueOf(20L)
         result[0].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
+        result[0].productDetails[0].priceDifference == BigDecimal.valueOf(4L)
+        result[0].productDetails[0].discountedPrice == BigDecimal.valueOf(8L)
         result.size() == 1
+    }
+
+    def "should retrieve order by order id"() {
+        given:
+        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8) )]
+
+        Order orderDetail = new Order(
+                                 id: "orderId1",
+                                 customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                                 status: OrderStatus.CREATED,
+                                 createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
+                                 updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
+                                 productDetails: productDetailList
+                                 )
+
+
+        orderRepository.findByOrderId(_) >> orderDetail
+
+
+        when:
+        def result = orderApplicationService.retrieveOrder("orderId1")
+
+        then:
+        result.orderId == "orderId1"
+        result.totalPrice == BigDecimal.valueOf(20L)
+        result.customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
+        result.productDetails[0].priceDifference == BigDecimal.valueOf(4L)
+        result.productDetails[0].discountedPrice == BigDecimal.valueOf(8L)
     }
 }

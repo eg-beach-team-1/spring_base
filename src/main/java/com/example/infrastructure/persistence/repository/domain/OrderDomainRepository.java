@@ -7,6 +7,7 @@ import com.example.common.exception.NotFoundException;
 import com.example.domain.entity.Order;
 import com.example.domain.repository.OrderRepository;
 import com.example.infrastructure.persistence.assembler.OrderProductDetailsDataMapper;
+import com.example.infrastructure.persistence.entity.OrderPo;
 import com.example.infrastructure.persistence.repository.JpaOrderRepository;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -19,16 +20,26 @@ public class OrderDomainRepository implements OrderRepository {
   private final JpaOrderRepository jpaOrderRepository;
   private final OrderProductDetailsDataMapper orderProductDetailsDataMapper;
 
-  public List<Order> findByCustomerIdAndOrderId(String customerId, String orderId) {
+  @Override
+  public List<Order> findByCustomerId(String customerId) {
     List<Order> orders =
         jpaOrderRepository.findByCustomerId(customerId).stream()
             .map(orderProductDetailsDataMapper::mapOrderPoToOrder)
-            .filter(order -> orderId == null || orderId.equals(order.getId()))
             .toList();
     if (orders.isEmpty()) {
       throw new NotFoundException(ExceptionCode.NOT_FOUND, "Not found customer.");
     }
     return orders;
+  }
+
+  @Override
+  public Order findByOrderId(String orderId) {
+    OrderPo orderPo =
+        jpaOrderRepository
+            .findById(orderId)
+            .orElseThrow(() -> new NotFoundException(ExceptionCode.NOT_FOUND, "Order not found."));
+
+    return orderProductDetailsDataMapper.mapOrderPoToOrder(orderPo);
   }
 
   @Override

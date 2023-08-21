@@ -50,20 +50,18 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
   public void should_retrieve_order_list_by_customer_id_and_order_id_successfully() {
     given()
         .when()
-        .get(
-            "/orders?customerId=dcabcfac-6b08-47cd-883a-76c5dc366d88&orderId=546f4304-3be2-11ee-be56-0242ac120001")
+        .get("/orders/{orderId}", "546f4304-3be2-11ee-be56-0242ac120001")
         .then()
         .statusCode(OK.value())
-        .body("[0].orderId", equalTo("546f4304-3be2-11ee-be56-0242ac120001"))
-        .body("[0].customerId", equalTo("dcabcfac-6b08-47cd-883a-76c5dc366d88"))
-        .body("[0].totalPrice", equalTo(20.0F))
-        .body("[0].paidPrice", equalTo(16.0F))
-        .body("[0].status", equalTo("CREATED"))
-        .body("[0].createTime", equalTo("2023-08-10T12:35:13"))
-        .body("[0].productDetails[0].name", equalTo("water"))
-        .body("[0].productDetails[0].discountedPrice", equalTo(8.0F))
-        .body("[0].productDetails[0].priceDifference", equalTo(4.0F))
-        .body("size()", equalTo(1));
+        .body("orderId", equalTo("546f4304-3be2-11ee-be56-0242ac120001"))
+        .body("customerId", equalTo("dcabcfac-6b08-47cd-883a-76c5dc366d88"))
+        .body("totalPrice", equalTo(20.0F))
+        .body("paidPrice", equalTo(16.0F))
+        .body("status", equalTo("CREATED"))
+        .body("createTime", equalTo("2023-08-10T12:35:13"))
+        .body("productDetails[0].name", equalTo("water"))
+        .body("productDetails[0].discountedPrice", equalTo(8.0F))
+        .body("productDetails[0].priceDifference", equalTo(4.0F));
   }
 
   @Test

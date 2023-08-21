@@ -2,16 +2,11 @@ package com.example.presentation.facade;
 
 import com.example.application.service.OrderApplicationService;
 import com.example.presentation.vo.request.OrderReqDto;
-import com.example.presentation.vo.response.OrderListDto;
+import com.example.presentation.vo.response.OrderDto;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -25,9 +20,12 @@ public class OrderController {
   }
 
   @GetMapping
-  public List<OrderListDto> retrieveOrderList(
-      @RequestParam("customerId") UUID customerId,
-      @RequestParam(value = "orderId", required = false) String orderId) {
-    return orderApplicationService.findOrderByCustomerIdAndOrderId(customerId.toString(), orderId);
+  public List<OrderDto> retrieveOrderList(@RequestParam("customerId") UUID customerId) {
+    return orderApplicationService.retrieveOrders(customerId.toString());
+  }
+
+  @GetMapping("/{orderId}")
+  public OrderDto retrieveOrderDetail(@PathVariable String orderId) {
+    return orderApplicationService.retrieveOrder(orderId);
   }
 }
