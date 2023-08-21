@@ -4,16 +4,16 @@ product:
     price: 10.00
     status: VALID
     discount: 0.8
-    stock: 100
+    stock: 1
   - id: 1002
     name: Coffee
     price: 20.00
     status: VALID
     discount: 0.8
-    stock: 100
+    stock: 2
   - id: 1003
     name: Cat can
     price: 30.00
     status: VALID
     discount: 0.8
-    stock: 100
+    stock: 3

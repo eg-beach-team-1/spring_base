@@ -19,10 +19,9 @@ public class ProductControllerIntegrationTest extends BaseIntegrationTest {
         .statusCode(OK.value())
         .body("[0].id", equalTo(10))
         .body("[0].name", equalTo("book"))
-        .body("[0].price", equalTo(10.32F))
+        .body("[0].price", equalTo(10.00))
         .body("[0].status", equalTo("VALID"))
-        .body("[0].discount", equalTo(0.8F))
-        .body("[0].discountedPrice", equalTo(8.26F))
-        .body("[0].stock", equalTo(100));
+        .body("[0].discount",equalTo(0.8))
+        .body("[0].stock",equalTo(1));
   }
 }

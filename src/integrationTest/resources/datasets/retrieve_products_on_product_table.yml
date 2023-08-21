@@ -1,7 +1,7 @@
 product:
   - id: 10
     name: book
-    price: 10.32
+    price: 10.00
     status: VALID
     discount: 0.8
-    stock: 100
+    stock: 1
