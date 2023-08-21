@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `product`
     `status`               VARCHAR(32)    NOT NULL                COMMENT '状态',
     `discount`             DECIMAL(10,2)  NOT NULL                COMMENT '折扣',
     `stock`                INT            NOT NULL                COMMENT '库存',
-    'version'              INT            NOT NULL                COMMENT '版本',
+    `version`              INT            NOT NULL                COMMENT '版本',
 PRIMARY KEY(`id`)
 USING BTREE
 )ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
