@@ -2,6 +2,7 @@ package com.example.application.service;
 
 import static com.example.application.assembler.OrderListDtoMapper.MAPPER;
 import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
+import static com.example.common.exception.BaseExceptionCode.PRODUCT_STOCK_SHORTAGE;
 
 import com.example.common.exception.BusinessException;
 import com.example.domain.entity.Order;
@@ -47,7 +48,7 @@ public class OrderApplicationService {
                 Collectors.toMap(
                     OrderProductReqDto::getProductId, OrderProductReqDto::getQuantity));
 
-    updateProductsStock(products, productIdToQuantity);
+    updateProductsInformation(products, productIdToQuantity);
 
     List<ProductDetail> productDetails = getProductDetails(products, productIdToQuantity);
 
@@ -73,15 +74,17 @@ public class OrderApplicationService {
     }
   }
 
-  private void updateProductsStock(
+  private void updateProductsInformation(
       List<Product> products, Map<Integer, Integer> productIdToQuantity) {
     products.forEach(
         product -> {
           if(product.getVersion().equals(productRepository.findById(product.getId()).getVersion())) {
             product.consume(productIdToQuantity.get(product.getId()));
+            product.updateVersion();
             productRepository.save(product);
+          } else {
+            throw new BusinessException(PRODUCT_STOCK_SHORTAGE,"the stock of this product is less than the amount");
           }
-
         });
   }
 

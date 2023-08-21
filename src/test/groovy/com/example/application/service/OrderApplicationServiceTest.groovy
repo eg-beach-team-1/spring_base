@@ -31,10 +31,12 @@ class OrderApplicationServiceTest extends Specification {
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
-        List<Product> product = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10)]
+        List<Product> product = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10, 1)]
         productRepository.findAllById(_) >> product
 
         orderRepository.save(_) >> ORDER_ID
+
+        productRepository.findById(_) >> product.get(0)
 
         when:
         String result = orderApplicationService.createOrder(orderReqDto)
