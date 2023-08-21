@@ -78,13 +78,13 @@ public class OrderApplicationService {
       List<Product> products, Map<Integer, Integer> productIdToQuantity) {
     products.forEach(
         product -> {
-          if(product.getVersion().equals(productRepository.findById(product.getId()).getVersion())) {
-            product.consume(productIdToQuantity.get(product.getId()));
-            product.updateVersion();
-            productRepository.save(product);
-          } else {
-            throw new BusinessException(PRODUCT_STOCK_SHORTAGE,"the stock of this product is less than the amount");
+          if(!product.getVersion().equals(productRepository.findById(product.getId()).getVersion()) && 1 == product.getStock()) {
+
           }
+
+          product.consume(productIdToQuantity.get(product.getId()));
+          product.updateVersion();
+          productRepository.save(product);
         });
   }
 
