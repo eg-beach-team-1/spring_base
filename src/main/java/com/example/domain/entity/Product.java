@@ -41,6 +41,9 @@ public class Product {
     return this.price.multiply(this.discount);
   }
 
+  public Integer updateVersion() {
+    return this.version += 1;
+  }
   public void consume(Integer amount) {
     validateStock(amount);
     stock -= amount;

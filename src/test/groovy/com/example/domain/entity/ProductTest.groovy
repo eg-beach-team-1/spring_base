@@ -81,5 +81,16 @@ class ProductTest extends Specification {
         thrown(BusinessException)
     }
 
+    def "should update product version successfully when stock is enough"() {
+        given:
+        def product = new Product(1, "name", null, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10,1)
+
+        when:
+        product.updateVersion()
+
+        then:
+        product.getVersion() == 2
+    }
+
 
 }
