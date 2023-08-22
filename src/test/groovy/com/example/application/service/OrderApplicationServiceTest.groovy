@@ -147,19 +147,19 @@ class OrderApplicationServiceTest extends Specification {
 
         then:
         thrown(BusinessException)
+    }
 
-        def "should update status when order is canceled"() {
-            given:
-            def orderId = "8a4e94098a160b39018a160bd2f50000"
-            def customerId = "dcabcfac-6b08-47cd-883a-76c5dc366d88"
-            orderRepository.findByOrderIdAndCustomerId(_, _) >> orderDetail
-            orderRepository.save(_) >> orderId
+    def "should update status when order is canceled"() {
+        given:
+        def orderId = "8a4e94098a160b39018a160bd2f50000"
+        def customerId = "dcabcfac-6b08-47cd-883a-76c5dc366d88"
+        orderRepository.findByOrderIdAndCustomerId(_, _) >> orderDetail
+        orderRepository.save(_) >> orderId
 
-            when:
-            def result = orderApplicationService.cancelOrder(orderId, customerId)
+        when:
+        def result = orderApplicationService.cancelOrder(orderId, customerId)
 
-            then:
-            result == orderId
-        }
+        then:
+        result == orderId
     }
 }
