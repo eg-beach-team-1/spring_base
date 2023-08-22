@@ -1,8 +1,6 @@
 package com.example.presentation.vo.response;
 
-import com.example.common.BigDecimalSerializer;
 import com.example.domain.entity.OrderStatus;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,10 +18,8 @@ public class OrderDto {
 
   private String customerId;
 
-  @JsonSerialize(using = BigDecimalSerializer.class)
   private BigDecimal totalPrice;
 
-  @JsonSerialize(using = BigDecimalSerializer.class)
   private BigDecimal paidPrice;
 
   private OrderStatus status;
