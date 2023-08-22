@@ -21,7 +21,9 @@ import lombok.Setter;
 @Builder
 public class Product {
 
-  public static final int SCALE = 2;
+  private static final int SCALE = 2;
+
+  private static final BigDecimal MIN_DISCOUNTED_PRICE = BigDecimal.valueOf(0.01);
 
   private Integer id;
 
@@ -45,7 +47,10 @@ public class Product {
     if (Objects.isNull(this.price)) {
       return null;
     }
-    return this.price.multiply(this.discount).setScale(SCALE, HALF_UP);
+    BigDecimal discountedPrice = this.price.multiply(this.discount).setScale(SCALE, HALF_UP);
+    return discountedPrice.compareTo(MIN_DISCOUNTED_PRICE) > 0
+        ? discountedPrice
+        : MIN_DISCOUNTED_PRICE;
   }
 
   public void consume(Integer amount) {
