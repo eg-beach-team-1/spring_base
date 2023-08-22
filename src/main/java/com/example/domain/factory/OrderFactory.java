@@ -1,15 +1,14 @@
 package com.example.domain.factory;
 
+import static com.example.domain.entity.OrderStatus.CANCELED;
+import static com.example.domain.entity.OrderStatus.CREATED;
+
 import com.example.domain.entity.Order;
 import com.example.domain.entity.Product;
 import com.example.domain.entity.ProductDetail;
 import com.example.domain.util.OrderUtils;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static com.example.domain.entity.OrderStatus.CANCELED;
-import static com.example.domain.entity.OrderStatus.CREATED;
 
 public class OrderFactory {
   private OrderFactory() {}

@@ -25,7 +25,6 @@ public class Product {
 
   private Integer stock;
 
-
   private Integer version;
 
   public void validateProduct() {
@@ -44,6 +43,7 @@ public class Product {
   public Integer updateVersion() {
     return this.version += 1;
   }
+
   public void consume(Integer amount) {
     validateStock(amount);
     stock -= amount;

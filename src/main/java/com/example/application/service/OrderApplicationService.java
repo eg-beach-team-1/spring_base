@@ -56,6 +56,12 @@ public class OrderApplicationService {
     return orderRepository.save(order);
   }
 
+  public String cancelOrder(String orderId, String customerId) {
+    Order order = orderRepository.findByOrderIdAndCustomerId(orderId, customerId);
+    OrderFactory.cancelOrder(order);
+    return orderRepository.save(order);
+  }
+
   private List<Product> getProducts(OrderReqDto orderReqDto) {
     List<Integer> ids =
         orderReqDto.getOrderProducts().stream().map(OrderProductReqDto::getProductId).toList();
@@ -77,8 +83,9 @@ public class OrderApplicationService {
       List<Product> products, Map<Integer, Integer> productIdToQuantity) {
     products.forEach(
         product -> {
-          if(!product.getVersion().equals(productRepository.findById(product.getId()).getVersion()) && 1 == product.getStock()) {
-            throw new BusinessException(OUT_OF_STOCK,"this product is out of stock.");
+          if (!product.getVersion().equals(productRepository.findById(product.getId()).getVersion())
+              && 1 == product.getStock()) {
+            throw new BusinessException(OUT_OF_STOCK, "this product is out of stock.");
           }
 
           product.consume(productIdToQuantity.get(product.getId()));
