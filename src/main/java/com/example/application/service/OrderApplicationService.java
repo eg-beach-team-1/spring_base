@@ -56,6 +56,7 @@ public class OrderApplicationService {
     return orderRepository.save(order);
   }
 
+  @Transactional
   public String cancelOrder(String orderId, String customerId) {
     Order order = orderRepository.findByOrderIdAndCustomerId(orderId, customerId);
     OrderFactory.cancelOrder(order);
