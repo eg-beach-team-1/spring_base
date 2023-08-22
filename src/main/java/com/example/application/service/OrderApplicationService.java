@@ -84,13 +84,7 @@ public class OrderApplicationService {
       List<Product> products, Map<Integer, Integer> productIdToQuantity) {
     products.forEach(
         product -> {
-          if (!product.getVersion().equals(productRepository.findById(product.getId()).getVersion())
-              && 1 == product.getStock()) {
-            throw new BusinessException(OUT_OF_STOCK, "this product is out of stock.");
-          }
-
           product.consume(productIdToQuantity.get(product.getId()));
-          product.updateVersion();
           productRepository.save(product);
         });
   }

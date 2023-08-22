@@ -30,5 +30,4 @@ public class ProductPo {
 
   private Integer stock;
 
-  private Integer version;
 }

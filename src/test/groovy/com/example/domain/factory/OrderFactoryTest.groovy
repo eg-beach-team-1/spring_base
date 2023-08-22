@@ -33,7 +33,7 @@ class OrderFactoryTest extends Specification {
 
     def "should build product successfully"() {
         given:
-        def product = new Product(1, "test", BigDecimal.ONE, VALID, BigDecimal.valueOf(0.8), 10, 1)
+        def product = new Product(1, "test", BigDecimal.ONE, VALID, BigDecimal.valueOf(0.8), 10)
         def amount = 1
 
         when:

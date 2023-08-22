@@ -30,7 +30,7 @@ class OrderApplicationServiceTest extends Specification {
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
-        List<Product> product = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10, 1)]
+        List<Product> product = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10)]
         productRepository.findAllById(_) >> product
 
         orderRepository.save(_) >> ORDER_ID
@@ -122,32 +122,6 @@ class OrderApplicationServiceTest extends Specification {
         result.productDetails[0].discountedPrice == BigDecimal.valueOf(8L)
     }
 
-    def "should throw business exception when version is different and stock is 1"() {
-        given:
-        Integer PRODUCT_ID = 11
-        String ORDER_ID = OrderUtils.generateOrderId()
-        Integer QUANTITY = 1
-
-        List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
-        OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
-
-        List<Product> product = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.VALID, BigDecimal.valueOf(0.8), 1, 1)]
-
-        def productInDB = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.VALID, BigDecimal.valueOf(0.8), 1, 2)
-
-
-        productRepository.findAllById(_) >> product
-
-        orderRepository.save(_) >> ORDER_ID
-
-        productRepository.findById(_) >> productInDB
-
-        when:
-        orderApplicationService.createOrder(orderReqDto)
-
-        then:
-        thrown(BusinessException)
-    }
 
     def "should update status when order is canceled"() {
         given:

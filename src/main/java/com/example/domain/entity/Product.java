@@ -25,7 +25,6 @@ public class Product {
 
   private Integer stock;
 
-  private Integer version;
 
   public void validateProduct() {
     if (this.status == ProductStatus.INVALID || this.price == null) {
@@ -40,16 +39,12 @@ public class Product {
     return this.price.multiply(this.discount);
   }
 
-  public Integer updateVersion() {
-    return this.version += 1;
-  }
-
   public void consume(Integer amount) {
     validateStock(amount);
     stock -= amount;
   }
 
-  private void validateStock(Integer amount) {
+  void validateStock(Integer amount) {
     if (this.stock == 0) {
       throw new BusinessException(OUT_OF_STOCK, "This product id out of stock");
     }
