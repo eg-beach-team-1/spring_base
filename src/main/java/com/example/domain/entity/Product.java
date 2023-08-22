@@ -62,6 +62,10 @@ public class Product {
     stock -= amount;
   }
 
+  public void addStock(Integer amount) {
+    stock += amount;
+  }
+
   void validateStock(Integer amount) {
     if (this.stock == 0) {
       throw new BusinessException(OUT_OF_STOCK, "This product id out of stock");

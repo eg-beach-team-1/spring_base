@@ -114,5 +114,16 @@ class ProductTest extends Specification {
         thrown(BusinessException)
     }
 
+    def "should add stock when order is canceled"() {
+        given:
+        def product = new Product(1, "name", null, ProductStatus.VALID, BigDecimal.valueOf(0.8), 1)
+
+        when:
+        product.addStock(5)
+
+        then:
+        product.stock == 6
+    }
+
 
 }
