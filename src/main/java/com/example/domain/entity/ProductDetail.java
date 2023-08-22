@@ -1,7 +1,6 @@
 package com.example.domain.entity;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 import lombok.*;
 
 @Getter
@@ -21,10 +20,7 @@ public class ProductDetail {
   private BigDecimal discount;
 
   public BigDecimal calculatePaidPrice() {
-    if (Objects.isNull(unitPrice)) {
-      return null;
-    }
-    return unitPrice.multiply(discount);
+    return Product.calculateDiscountedPrice(unitPrice, discount);
   }
 
   public BigDecimal calculatePriceDifference() {

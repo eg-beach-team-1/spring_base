@@ -44,10 +44,14 @@ public class Product {
   }
 
   public BigDecimal calculateDiscountedPrice() {
-    if (Objects.isNull(this.price)) {
+    return calculateDiscountedPrice(this.price, this.discount);
+  }
+
+  public static BigDecimal calculateDiscountedPrice(BigDecimal price, BigDecimal discount) {
+    if (Objects.isNull(price)) {
       return null;
     }
-    BigDecimal discountedPrice = this.price.multiply(this.discount).setScale(SCALE, HALF_UP);
+    BigDecimal discountedPrice = price.multiply(discount).setScale(SCALE, HALF_UP);
     return discountedPrice.compareTo(MIN_DISCOUNTED_PRICE) > 0
         ? discountedPrice
         : MIN_DISCOUNTED_PRICE;
