@@ -1,5 +1,7 @@
 package com.example.presentation.facade;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 import com.example.application.service.OrderApplicationService;
 import com.example.presentation.vo.request.OrderReqDto;
 import com.example.presentation.vo.response.OrderDto;
@@ -15,6 +17,7 @@ public class OrderController {
   private final OrderApplicationService orderApplicationService;
 
   @PostMapping
+  @ResponseStatus(CREATED)
   public String createOrder(@RequestBody OrderReqDto orderReqDto) {
     return orderApplicationService.createOrder(orderReqDto);
   }

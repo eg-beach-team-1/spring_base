@@ -2,6 +2,7 @@ package com.example;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -87,7 +88,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
 
     Response response =
         given().contentType(ContentType.JSON).body(orderReqBody).when().post("/orders");
-    Assertions.assertEquals(OK.value(), response.statusCode());
+    Assertions.assertEquals(CREATED.value(), response.statusCode());
     Assertions.assertNotNull(response.body());
   }
 
