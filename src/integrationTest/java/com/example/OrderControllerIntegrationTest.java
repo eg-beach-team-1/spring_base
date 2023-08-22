@@ -89,4 +89,14 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     Assertions.assertEquals(OK.value(), response.statusCode());
     Assertions.assertNotNull(response.body());
   }
+
+  @Test
+  @DataSet("retrieve_orders_on_order_table.yml")
+  public void should_cancel_order_by_order_id_and_customer_id_successfully() {
+    given()
+            .when()
+            .patch("/orders/{orderId}?customerId=dcabcfac-6b08-47cd-883a-76c5dc366d88", "546f4304-3be2-11ee-be56-0242ac120001")
+            .then()
+            .statusCode(OK.value());
+  }
 }

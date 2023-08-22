@@ -28,4 +28,9 @@ public class OrderController {
   public OrderDto retrieveOrderDetail(@PathVariable String orderId) {
     return orderApplicationService.retrieveOrder(orderId);
   }
+
+  @PatchMapping("/{orderId}")
+  public String cancelOrder(@PathVariable String orderId, @RequestParam String customerId) {
+    return orderApplicationService.cancelOrder(orderId, customerId);
+  }
 }
