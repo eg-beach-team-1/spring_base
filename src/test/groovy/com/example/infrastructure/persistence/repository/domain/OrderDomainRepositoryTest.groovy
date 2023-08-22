@@ -130,4 +130,24 @@ class OrderDomainRepositoryTest extends Specification {
         result.productDetails[0].discount == valueOf(0.8)
     }
 
+    def "should retrieve order by order id and customer id"() {
+        given:
+        jpaOrderRepository.findByIdAndCustomerId(_, _) >> Optional.of(jpaOrder
+        )
+        def orderId = "546f4304-3be2-11ee-be56-0242ac120001"
+        def customerId = "dcabcfac-6b08-47cd-883a-76c5dc366d88"
+
+        when:
+        def result = orderDomainRepository.findByOrderIdAndCustomerId(orderId, customerId)
+
+        then:
+        result.id == orderId
+        result.customerId == customerId
+        result.status == CREATED
+        result.productDetails[0].id == 1
+        result.productDetails[0].name == "water"
+        result.productDetails[0].unitPrice == valueOf(10L)
+        result.productDetails[0].quantity == 2
+        result.productDetails[0].discount == valueOf(0.8)
+    }
 }

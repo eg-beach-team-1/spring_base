@@ -8,5 +8,7 @@ public interface OrderRepository {
 
   Order findByOrderId(String orderId);
 
+  Order findByOrderIdAndCustomerId(String orderId, String customerId);
+
   String save(Order order);
 }
