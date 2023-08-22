@@ -46,7 +46,9 @@ public class OrderDomainRepository implements OrderRepository {
 
   @Override
   public Order findByOrderIdAndCustomerId(String orderId, String customerId) {
-    OrderPo orderPo = jpaOrderRepository.findByIdAndCustomerId(orderId, customerId)
+    OrderPo orderPo =
+        jpaOrderRepository
+            .findByIdAndCustomerId(orderId, customerId)
             .orElseThrow(notFoundException(NOT_FOUND_PRODUCT));
     return orderProductDetailsDataMapper.mapOrderPoToOrder(orderPo);
   }

@@ -2,6 +2,7 @@ package com.example;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.github.database.rider.core.api.dataset.DataSet;
@@ -100,5 +101,17 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
             "546f4304-3be2-11ee-be56-0242ac120001")
         .then()
         .statusCode(OK.value());
+  }
+
+  @Test
+  @DataSet("retrieve_orders_on_order_table.yml")
+  public void should_throw_404_when_order_not_in_db() {
+    given()
+        .when()
+        .patch(
+            "/orders/{orderId}?customerId=dcabcfac-6b08-47cd-883a-76c5dc366d88",
+            "546f4304-3be2-11ee-be56-0242ac121111")
+        .then()
+        .statusCode(NOT_FOUND.value());
   }
 }
