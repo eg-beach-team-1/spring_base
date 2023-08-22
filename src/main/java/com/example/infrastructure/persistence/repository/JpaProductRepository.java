@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface JpaProductRepository extends JpaAndQueryDslExecutor<ProductPo, Integer> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT p FROM ProductPo p WHERE p.id IN :ids")
+    @Query(value = "SELECT * FROM product WHERE id IN :ids",nativeQuery = true)
     List<ProductPo> findAllById(List<Integer> ids);
 }
