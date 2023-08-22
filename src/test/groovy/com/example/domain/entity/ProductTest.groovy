@@ -28,7 +28,7 @@ class ProductTest extends Specification {
 
     def "should thrown exception when product does not have a proper price"() {
         given:
-        def product = new Product(1, "name", null, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10,1)
+        def product = new Product(1, "name", null, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10)
 
         when:
         product.validateProduct()
@@ -46,6 +46,17 @@ class ProductTest extends Specification {
 
         then:
         discountedPrice == BigDecimal.valueOf(8)
+    }
+
+    def "should calculate discounted price rounded by half successfully"() {
+        given:
+        def product = new Product(1, "name", BigDecimal.valueOf(23.3), ProductStatus.INVALID, BigDecimal.valueOf(0.65), 10)
+
+        when:
+        def discountedPrice = product.calculateDiscountedPrice()
+
+        then:
+        discountedPrice == BigDecimal.valueOf(15.15)
     }
 
     def "should return null discounted price when the price of product is null"() {

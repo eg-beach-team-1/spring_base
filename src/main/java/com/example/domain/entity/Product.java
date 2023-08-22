@@ -1,11 +1,18 @@
 package com.example.domain.entity;
 
-import static com.example.common.exception.BaseExceptionCode.*;
+import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
+import static com.example.common.exception.BaseExceptionCode.OUT_OF_STOCK;
+import static com.example.common.exception.BaseExceptionCode.PRODUCT_STOCK_SHORTAGE;
+import static java.math.RoundingMode.HALF_UP;
 
 import com.example.common.exception.BusinessException;
 import java.math.BigDecimal;
 import java.util.Objects;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -13,6 +20,9 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Product {
+
+  public static final int SCALE = 2;
+
   private Integer id;
 
   private String name;
@@ -25,7 +35,6 @@ public class Product {
 
   private Integer stock;
 
-
   public void validateProduct() {
     if (this.status == ProductStatus.INVALID || this.price == null) {
       throw new BusinessException(INVALID_PRODUCT, "This product is invalid!");
@@ -36,7 +45,7 @@ public class Product {
     if (Objects.isNull(this.price)) {
       return null;
     }
-    return this.price.multiply(this.discount);
+    return this.price.multiply(this.discount).setScale(SCALE, HALF_UP);
   }
 
   public void consume(Integer amount) {
