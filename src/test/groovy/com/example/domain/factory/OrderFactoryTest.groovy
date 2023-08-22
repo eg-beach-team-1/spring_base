@@ -15,8 +15,8 @@ import static com.example.domain.entity.ProductStatus.VALID
 class OrderFactoryTest extends Specification {
     def "should create order successfully"() {
         given:
-        String customerId = "customer-id"
-        OrderStatus status = OrderStatus.CREATED
+        UUID customerId = UUID.fromString("9B9FD364-8C65-48B0-9172-7A52C991E18A")
+        OrderStatus status = CREATED
         List<ProductDetail> productDetails = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8) )]
 
         when:
@@ -53,7 +53,7 @@ class OrderFactoryTest extends Specification {
 
         Order order = new Order(
                 id: "8a4e94098a160b39018a160bd2f50000",
-                customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                customerId: UUID.fromString("dcabcfac-6b08-47cd-883a-76c5dc366d88"),
                 status: CREATED,
                 createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                 updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),

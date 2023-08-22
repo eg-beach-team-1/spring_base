@@ -7,6 +7,7 @@ import com.example.common.exception.BusinessException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +22,7 @@ import lombok.Setter;
 public class Order {
   private String id;
 
-  private String customerId;
+  private UUID customerId;
 
   private OrderStatus status;
 

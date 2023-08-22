@@ -8,11 +8,12 @@ import com.example.domain.entity.ProductDetail;
 import com.example.domain.util.OrderUtils;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class OrderFactory {
   private OrderFactory() {}
 
-  public static Order buildOrder(String customerId, List<ProductDetail> productDetails) {
+  public static Order buildOrder(UUID customerId, List<ProductDetail> productDetails) {
     String orderId = OrderUtils.generateOrderId();
     LocalDateTime createTime = LocalDateTime.now();
 

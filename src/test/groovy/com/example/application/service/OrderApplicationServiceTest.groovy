@@ -28,7 +28,7 @@ class OrderApplicationServiceTest extends Specification {
         Integer QUANTITY = 10
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
-        OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
+        OrderReqDto orderReqDto = new OrderReqDto(UUID.fromString("AC0E8B2C-4721-47FB-A784-92DC226FF84F"), orderProducts)
 
         List<Product> product = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10)]
         productRepository.findAllById(_) >> product
@@ -51,7 +51,7 @@ class OrderApplicationServiceTest extends Specification {
         Integer QUANTITY = 10
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
-        OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
+        OrderReqDto orderReqDto = new OrderReqDto(UUID.fromString("AC0E8B2C-4721-47FB-A784-92DC226FF84F"), orderProducts)
 
         List<Product> product = List.of()
         productRepository.findAllById(_) >> product
@@ -72,7 +72,7 @@ class OrderApplicationServiceTest extends Specification {
         List<Order> orderDetails = [
                 new Order(
                         id: "orderId1",
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        customerId: UUID.fromString("dcabcfac-6b08-47cd-883a-76c5dc366d88"),
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                         updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
@@ -100,7 +100,7 @@ class OrderApplicationServiceTest extends Specification {
 
     Order orderDetail = new Order(
             id: "8a4e94098a160b39018a160bd2f50000",
-            customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+            customerId: UUID.fromString("dcabcfac-6b08-47cd-883a-76c5dc366d88"),
             status: CREATED,
             createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
             updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),

@@ -34,9 +34,9 @@ class OrderDomainRepositoryTest extends Specification {
 
         String productDetailsToSave = objectMapper.writeValueAsString(productDetails)
 
-        Order orderToSave = new Order(orderIdToSave, "consumerId", CREATED, createTime, updateTime, productDetails)
+        Order orderToSave = new Order(orderIdToSave, UUID.fromString("464547B0-C850-4238-BD23-1A30383CBE84"), CREATED, createTime, updateTime, productDetails)
 
-        OrderPo savedOrderPo = new OrderPo(orderIdToSave, "consumerId", CREATED, createTime, updateTime, productDetailsToSave)
+        OrderPo savedOrderPo = new OrderPo(orderIdToSave, "464547B0-C850-4238-BD23-1A30383CBE84", CREATED, createTime, updateTime, productDetailsToSave)
 
         jpaOrderRepository.save(_) >> savedOrderPo
 
@@ -94,7 +94,7 @@ class OrderDomainRepositoryTest extends Specification {
 
         then:
         result[0].id == "546f4304-3be2-11ee-be56-0242ac120001"
-        result[0].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
+        result[0].customerId == UUID.fromString("dcabcfac-6b08-47cd-883a-76c5dc366d88")
         result[0].status == CREATED
         result[0].productDetails[0].id == 1
         result[0].productDetails[0].name == "water"
@@ -102,7 +102,7 @@ class OrderDomainRepositoryTest extends Specification {
         result[0].productDetails[0].quantity == 2
         result[0].productDetails[0].discount == valueOf(0.8)
         result[1].id == "546f4304-3be2-11ee-be56-0242ac120002"
-        result[1].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
+        result[1].customerId == UUID.fromString("dcabcfac-6b08-47cd-883a-76c5dc366d88")
         result[1].status == CREATED
         result[1].productDetails[0].id == 1
         result[1].productDetails[0].name == "water"
@@ -122,7 +122,7 @@ class OrderDomainRepositoryTest extends Specification {
 
         then:
         result.id == "546f4304-3be2-11ee-be56-0242ac120001"
-        result.customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
+        result.customerId == UUID.fromString("dcabcfac-6b08-47cd-883a-76c5dc366d88")
         result.status == CREATED
         result.productDetails[0].id == 1
         result.productDetails[0].name == "water"
@@ -143,7 +143,7 @@ class OrderDomainRepositoryTest extends Specification {
 
         then:
         result.id == orderId
-        result.customerId == customerId
+        result.customerId == UUID.fromString(customerId)
         result.status == CREATED
         result.productDetails[0].id == 1
         result.productDetails[0].name == "water"

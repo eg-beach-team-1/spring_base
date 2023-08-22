@@ -13,7 +13,7 @@ class OrderTest extends Specification {
         given:
         List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8)),
                                                  new ProductDetail(id: 2, name: "soda", unitPrice: BigDecimal.valueOf(10L), quantity: 1, discount: BigDecimal.valueOf(0.8))]
-        def order = new Order("1", "1", CREATED, LocalDateTime.now(), LocalDateTime.now(), productDetailList)
+        def order = new Order("1", UUID.fromString("464547B0-C850-4238-BD23-1A30383CBE84"), CREATED, LocalDateTime.now(), LocalDateTime.now(), productDetailList)
 
         when:
         def result = order.calculateTotalPrice()
@@ -26,7 +26,7 @@ class OrderTest extends Specification {
         given:
         List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8)),
                                                  new ProductDetail(id: 2, name: "soda", unitPrice: BigDecimal.valueOf(10L), quantity: 1, discount: BigDecimal.valueOf(0.8))]
-        def order = new Order("1", "1", CREATED, LocalDateTime.now(), LocalDateTime.now(), productDetailList)
+        def order = new Order("1", UUID.fromString("464547B0-C850-4238-BD23-1A30383CBE84"), CREATED, LocalDateTime.now(), LocalDateTime.now(), productDetailList)
 
         when:
         order.cancel()
@@ -39,7 +39,7 @@ class OrderTest extends Specification {
         given:
         List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8)),
                                                  new ProductDetail(id: 2, name: "soda", unitPrice: BigDecimal.valueOf(10L), quantity: 1, discount: BigDecimal.valueOf(0.8))]
-        def order = new Order("1", "1", CANCELED, LocalDateTime.now(), LocalDateTime.now(), productDetailList)
+        def order = new Order("1", UUID.fromString("464547B0-C850-4238-BD23-1A30383CBE84"), CANCELED, LocalDateTime.now(), LocalDateTime.now(), productDetailList)
 
         when:
         order.cancel()
