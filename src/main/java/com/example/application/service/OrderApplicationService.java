@@ -60,6 +60,22 @@ public class OrderApplicationService {
   public String cancelOrder(String orderId, String customerId) {
     Order order = orderRepository.findByOrderIdAndCustomerId(orderId, customerId);
     OrderFactory.cancelOrder(order);
+
+    List<ProductDetail> productDetails = order.getProductDetails();
+
+    Map<Integer, Integer> productIdToQuantity =
+        productDetails.stream()
+            .collect(Collectors.toMap(ProductDetail::getId, ProductDetail::getQuantity));
+
+    List<Product> products =
+        productRepository.findAllById(productIdToQuantity.keySet().stream().toList());
+    products.forEach(
+        product -> {
+          Integer amount = productIdToQuantity.get(product.getId());
+          product.addStock(amount);
+          productRepository.save(product);
+        });
+
     return orderRepository.save(order);
   }
 
