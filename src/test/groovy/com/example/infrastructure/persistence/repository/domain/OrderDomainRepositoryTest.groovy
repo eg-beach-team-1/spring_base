@@ -1,5 +1,6 @@
 package com.example.infrastructure.persistence.repository.domain
 
+import com.example.common.exception.NotFoundException
 import com.example.domain.entity.Order
 import com.example.domain.entity.ProductDetail
 import com.example.domain.util.OrderUtils
@@ -149,5 +150,18 @@ class OrderDomainRepositoryTest extends Specification {
         result.productDetails[0].unitPrice == valueOf(10L)
         result.productDetails[0].quantity == 2
         result.productDetails[0].discount == valueOf(0.8)
+    }
+
+    def "should throw exception when can not retrieve order"() {
+        given:
+        def orderId = "546f4304-3be2-11ee-be56-0242ac120001"
+        def customerId = "dcabcfac-6b08-47cd-883a-76c5dc366d88"
+        jpaOrderRepository.findByIdAndCustomerId(_, _) >> Optional.empty()
+
+        when:
+        orderDomainRepository.findByOrderIdAndCustomerId(orderId, customerId)
+
+        then:
+        thrown(NotFoundException)
     }
 }
