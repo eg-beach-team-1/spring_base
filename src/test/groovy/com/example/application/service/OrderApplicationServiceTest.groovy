@@ -136,4 +136,40 @@ class OrderApplicationServiceTest extends Specification {
         then:
         result == orderId
     }
+
+    def "should solve concurrency scenario successfully"() {
+        given:
+        Integer PRODUCT_ID = 1
+        Integer QUANTITY = 1
+        List<Product> products = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.VALID, BigDecimal.valueOf(0.8), 1)]
+        productRepository.findAllById(_) >> products
+        List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
+        OrderReqDto orderReqDtoA = new OrderReqDto(UUID.randomUUID(), orderProducts)
+        OrderReqDto orderReqDtoB = new OrderReqDto(UUID.randomUUID(), orderProducts)
+
+        def orderService = new OrderApplicationService(productRepository,orderRepository)
+
+        when:
+        Thread customerAThread = new Thread({
+            orderService.createOrder(orderReqDtoA)
+        })
+        Thread customerBThread = new Thread({
+            orderService.createOrder(orderReqDtoB)
+        })
+
+        customerAThread.start()
+        customerBThread.start()
+
+        customerAThread.join()
+        customerBThread.join()
+
+        then:
+        2 * productRepository.findAllById(List.of(PRODUCT_ID))
+
+        and:
+        def product = productRepository.findAllById(List.of(PRODUCT_ID)).stream().findFirst().orElse(null)
+        if(Objects.nonNull(product)) {
+            product.stock == 0
+        }
+    }
 }
