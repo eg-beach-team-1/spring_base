@@ -1,6 +1,5 @@
 package com.example.domain.factory;
 
-import static com.example.domain.entity.OrderStatus.CANCELED;
 import static com.example.domain.entity.OrderStatus.CREATED;
 
 import com.example.domain.entity.Order;
@@ -26,6 +25,6 @@ public class OrderFactory {
   }
 
   public static void cancelOrder(Order order) {
-    order.setStatus(CANCELED);
+    order.cancel();
   }
 }

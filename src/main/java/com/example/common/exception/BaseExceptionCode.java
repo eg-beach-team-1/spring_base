@@ -10,7 +10,9 @@ public enum BaseExceptionCode implements IExceptionCode {
   OUT_OF_STOCK("this product is out of stock."),
 
   PRODUCT_STOCK_SHORTAGE("the stock of this product is less than the amount"),
-  INVALID_PRODUCT("Invalid product.");
+  INVALID_PRODUCT("Invalid product."),
+
+  ALREADY_CANCELED_ORDER("This order has been canceled already.");
 
   BaseExceptionCode(String enMsg) {
     this.enMsg = enMsg;

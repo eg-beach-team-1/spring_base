@@ -1,5 +1,9 @@
 package com.example.domain.entity;
 
+import static com.example.common.exception.BaseExceptionCode.ALREADY_CANCELED_ORDER;
+import static com.example.domain.entity.OrderStatus.CANCELED;
+
+import com.example.common.exception.BusinessException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,5 +49,16 @@ public class Order {
                     .calculatePaidPrice()
                     .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
         .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
+
+  public void cancel() {
+    validateStatus();
+    status = CANCELED;
+  }
+
+  private void validateStatus() {
+    if (this.status == CANCELED) {
+      throw new BusinessException(ALREADY_CANCELED_ORDER, "This order has been canceled already.");
+    }
   }
 }
