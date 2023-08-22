@@ -28,7 +28,7 @@ public class Product {
   private Integer version;
 
   public void validateProduct() {
-    if (this.status == ProductStatus.INVALID) {
+    if (this.status == ProductStatus.INVALID || this.price == null) {
       throw new BusinessException(INVALID_PRODUCT, "This product is invalid!");
     }
   }

@@ -26,6 +26,17 @@ class ProductTest extends Specification {
         thrown(BusinessException)
     }
 
+    def "should thrown exception when product does not have a proper price"() {
+        given:
+        def product = new Product(1, "name", null, ProductStatus.VALID, BigDecimal.valueOf(0.8), 10,1)
+
+        when:
+        product.validateProduct()
+
+        then:
+        thrown(BusinessException)
+    }
+
     def "should calculate discounted price successfully"() {
         given:
         def product = new Product(1, "name", BigDecimal.TEN, ProductStatus.INVALID, BigDecimal.valueOf(0.8), 10,1)
