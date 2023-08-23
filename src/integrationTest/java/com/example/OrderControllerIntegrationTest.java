@@ -3,6 +3,7 @@ package com.example;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -118,6 +119,33 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .statusCode(NOT_FOUND.value())
         .body("code", equalTo("NOT_FOUND_PRODUCT"))
         .body("message", equalTo("Not found product."));
+  }
+
+  @Test
+  @DataSet("save_order_successfully.yml")
+  public void should_throw_403_given_product_not_validated() {
+
+    JSONObject orderProductOne = new JSONObject();
+    orderProductOne.putAll(Map.of("productId", 1004, "quantity", 1L));
+
+    JSONArray orderProducts = new JSONArray();
+    orderProducts.addAll(List.of(orderProductOne));
+
+    JSONObject orderRequest = new JSONObject();
+    orderRequest.putAll(
+        Map.of(
+            "customerId", "dcabcfac-6b08-47cd-883a-76c5dc366d88", "orderProducts", orderProducts));
+    String orderReqBody = orderRequest.toJSONString();
+
+    given()
+        .contentType(ContentType.JSON)
+        .body(orderReqBody)
+        .when()
+        .post("/orders")
+        .then()
+        .statusCode(FORBIDDEN.value())
+        .body("code", equalTo("INVALID_PRODUCT"))
+        .body("message", equalTo("Invalid product."));
   }
 
   @Test

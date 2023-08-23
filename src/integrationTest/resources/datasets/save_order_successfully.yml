@@ -17,3 +17,9 @@ product:
     status: VALID
     discount: 0.8
     stock: 3
+  - id: 1004
+    name: Cat can
+    price: 30.00
+    status: INVALID
+    discount: 0.8
+    stock: 3
