@@ -54,7 +54,9 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
   public void should_retrieve_order_list_by_customer_id_and_order_id_successfully() {
     given()
         .when()
-        .get("/orders/{orderId}", "546f4304-3be2-11ee-be56-0242ac120001")
+        .get(
+            "/orders/{orderId}?customerId=dcabcfac-6b08-47cd-883a-76c5dc366d88",
+            "546f4304-3be2-11ee-be56-0242ac120001")
         .then()
         .statusCode(OK.value())
         .body("orderId", equalTo("546f4304-3be2-11ee-be56-0242ac120001"))

@@ -28,8 +28,8 @@ public class OrderController {
   }
 
   @GetMapping("/{orderId}")
-  public OrderDto retrieveOrderDetail(@PathVariable String orderId) {
-    return orderApplicationService.retrieveOrder(orderId);
+  public OrderDto retrieveOrderDetail(@PathVariable String orderId, @RequestParam UUID customerId) {
+    return orderApplicationService.retrieveOrder(orderId, customerId.toString());
   }
 
   @PatchMapping("/{orderId}")
