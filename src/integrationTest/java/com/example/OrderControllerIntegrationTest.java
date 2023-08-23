@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import io.restassured.http.ContentType;
@@ -147,6 +148,33 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .statusCode(FORBIDDEN.value())
         .body("code", equalTo("INVALID_PRODUCT"))
         .body("message", equalTo("Invalid product."));
+  }
+
+  @Test
+  @DataSet("save_order_successfully.yml")
+  public void should_throw_422_given_product_not_enough() {
+
+    JSONObject orderProductOne = new JSONObject();
+    orderProductOne.putAll(Map.of("productId", 1003, "quantity", 100L));
+
+    JSONArray orderProducts = new JSONArray();
+    orderProducts.addAll(List.of(orderProductOne));
+
+    JSONObject orderRequest = new JSONObject();
+    orderRequest.putAll(
+        Map.of(
+            "customerId", "dcabcfac-6b08-47cd-883a-76c5dc366d88", "orderProducts", orderProducts));
+    String orderReqBody = orderRequest.toJSONString();
+
+    given()
+        .contentType(ContentType.JSON)
+        .body(orderReqBody)
+        .when()
+        .post("/orders")
+        .then()
+        .statusCode(UNPROCESSABLE_ENTITY.value())
+        .body("code", equalTo("PRODUCT_STOCK_SHORTAGE"))
+        .body("message", equalTo("the stock of this product is less than the amount."));
   }
 
   @Test

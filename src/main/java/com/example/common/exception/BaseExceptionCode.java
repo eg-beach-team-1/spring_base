@@ -18,7 +18,8 @@ public enum BaseExceptionCode {
 
   OUT_OF_STOCK(UNPROCESSABLE_ENTITY, "this product is out of stock."),
 
-  PRODUCT_STOCK_SHORTAGE(UNPROCESSABLE_ENTITY, "the stock of this product is less than the amount"),
+  PRODUCT_STOCK_SHORTAGE(
+      UNPROCESSABLE_ENTITY, "the stock of this product is less than the amount."),
 
   INVALID_PRODUCT(FORBIDDEN, "Invalid product."),
 
