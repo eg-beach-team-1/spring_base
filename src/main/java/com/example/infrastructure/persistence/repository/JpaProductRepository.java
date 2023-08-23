@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface JpaProductRepository extends JpaAndQueryDslExecutor<ProductPo, Integer> {
   @Lock(LockModeType.PESSIMISTIC_WRITE)
-  @Query(value = "SELECT * FROM product WHERE id IN :ids", nativeQuery = true)
+  @Query(value = "SELECT p FROM ProductPo p WHERE p.id IN :ids")
   List<ProductPo> findAllById(List<Integer> ids);
 }
