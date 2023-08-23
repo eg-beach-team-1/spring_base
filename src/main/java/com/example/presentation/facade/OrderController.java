@@ -33,7 +33,7 @@ public class OrderController {
   }
 
   @PatchMapping("/{orderId}")
-  public String cancelOrder(@PathVariable String orderId, @RequestParam String customerId) {
-    return orderApplicationService.cancelOrder(orderId, customerId);
+  public String cancelOrder(@PathVariable String orderId, @RequestParam UUID customerId) {
+    return orderApplicationService.cancelOrder(orderId, customerId.toString());
   }
 }
