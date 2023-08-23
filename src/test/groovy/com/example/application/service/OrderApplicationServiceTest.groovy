@@ -109,12 +109,12 @@ class OrderApplicationServiceTest extends Specification {
             productDetails: productDetailList
     )
 
-    def "should retrieve order by order id"() {
+    def "should retrieve order by order id and customer id"() {
         given:
-        orderRepository.findByOrderId(_) >> orderDetail
+        orderRepository.findByOrderIdAndCustomerId(_, _) >> orderDetail
 
         when:
-        def result = orderApplicationService.retrieveOrder("8a4e94098a160b39018a160bd2f50000")
+        def result = orderApplicationService.retrieveOrder("8a4e94098a160b39018a160bd2f50000", "dcabcfac-6b08-47cd-883a-76c5dc366d88")
 
         then:
         result.orderId == "8a4e94098a160b39018a160bd2f50000"

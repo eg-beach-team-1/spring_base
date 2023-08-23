@@ -31,8 +31,8 @@ public class OrderApplicationService {
     return orderRepository.findByCustomerId(customerId).stream().map(MAPPER::toDto).toList();
   }
 
-  public OrderDto retrieveOrder(String orderId) {
-    return MAPPER.toDto(orderRepository.findByOrderId(orderId));
+  public OrderDto retrieveOrder(String orderId, String customerId) {
+    return MAPPER.toDto(orderRepository.findByOrderIdAndCustomerId(orderId, customerId));
   }
 
   @Transactional
