@@ -1,30 +1,16 @@
 customer_order:
   - id: 546f4304-3be2-11ee-be56-0242ac120001
     customer_id: dcabcfac-6b08-47cd-883a-76c5dc366d88
-    status: "CREATED"
+    status: "CANCELED"
     create_time: "2023-08-10 12:35:13"
     update_time: "2023-08-10 12:35:13"
-    product_details: |
-      [{
-        "id": 1,
-        "name": "water",
-        "unitPrice": 10,
-        "quantity": 2,
-        "discount": 0.8
-      }]
+    product_details: "[{\"id\": 1, \"name\": \"water\", \"discount\": 0.8, \"quantity\": 2, \"unitPrice\": 10}]"
   - id: 546f4304-3be2-11ee-be56-0242ac120002
     customer_id: dcabcfac-6b08-47cd-883a-76c5dc366d88
     status: "CREATED"
     create_time: "2023-08-10 12:35:13"
     update_time: "2023-08-10 12:35:13"
-    product_details: |
-      [{
-        "id": 2,
-        "name": "cola",
-        "unitPrice": 20,
-        "quantity": 2,
-        "discount": 0.8
-      }]
+    product_details: "[{\"id\": 2, \"name\": \"cola\", \"discount\": 0.8, \"quantity\": 2, \"unitPrice\": 20}]"
 
 product:
   - id: 1
@@ -32,7 +18,7 @@ product:
     price: 10.00
     status: VALID
     discount: 0.8
-    stock: 10
+    stock: 12
   - id: 2
     name: cola
     price: 20.00

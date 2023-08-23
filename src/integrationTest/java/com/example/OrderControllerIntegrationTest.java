@@ -1,6 +1,7 @@
 package com.example;
 
 import static io.restassured.RestAssured.given;
+import static java.util.List.of;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -10,8 +11,8 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import io.restassured.http.ContentType;
-import java.util.List;
 import java.util.Map;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -79,7 +80,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     orderProductThree.putAll(Map.of("productId", 1003, "quantity", 3L));
 
     JSONArray orderProducts = new JSONArray();
-    orderProducts.addAll(List.of(orderProductOne, orderProductTwo, orderProductThree));
+    orderProducts.addAll(of(orderProductOne, orderProductTwo, orderProductThree));
 
     JSONObject orderRequest = new JSONObject();
     orderRequest.putAll(
@@ -104,7 +105,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     orderProductOne.putAll(Map.of("productId", 2000, "quantity", 1L));
 
     JSONArray orderProducts = new JSONArray();
-    orderProducts.addAll(List.of(orderProductOne));
+    orderProducts.addAll(of(orderProductOne));
 
     JSONObject orderRequest = new JSONObject();
     orderRequest.putAll(
@@ -131,7 +132,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     orderProductOne.putAll(Map.of("productId", 1004, "quantity", 1L));
 
     JSONArray orderProducts = new JSONArray();
-    orderProducts.addAll(List.of(orderProductOne));
+    orderProducts.addAll(of(orderProductOne));
 
     JSONObject orderRequest = new JSONObject();
     orderRequest.putAll(
@@ -158,7 +159,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     orderProductOne.putAll(Map.of("productId", 1003, "quantity", 100L));
 
     JSONArray orderProducts = new JSONArray();
-    orderProducts.addAll(List.of(orderProductOne));
+    orderProducts.addAll(of(orderProductOne));
 
     JSONObject orderRequest = new JSONObject();
     orderRequest.putAll(
@@ -185,7 +186,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     orderProductOne.putAll(Map.of("productId", 1005, "quantity", 1L));
 
     JSONArray orderProducts = new JSONArray();
-    orderProducts.addAll(List.of(orderProductOne));
+    orderProducts.addAll(of(orderProductOne));
 
     JSONObject orderRequest = new JSONObject();
     orderRequest.putAll(
@@ -220,6 +221,9 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
 
   @Test
   @DataSet("retrieve_orders_on_order_table.yml")
+  @ExpectedDataSet(
+      value = "after_cancel_the_order.yml",
+      ignoreCols = {"update_time"})
   public void should_cancel_order_by_order_id_and_customer_id_successfully() {
     given()
         .when()
