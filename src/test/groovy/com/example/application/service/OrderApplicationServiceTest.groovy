@@ -43,7 +43,7 @@ class OrderApplicationServiceTest extends Specification {
         String result = orderApplicationService.createOrder(orderReqDto)
 
         then:
-        Assertions.assertThat(result.equals(ORDER_ID))
+        result == ORDER_ID
     }
 
     def "should throw exception given some products not in repo"() {

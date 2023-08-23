@@ -24,9 +24,6 @@ class CustomerApplicationServiceTest extends Specification {
         def result = customerApplicationService.findById(customerId)
 
         then:
-        Assertions.assertThat(result)
-                .usingRecursiveComparison()
-                .ignoringCollectionOrder()
-                .isEqualTo(expectedCustomer)
+        result.properties == expectedCustomer.properties
     }
 }
