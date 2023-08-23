@@ -178,6 +178,33 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
+  @DataSet("save_order_successfully.yml")
+  public void should_throw_422_given_product_has_zero_stock() {
+
+    JSONObject orderProductOne = new JSONObject();
+    orderProductOne.putAll(Map.of("productId", 1005, "quantity", 1L));
+
+    JSONArray orderProducts = new JSONArray();
+    orderProducts.addAll(List.of(orderProductOne));
+
+    JSONObject orderRequest = new JSONObject();
+    orderRequest.putAll(
+        Map.of(
+            "customerId", "dcabcfac-6b08-47cd-883a-76c5dc366d88", "orderProducts", orderProducts));
+    String orderReqBody = orderRequest.toJSONString();
+
+    given()
+        .contentType(ContentType.JSON)
+        .body(orderReqBody)
+        .when()
+        .post("/orders")
+        .then()
+        .statusCode(UNPROCESSABLE_ENTITY.value())
+        .body("code", equalTo("OUT_OF_STOCK"))
+        .body("message", equalTo("this product is out of stock."));
+  }
+
+  @Test
   @DataSet("retrieve_orders_on_order_table.yml")
   public void should_throw_404_when_order_not_in_db() {
     given()
