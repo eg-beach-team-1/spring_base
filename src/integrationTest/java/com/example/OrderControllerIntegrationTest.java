@@ -2,6 +2,7 @@ package com.example;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -43,7 +44,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .body("[1].productDetails[0].name", equalTo("cola"))
         .body("[1].productDetails[0].discountedPrice", equalTo(16.0F))
         .body("[1].productDetails[0].priceDifference", equalTo(8.0F))
-        .body("size()", equalTo(2));
+        .body("size()", equalTo(3));
   }
 
   @Test
@@ -150,6 +151,20 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
 
   @Test
   @DataSet("retrieve_orders_on_order_table.yml")
+  public void should_throw_404_when_order_not_in_db() {
+    given()
+        .when()
+        .patch(
+            "/orders/{orderId}?customerId=dcabcfac-6b08-47cd-883a-76c5dc366d88",
+            "546f4304-3be2-11ee-be56-0242ac121111")
+        .then()
+        .statusCode(NOT_FOUND.value())
+        .body("code", equalTo("NOT_FOUND_ORDER"))
+        .body("message", equalTo("Order not found."));
+  }
+
+  @Test
+  @DataSet("retrieve_orders_on_order_table.yml")
   public void should_cancel_order_by_order_id_and_customer_id_successfully() {
     given()
         .when()
@@ -162,15 +177,15 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
 
   @Test
   @DataSet("retrieve_orders_on_order_table.yml")
-  public void should_throw_404_when_order_not_in_db() {
+  public void should_throw_409_if_order_is_already_canceled() {
     given()
         .when()
         .patch(
             "/orders/{orderId}?customerId=dcabcfac-6b08-47cd-883a-76c5dc366d88",
-            "546f4304-3be2-11ee-be56-0242ac121111")
+            "546f4304-3be2-11ee-be56-0242ac120003")
         .then()
-        .statusCode(NOT_FOUND.value())
-        .body("code", equalTo("NOT_FOUND_ORDER"))
-        .body("message", equalTo("Order not found."));
+        .statusCode(CONFLICT.value())
+        .body("code", equalTo("ALREADY_CANCELED_ORDER"))
+        .body("message", equalTo("This order has been canceled already."));
   }
 }
