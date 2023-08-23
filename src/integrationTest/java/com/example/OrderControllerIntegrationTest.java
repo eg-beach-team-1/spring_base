@@ -8,12 +8,10 @@ import static org.springframework.http.HttpStatus.OK;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import java.util.List;
 import java.util.Map;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class OrderControllerIntegrationTest extends BaseIntegrationTest {
@@ -86,10 +84,40 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
             "customerId", "dcabcfac-6b08-47cd-883a-76c5dc366d88", "orderProducts", orderProducts));
     String orderReqBody = orderRequest.toJSONString();
 
-    Response response =
-        given().contentType(ContentType.JSON).body(orderReqBody).when().post("/orders");
-    Assertions.assertEquals(CREATED.value(), response.statusCode());
-    Assertions.assertNotNull(response.body());
+    given()
+        .contentType(ContentType.JSON)
+        .body(orderReqBody)
+        .when()
+        .post("/orders")
+        .then()
+        .statusCode(CREATED.value());
+  }
+
+  @Test
+  @DataSet("save_order_successfully.yml")
+  public void should_throw_404_given_product_not_found() {
+
+    JSONObject orderProductOne = new JSONObject();
+    orderProductOne.putAll(Map.of("productId", 2000, "quantity", 1L));
+
+    JSONArray orderProducts = new JSONArray();
+    orderProducts.addAll(List.of(orderProductOne));
+
+    JSONObject orderRequest = new JSONObject();
+    orderRequest.putAll(
+        Map.of(
+            "customerId", "dcabcfac-6b08-47cd-883a-76c5dc366d88", "orderProducts", orderProducts));
+    String orderReqBody = orderRequest.toJSONString();
+
+    given()
+        .contentType(ContentType.JSON)
+        .body(orderReqBody)
+        .when()
+        .post("/orders")
+        .then()
+        .statusCode(NOT_FOUND.value())
+        .body("code", equalTo("NOT_FOUND_PRODUCT"))
+        .body("message", equalTo("Not found product."));
   }
 
   @Test
