@@ -114,11 +114,10 @@ class OrderDomainRepositoryTest extends Specification {
 
     def "should retrieve order by order id"() {
         given:
-        jpaOrderRepository.findById(_) >> Optional.of(jpaOrder
-        )
+        jpaOrderRepository.findByIdAndCustomerId(_, _) >> Optional.of(jpaOrder)
 
         when:
-        def result = orderDomainRepository.findByOrderId("546f4304-3be2-11ee-be56-0242ac120001")
+        def result = orderDomainRepository.findByOrderIdAndCustomerId("546f4304-3be2-11ee-be56-0242ac120001", "dcabcfac-6b08-47cd-883a-76c5dc366d88")
 
         then:
         result.id == "546f4304-3be2-11ee-be56-0242ac120001"
