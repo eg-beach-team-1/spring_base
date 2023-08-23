@@ -25,6 +25,19 @@ customer_order:
         "quantity": 2,
         "discount": 0.8
       }]
+  - id: 546f4304-3be2-11ee-be56-0242ac120003
+    customer_id: dcabcfac-6b08-47cd-883a-76c5dc366d88
+    status: "CANCELED"
+    create_time: "2023-08-10 12:35:13"
+    update_time: "2023-08-10 12:35:13"
+    product_details: |
+      [{
+        "id": 2,
+        "name": "cola",
+        "unitPrice": 20,
+        "quantity": 2,
+        "discount": 0.8
+      }]
 
 product:
   - id: 1
