@@ -86,7 +86,7 @@ public class OrderApplicationService {
     if (products.size() == ids.size()) {
       return products;
     } else {
-      throw new BusinessException(INVALID_PRODUCT, "Some products cannot be found in db");
+      throw new BusinessException(INVALID_PRODUCT);
     }
   }
 

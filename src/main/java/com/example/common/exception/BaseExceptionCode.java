@@ -1,32 +1,35 @@
 package com.example.common.exception;
 
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
-public enum BaseExceptionCode implements IExceptionCode {
-  NOT_FOUND_CUSTOMER("Not found customer."),
-  NOT_FOUND_PRODUCT("Not found product."),
+public enum BaseExceptionCode {
+  NOT_FOUND_CUSTOMER(NOT_FOUND, "Not found customer."),
 
-  OUT_OF_STOCK("this product is out of stock."),
+  NOT_FOUND_PRODUCT(NOT_FOUND, "Not found product."),
 
-  PRODUCT_STOCK_SHORTAGE("the stock of this product is less than the amount"),
-  INVALID_PRODUCT("Invalid product."),
+  NOT_FOUND_ORDER(NOT_FOUND, "Order not found."),
 
-  ALREADY_CANCELED_ORDER("This order has been canceled already.");
+  OUT_OF_STOCK(UNPROCESSABLE_ENTITY, "this product is out of stock."),
 
-  BaseExceptionCode(String enMsg) {
+  PRODUCT_STOCK_SHORTAGE(UNPROCESSABLE_ENTITY, "the stock of this product is less than the amount"),
+
+  INVALID_PRODUCT(FORBIDDEN, "Invalid product."),
+
+  ALREADY_CANCELED_ORDER(CONFLICT, "This order has been canceled already.");
+
+  BaseExceptionCode(HttpStatus httpStatus, String enMsg) {
+    this.httpStatus = httpStatus;
     this.enMsg = enMsg;
   }
 
   String enMsg;
 
-  @Override
-  public String getValue() {
-    return this.name();
-  }
-
-  @Override
-  public String getLangMessage() {
-    return IExceptionCode.super.getLangMessage();
-  }
+  HttpStatus httpStatus;
 }

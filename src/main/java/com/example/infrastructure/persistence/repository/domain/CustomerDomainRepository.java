@@ -1,8 +1,8 @@
 package com.example.infrastructure.persistence.repository.domain;
 
 import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_CUSTOMER;
-import static com.example.common.exception.NotFoundException.notFoundException;
 
+import com.example.common.exception.BusinessException;
 import com.example.domain.entity.Customer;
 import com.example.domain.repository.CustomerRepository;
 import com.example.infrastructure.persistence.assembler.CustomerDataMapper;
@@ -19,6 +19,8 @@ public class CustomerDomainRepository implements CustomerRepository {
   @Override
   public Customer findById(String id) {
     return mapper.toDo(
-        jpaCustomerRepository.findById(id).orElseThrow(notFoundException(NOT_FOUND_CUSTOMER)));
+        jpaCustomerRepository
+            .findById(id)
+            .orElseThrow(() -> new BusinessException(NOT_FOUND_CUSTOMER)));
   }
 }

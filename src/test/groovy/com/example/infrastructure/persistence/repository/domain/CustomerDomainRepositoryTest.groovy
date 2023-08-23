@@ -1,6 +1,6 @@
 package com.example.infrastructure.persistence.repository.domain
 
-import com.example.common.exception.NotFoundException
+import com.example.common.exception.BusinessException
 import com.example.infrastructure.persistence.entity.CustomerPo
 import com.example.infrastructure.persistence.repository.JpaCustomerRepository
 import spock.lang.Specification
@@ -36,6 +36,6 @@ class CustomerDomainRepositoryTest extends Specification {
         customerDomainRepository.findById(clientId)
 
         then:
-        thrown(NotFoundException)
+        thrown(BusinessException)
     }
 }

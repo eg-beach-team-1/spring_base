@@ -39,7 +39,7 @@ public class Product {
 
   public void validateProduct() {
     if (this.status == ProductStatus.INVALID || this.price == null) {
-      throw new BusinessException(INVALID_PRODUCT, "This product is invalid!");
+      throw new BusinessException(INVALID_PRODUCT);
     }
   }
 
@@ -68,12 +68,11 @@ public class Product {
 
   void validateStock(Integer amount) {
     if (this.stock == 0) {
-      throw new BusinessException(OUT_OF_STOCK, "This product id out of stock");
+      throw new BusinessException(OUT_OF_STOCK);
     }
 
     if (amount > this.stock) {
-      throw new BusinessException(
-          PRODUCT_STOCK_SHORTAGE, "the stock of this product is less than the amount");
+      throw new BusinessException(PRODUCT_STOCK_SHORTAGE);
     }
   }
 }

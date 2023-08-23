@@ -59,7 +59,7 @@ public class Order {
 
   private void validateStatus() {
     if (this.status == CANCELED) {
-      throw new BusinessException(ALREADY_CANCELED_ORDER, "This order has been canceled already.");
+      throw new BusinessException(ALREADY_CANCELED_ORDER);
     }
   }
 }

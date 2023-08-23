@@ -1,8 +1,8 @@
 package com.example.infrastructure.persistence.repository.domain;
 
 import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_PRODUCT;
-import static com.example.common.exception.NotFoundException.notFoundException;
 
+import com.example.common.exception.BusinessException;
 import com.example.domain.entity.Product;
 import com.example.domain.repository.ProductRepository;
 import com.example.infrastructure.persistence.assembler.ProductDataMapper;
@@ -27,7 +27,7 @@ public class ProductDomainRepository implements ProductRepository {
   @Override
   public Product findById(Integer productId) {
     Optional<ProductPo> productPo = jpaProductRepository.findById(productId);
-    productPo.orElseThrow(notFoundException(NOT_FOUND_PRODUCT));
+    productPo.orElseThrow(() -> new BusinessException(NOT_FOUND_PRODUCT));
     return mapper.toDo(productPo.get());
   }
 

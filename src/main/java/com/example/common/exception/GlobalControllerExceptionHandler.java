@@ -1,9 +1,13 @@
 package com.example.common.exception;
 
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,9 +20,16 @@ public class GlobalControllerExceptionHandler {
     return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(NotFoundException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ResponseEntity<String> handleBookNotFound(RuntimeException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+  @ExceptionHandler(BusinessException.class)
+  @ResponseBody
+  public Map<String, String> handleBusinessException(
+      BusinessException e, HttpServletResponse response) {
+    Map<String, String> responseBody = new HashMap<>();
+    responseBody.put("code", e.getCode().name());
+    responseBody.put("message", e.getCode().enMsg);
+
+    response.setStatus(e.getCode().httpStatus.value());
+
+    return responseBody;
   }
 }

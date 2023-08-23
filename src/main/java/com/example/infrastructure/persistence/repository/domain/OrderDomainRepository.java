@@ -1,11 +1,11 @@
 package com.example.infrastructure.persistence.repository.domain;
 
+import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_CUSTOMER;
+import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_ORDER;
 import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_PRODUCT;
-import static com.example.common.exception.NotFoundException.notFoundException;
 import static com.example.infrastructure.persistence.assembler.OrderDataMapper.MAPPER;
 
-import com.example.common.exception.ExceptionCode;
-import com.example.common.exception.NotFoundException;
+import com.example.common.exception.BusinessException;
 import com.example.domain.entity.Order;
 import com.example.domain.repository.OrderRepository;
 import com.example.infrastructure.persistence.assembler.OrderProductDetailsDataMapper;
@@ -29,7 +29,7 @@ public class OrderDomainRepository implements OrderRepository {
             .map(orderProductDetailsDataMapper::mapOrderPoToOrder)
             .toList();
     if (orders.isEmpty()) {
-      throw new NotFoundException(ExceptionCode.NOT_FOUND, "Not found customer.");
+      throw new BusinessException(NOT_FOUND_CUSTOMER);
     }
     return orders;
   }
@@ -39,7 +39,7 @@ public class OrderDomainRepository implements OrderRepository {
     OrderPo orderPo =
         jpaOrderRepository
             .findById(orderId)
-            .orElseThrow(() -> new NotFoundException(ExceptionCode.NOT_FOUND, "Order not found."));
+            .orElseThrow(() -> new BusinessException(NOT_FOUND_ORDER));
 
     return orderProductDetailsDataMapper.mapOrderPoToOrder(orderPo);
   }
@@ -49,7 +49,7 @@ public class OrderDomainRepository implements OrderRepository {
     OrderPo orderPo =
         jpaOrderRepository
             .findByIdAndCustomerId(orderId, customerId)
-            .orElseThrow(notFoundException(NOT_FOUND_PRODUCT));
+            .orElseThrow(() -> new BusinessException(NOT_FOUND_PRODUCT));
     return orderProductDetailsDataMapper.mapOrderPoToOrder(orderPo);
   }
 

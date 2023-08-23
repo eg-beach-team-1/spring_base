@@ -1,6 +1,6 @@
 package com.example.infrastructure.persistence.repository.domain
 
-import com.example.common.exception.NotFoundException
+import com.example.common.exception.BusinessException
 import com.example.domain.entity.Order
 import com.example.domain.entity.ProductDetail
 import com.example.domain.util.OrderUtils
@@ -162,6 +162,6 @@ class OrderDomainRepositoryTest extends Specification {
         orderDomainRepository.findByOrderIdAndCustomerId(orderId, customerId)
 
         then:
-        thrown(NotFoundException)
+        thrown(BusinessException)
     }
 }

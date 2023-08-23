@@ -1,6 +1,6 @@
 package com.example.infrastructure.persistence.repository.domain
 
-import com.example.common.exception.NotFoundException
+import com.example.common.exception.BusinessException
 import com.example.domain.entity.Product
 import com.example.infrastructure.persistence.entity.ProductPo
 import com.example.infrastructure.persistence.repository.JpaProductRepository
@@ -65,7 +65,7 @@ class ProductDomainRepositoryTest extends Specification {
         productDomainRepository.findById(2)
 
         then:
-        thrown(NotFoundException)
+        thrown(BusinessException)
     }
 
     def "should find all products by ids"() {
