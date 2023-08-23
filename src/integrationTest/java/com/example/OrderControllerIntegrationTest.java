@@ -113,6 +113,8 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
             "/orders/{orderId}?customerId=dcabcfac-6b08-47cd-883a-76c5dc366d88",
             "546f4304-3be2-11ee-be56-0242ac121111")
         .then()
-        .statusCode(NOT_FOUND.value());
+        .statusCode(NOT_FOUND.value())
+        .body("code", equalTo("NOT_FOUND_ORDER"))
+        .body("message", equalTo("Order not found."));
   }
 }

@@ -2,7 +2,6 @@ package com.example.infrastructure.persistence.repository.domain;
 
 import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_CUSTOMER;
 import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_ORDER;
-import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_PRODUCT;
 import static com.example.infrastructure.persistence.assembler.OrderDataMapper.MAPPER;
 
 import com.example.common.exception.BusinessException;
@@ -49,7 +48,7 @@ public class OrderDomainRepository implements OrderRepository {
     OrderPo orderPo =
         jpaOrderRepository
             .findByIdAndCustomerId(orderId, customerId)
-            .orElseThrow(() -> new BusinessException(NOT_FOUND_PRODUCT));
+            .orElseThrow(() -> new BusinessException(NOT_FOUND_ORDER));
     return orderProductDetailsDataMapper.mapOrderPoToOrder(orderPo);
   }
 
