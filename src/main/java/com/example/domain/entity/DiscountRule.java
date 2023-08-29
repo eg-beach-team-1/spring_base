@@ -15,9 +15,9 @@ public class DiscountRule {
   private Range range;
   private List<Condition> conditions;
 
-  public Map<Integer, BigDecimal> calculateDiscount(Map<Integer, Integer> productIdToQuantity) {
-    Map<Integer, Integer> filteredProductMap =
-        productIdToQuantity.entrySet().stream()
+  public Map<Product, BigDecimal> calculateDiscount(Map<Product, Integer> productToQuantity) {
+    Map<Product, Integer> filteredProductMap =
+        productToQuantity.entrySet().stream()
             .filter(entry -> range.belongsTo(entry.getKey()))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 

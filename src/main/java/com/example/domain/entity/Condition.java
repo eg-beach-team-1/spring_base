@@ -10,5 +10,5 @@ import lombok.Getter;
 public abstract class Condition {
   protected BigDecimal discount;
 
-  public abstract boolean isSatisfied(Map<Integer, Integer> productIdToQuantity);
+  public abstract boolean isSatisfied(Map<Product, Integer> productIdToQuantity);
 }
