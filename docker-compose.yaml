@@ -16,7 +16,6 @@ services:
       - "3306:3306"
   mongo:
     image: mongo
-    restart: always
     container_name: spring_base_mongo_container
     hostname: mongo
     environment:
@@ -28,3 +27,4 @@ services:
     volumes:
       - ./mongo/data:/data/db
       - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    user: "501:20"
