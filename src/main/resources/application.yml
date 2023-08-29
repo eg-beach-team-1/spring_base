@@ -17,7 +17,7 @@ spring:
         format_sql: true
   data:
     mongodb:
-      uri: mongodb://localhost:27017/spring_base
+      uri: mongodb://mongo:27017/spring_base
       username: root
       password: example
   flyway:
