@@ -1,12 +1,6 @@
 package com.example.infrastructure.persistence.assembler;
 
-import com.example.domain.entity.AllRange;
-import com.example.domain.entity.CategoryRange;
-import com.example.domain.entity.Condition;
-import com.example.domain.entity.DiscountRule;
-import com.example.domain.entity.ProductRange;
-import com.example.domain.entity.QuantityCondition;
-import com.example.domain.entity.Range;
+import com.example.domain.entity.*;
 import com.example.infrastructure.persistence.entity.DiscountRulePo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
@@ -37,6 +31,11 @@ public class DiscountDataMapper {
               QuantityCondition condition =
                   new QuantityCondition(
                       (Integer) item.get("quantity"),
+                      BigDecimal.valueOf((Double) item.get("discount")));
+              results.add(condition);
+            } else if (item.containsKey("price")) {
+              PriceCondition condition = new PriceCondition(
+                      BigDecimal.valueOf((Double) item.get("price")),
                       BigDecimal.valueOf((Double) item.get("discount")));
               results.add(condition);
             }
