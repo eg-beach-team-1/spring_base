@@ -43,3 +43,9 @@ out/
 .DS_Store
 
 config/mongo/data
+*.wt
+*.lock
+*.bson
+*.turtle
+*.0000000002
+*.0000000001

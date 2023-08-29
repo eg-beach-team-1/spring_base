@@ -15,6 +15,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  data:
+    mongodb:
+      uri: mongodb://mongo:27017/spring_base
+      username: root
+      password: example
   flyway:
     enabled: true
     locations: classpath:/db/migration
