@@ -41,5 +41,3 @@ out/
 
 ## macOS
 .DS_Store
-
-config/mongo/data

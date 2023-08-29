@@ -14,17 +14,3 @@ services:
       - "MYSQL_ROOT_PASSWORD=password"
     ports:
       - "3306:3306"
-  mongo:
-    image: mongo
-    container_name: spring_base_mongo_container
-    hostname: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: spring_base
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./mongo/data:/data/db
-      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
-    user: "501:20"
