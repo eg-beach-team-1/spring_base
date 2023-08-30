@@ -1,0 +1,1 @@
+insert into discount_rule(`rule_id`, `discount_range`, `discount_conditions`) values ('dcabcfac-6b08-47cd-883a-76c5dc366d88', '{"productIds": ["1", "3"]}', '[{"quantity": 3,"discount": 0.8,"priority": 2}, {"quantity": 5,"discount": 0.7,"priority": 1}]');
