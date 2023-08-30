@@ -9,13 +9,10 @@ import spock.lang.Specification
 class DiscountDomainRepositoryTest extends Specification {
 
     JpaDiscountRuleRepository jpaDiscountRuleRepository = Mock()
-
     DiscountDataMapper discountDataMapper = new DiscountDataMapper()
-
     DiscountDomainRepository discountDomainRepository = new DiscountDomainRepository(jpaDiscountRuleRepository, discountDataMapper)
 
-    def "test findDiscountRule"() {
-
+    def "should find discount rule with quantity condition successfully"() {
         given:
         DiscountRulePo mockDiscountRulePo = new DiscountRulePo()
         mockDiscountRulePo.setRuleId("rule1")
@@ -53,11 +50,9 @@ class DiscountDomainRepositoryTest extends Specification {
         discountRule.conditions.get(0).getQuantity() == 20
         discountRule.conditions.get(1).getDiscount() == BigDecimal.valueOf(3.2)
         discountRule.conditions.get(1).getQuantity() == 10
-
     }
 
-    def "should be discounted base on the product total price "() {
-
+    def "should find discount rule with price condition successfully"() {
         given:
         DiscountRulePo mockDiscountRulePo = new DiscountRulePo()
         mockDiscountRulePo.setRuleId("rule1")
@@ -96,6 +91,5 @@ class DiscountDomainRepositoryTest extends Specification {
         discountRule.conditions.get(0).getPrice() == BigDecimal.valueOf(500)
         discountRule.conditions.get(1).getDiscount() == BigDecimal.valueOf(0.8)
         discountRule.conditions.get(1).getPrice() == BigDecimal.valueOf(200)
-
     }
 }

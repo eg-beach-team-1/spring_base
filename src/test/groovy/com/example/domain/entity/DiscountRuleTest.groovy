@@ -7,7 +7,7 @@ class DiscountRuleTest extends Specification {
     Range mockRange = Mock()
     Condition mockCondition = Mock()
 
-    def "should calculate discount correctly when product ids valid"() {
+    def "should calculate discount correctly when all product ids in range and satisfy condition"() {
         given:
         DiscountRule discountRule = new DiscountRule(range: mockRange, conditions: [mockCondition])
         def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, BigDecimal.ONE, 10)
@@ -17,7 +17,7 @@ class DiscountRuleTest extends Specification {
         when:
         2 * mockRange.belongsTo(_) >> true
         1 * mockCondition.isSatisfied(_) >> true
-        1 * mockCondition.getDiscount() >> 0.1 // Adjust this according to your needs
+        1 * mockCondition.getDiscount() >> 0.1
 
         Map<Product, BigDecimal> result = discountRule.calculateDiscount(productIdToQuantity)
 
@@ -26,7 +26,7 @@ class DiscountRuleTest extends Specification {
         result.every { key, value -> value == 0.1 }
     }
 
-    def "should calculate discount correctly when one of the product ids valid"() {
+    def "should calculate discount correctly when one of the product ids in range and satisfy condition"() {
         given:
         DiscountRule discountRule = new DiscountRule(range: mockRange, conditions: [mockCondition])
         def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, BigDecimal.ONE, 10)
@@ -37,7 +37,7 @@ class DiscountRuleTest extends Specification {
         1 * mockRange.belongsTo(product1) >> true
         1 * mockRange.belongsTo(product2) >> false
         1 * mockCondition.isSatisfied(_) >> true
-        1 * mockCondition.getDiscount() >> 0.1 // Adjust this according to your needs
+        1 * mockCondition.getDiscount() >> 0.1
 
         Map<Product, BigDecimal> result = discountRule.calculateDiscount(productIdToQuantity)
 

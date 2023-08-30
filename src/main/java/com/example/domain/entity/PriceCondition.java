@@ -1,9 +1,8 @@
 package com.example.domain.entity;
 
-import lombok.Getter;
-
 import java.math.BigDecimal;
 import java.util.Map;
+import lombok.Getter;
 
 @Getter
 public class PriceCondition extends Condition {
