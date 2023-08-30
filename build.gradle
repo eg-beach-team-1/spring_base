@@ -40,6 +40,7 @@ dependencies {
     implementation('com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5')
     implementation('com.querydsl:querydsl-jpa:5.0.0:jakarta')
     implementation('com.diffplug.spotless:spotless-plugin-gradle:6.20.0')
+    implementation('org.springframework.cloud:spring-cloud-starter-openfeign:4.0.4')
 
     runtimeOnly('com.mysql:mysql-connector-j:8.1.0')
 
