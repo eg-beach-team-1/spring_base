@@ -42,8 +42,9 @@ class DiscountRuleTest extends Specification {
         Map<Product, BigDecimal> result = discountRule.calculateDiscount(productIdToQuantity)
 
         then:
-        result.size() == 1
-        result.every { key, value -> value == 0.1 }
+        result.size() == 2
+        result.get(product1) == 0.1
+        result.get(product2) == 1.0
     }
 
     def "should calculate discount correctly when condition is not satisfied"() {
@@ -60,6 +61,7 @@ class DiscountRuleTest extends Specification {
         Map<Product, BigDecimal> result = discountRule.calculateDiscount(productIdToQuantity)
 
         then:
-        result.size() == 0
+        result.size() == 2
+        result.every { key, value -> value == 1.0 }
     }
 }

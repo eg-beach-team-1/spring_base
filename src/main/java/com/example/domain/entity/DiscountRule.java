@@ -1,6 +1,7 @@
 package com.example.domain.entity;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,14 +22,24 @@ public class DiscountRule {
             .filter(entry -> range.belongsTo(entry.getKey()))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-    return conditions.stream()
-        .filter(condition -> condition.isSatisfied(filteredProductMap))
-        .map(Condition::getDiscount)
-        .findFirst()
-        .map(
-            discount ->
-                filteredProductMap.entrySet().stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> discount)))
-        .orElse(Map.of());
+    Map<Product, BigDecimal> productDiscountMap =
+        new HashMap<>(
+            conditions.stream()
+                .filter(condition -> condition.isSatisfied(filteredProductMap))
+                .map(Condition::getDiscount)
+                .findFirst()
+                .map(
+                    discount ->
+                        filteredProductMap.entrySet().stream()
+                            .collect(Collectors.toMap(Map.Entry::getKey, entry -> discount)))
+                .orElse(Map.of()));
+
+    productToQuantity
+        .keySet()
+        .forEach(
+            product -> {
+              productDiscountMap.putIfAbsent(product, BigDecimal.ONE);
+            });
+    return productDiscountMap;
   }
 }
