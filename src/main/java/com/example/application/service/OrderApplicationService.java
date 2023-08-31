@@ -61,6 +61,7 @@ public class OrderApplicationService {
     return orderRepository.save(order);
   }
 
+  @Transactional
   public OrderPreviewDto previewOrder(OrderReqDto orderReqDto) {
     List<Product> products = getProducts(orderReqDto);
 

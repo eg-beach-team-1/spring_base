@@ -249,4 +249,36 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .body("code", equalTo("ALREADY_CANCELED_ORDER"))
         .body("message", equalTo("This order has been canceled already."));
   }
+
+  @Test
+  @DataSet("preview_order_successfully.yml")
+  public void should_preview_order_successfully() {
+    JSONObject orderProductOne = new JSONObject();
+    orderProductOne.putAll(Map.of("productId", 1001, "quantity", 2L));
+
+    JSONArray orderProducts = new JSONArray();
+    orderProducts.addAll(of(orderProductOne));
+
+    JSONObject orderRequest = new JSONObject();
+    orderRequest.putAll(
+        Map.of(
+            "customerId", "dcabcfac-6b08-47cd-883a-76c5dc366d88", "orderProducts", orderProducts));
+    String orderReqBody = orderRequest.toJSONString();
+    given()
+        .contentType(ContentType.JSON)
+        .body(orderReqBody)
+        .when()
+        .post("/orders/preview")
+        .then()
+        .statusCode(OK.value())
+        .body("totalPrice", equalTo(20.0F))
+        .body("paidPrice", equalTo(14.0F))
+        .body("productDetails[0].id", equalTo(1001))
+        .body("productDetails[0].name", equalTo("book"))
+        .body("productDetails[0].unitPrice", equalTo(10.0F))
+        .body("productDetails[0].quantity", equalTo(2))
+        .body("productDetails[0].discount", equalTo(0.7F))
+        .body("productDetails[0].discountedPrice", equalTo(7.0F))
+        .body("productDetails[0].priceDifference", equalTo(6.0F));
+  }
 }
