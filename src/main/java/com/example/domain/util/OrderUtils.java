@@ -24,11 +24,7 @@ public class OrderUtils {
 
   public static BigDecimal calculatePaidPrice(List<ProductDetail> productDetails) {
     return productDetails.stream()
-        .map(
-            productDetail ->
-                productDetail
-                    .calculatePaidPrice()
-                    .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
+        .map(ProductDetail::calculatePaidPrice)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 }

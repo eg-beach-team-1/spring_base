@@ -35,7 +35,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .body("[0].status", equalTo("CREATED"))
         .body("[0].createTime", equalTo("2023-08-10T12:35:13"))
         .body("[0].productDetails[0].name", equalTo("water"))
-        .body("[0].productDetails[0].discountedPrice", equalTo(8.0F))
+        .body("[0].productDetails[0].discountedPrice", equalTo(16.0F))
         .body("[0].productDetails[0].priceDifference", equalTo(4.0F))
         .body("[1].orderId", equalTo("546f4304-3be2-11ee-be56-0242ac120002"))
         .body("[1].customerId", equalTo("dcabcfac-6b08-47cd-883a-76c5dc366d88"))
@@ -44,7 +44,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .body("[1].status", equalTo("CREATED"))
         .body("[1].createTime", equalTo("2023-08-10T12:35:13"))
         .body("[1].productDetails[0].name", equalTo("cola"))
-        .body("[1].productDetails[0].discountedPrice", equalTo(16.0F))
+        .body("[1].productDetails[0].discountedPrice", equalTo(32.0F))
         .body("[1].productDetails[0].priceDifference", equalTo(8.0F))
         .body("size()", equalTo(3));
   }
@@ -66,7 +66,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .body("status", equalTo("CREATED"))
         .body("createTime", equalTo("2023-08-10T12:35:13"))
         .body("productDetails[0].name", equalTo("water"))
-        .body("productDetails[0].discountedPrice", equalTo(8.0F))
+        .body("productDetails[0].discountedPrice", equalTo(16.0F))
         .body("productDetails[0].priceDifference", equalTo(4.0F));
   }
 
@@ -278,7 +278,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .body("productDetails[0].unitPrice", equalTo(10.0F))
         .body("productDetails[0].quantity", equalTo(2))
         .body("productDetails[0].discount", equalTo(0.7F))
-        .body("productDetails[0].discountedPrice", equalTo(7.0F))
+        .body("productDetails[0].discountedPrice", equalTo(14.0F))
         .body("productDetails[0].priceDifference", equalTo(6.0F));
   }
 }

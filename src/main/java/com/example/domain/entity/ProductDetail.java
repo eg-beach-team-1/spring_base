@@ -20,12 +20,11 @@ public class ProductDetail {
   private BigDecimal discount;
 
   public BigDecimal calculatePaidPrice() {
-    return Product.calculateDiscountedPrice(unitPrice, discount);
+    return BigDecimal.valueOf(quantity)
+        .multiply(Product.calculateDiscountedPrice(unitPrice, discount));
   }
 
   public BigDecimal calculatePriceDifference() {
-    return unitPrice
-        .multiply(BigDecimal.valueOf(quantity))
-        .subtract(calculatePaidPrice().multiply(BigDecimal.valueOf(quantity)));
+    return unitPrice.multiply(BigDecimal.valueOf(quantity)).subtract(calculatePaidPrice());
   }
 }

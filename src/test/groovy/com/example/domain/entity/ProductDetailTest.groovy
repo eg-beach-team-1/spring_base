@@ -11,7 +11,7 @@ class ProductDetailTest extends Specification {
         def result = productDetail.calculatePaidPrice()
 
         then:
-        result == BigDecimal.valueOf(8)
+        result == BigDecimal.valueOf(80)
     }
 
     def "should calculate paid paid price with 2 place decimal correctly"() {
@@ -22,7 +22,7 @@ class ProductDetailTest extends Specification {
         def result = productDetail.calculatePaidPrice()
 
         then:
-        result == BigDecimal.valueOf(7.45)
+        result == BigDecimal.valueOf(74.50)
     }
 
     def "should calculate paid paid price with minimum price as 0.01 correctly"() {
@@ -33,7 +33,7 @@ class ProductDetailTest extends Specification {
         def result = productDetail.calculatePaidPrice()
 
         then:
-        result == BigDecimal.valueOf(0.01)
+        result == BigDecimal.valueOf(0.10)
     }
 
     def "should calculate price difference correctly"() {

@@ -94,7 +94,7 @@ class OrderApplicationServiceTest extends Specification {
         result[0].totalPrice == valueOf(20L)
         result[0].customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
         result[0].productDetails[0].priceDifference == valueOf(4L)
-        result[0].productDetails[0].discountedPrice == valueOf(8L)
+        result[0].productDetails[0].discountedPrice == valueOf(16L)
         result.size() == 1
     }
 
@@ -122,7 +122,7 @@ class OrderApplicationServiceTest extends Specification {
         result.totalPrice == valueOf(20L)
         result.customerId == "dcabcfac-6b08-47cd-883a-76c5dc366d88"
         result.productDetails[0].priceDifference == valueOf(4L)
-        result.productDetails[0].discountedPrice == valueOf(8L)
+        result.productDetails[0].discountedPrice == valueOf(16L)
     }
 
 
@@ -200,7 +200,7 @@ class OrderApplicationServiceTest extends Specification {
         result.totalPrice == valueOf(30)
         result.paidPrice == valueOf(27)
         result.productDetails.get(0).discount == valueOf(0.9)
-        result.productDetails.get(0).discountedPrice == valueOf(9)
+        result.productDetails.get(0).discountedPrice == valueOf(27)
         result.productDetails.get(0).priceDifference == valueOf(3)
     }
 }
