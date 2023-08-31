@@ -2,12 +2,12 @@ package com.example.application.service
 
 import com.example.common.exception.BusinessException
 import com.example.domain.entity.*
+import com.example.domain.repository.DiscountRepository
 import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
 import com.example.domain.util.OrderUtils
 import com.example.presentation.vo.request.OrderProductReqDto
 import com.example.presentation.vo.request.OrderReqDto
-import org.assertj.core.api.Assertions
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -21,7 +21,8 @@ class OrderApplicationServiceTest extends Specification {
 
     ProductRepository productRepository = Mock()
     OrderRepository orderRepository = Mock()
-    OrderApplicationService orderApplicationService = new OrderApplicationService(productRepository, orderRepository)
+    DiscountRepository discountRepository = Mock()
+    OrderApplicationService orderApplicationService = new OrderApplicationService(productRepository, orderRepository, discountRepository)
 
     def "should save order whose all products are valid and return correct order id"() {
         given:
@@ -169,5 +170,37 @@ class OrderApplicationServiceTest extends Specification {
         then:
         result == orderId
         productList.get(0).stock == 12
+    }
+
+    def "should preview order detail"() {
+        Range mockRange = Mock()
+        Condition mockCondition = Mock()
+
+        given:
+        List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(1, 3))
+        OrderReqDto orderReqDto = new OrderReqDto(UUID.fromString("AC0E8B2C-4721-47FB-A784-92DC226FF84F"), orderProducts)
+
+        DiscountRule discountRule = new DiscountRule(range: mockRange, conditions: [mockCondition])
+
+        def product1 = new Product(1, "testProduct", valueOf(10), VALID, valueOf(1), 10)
+        List<Product> product = [product1]
+        Map<Product, BigDecimal> productDiscount = [(product1): 0.9]
+
+        discountRepository.findDiscountRule() >> discountRule
+        productRepository.findAllById(_) >> product
+        discountRule.calculateDiscount(_) >> productDiscount
+
+        when:
+        1 * mockRange.belongsTo(_) >> true
+        1 * mockCondition.isSatisfied(_) >> true
+        1 * mockCondition.getDiscount() >> 0.9
+        def result = orderApplicationService.previewOrder(orderReqDto)
+
+        then:
+        result.totalPrice == valueOf(30)
+        result.paidPrice == valueOf(27)
+        result.productDetails.get(0).discount == valueOf(0.9)
+        result.productDetails.get(0).discountedPrice == valueOf(9)
+        result.productDetails.get(0).priceDifference == valueOf(3)
     }
 }
