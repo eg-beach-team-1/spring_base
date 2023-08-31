@@ -1,5 +1,7 @@
 package com.example.domain.feign;
 
+import org.springframework.http.ResponseEntity;
+
 public interface OrderDataServiceFeign {
-  void sendOrderCreationData(Message message);
+  ResponseEntity<Void> sendOrderCreationData(Message message);
 }

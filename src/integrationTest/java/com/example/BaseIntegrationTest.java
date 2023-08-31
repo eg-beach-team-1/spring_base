@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
@@ -24,6 +25,7 @@ import org.testcontainers.utility.DockerImageName;
     schema = "spring_base",
     caseInsensitiveStrategy = LOWERCASE,
     alwaysCleanAfter = true)
+@AutoConfigureWireMock(port = 1234)
 public abstract class BaseIntegrationTest {
   @LocalServerPort int port;
 
