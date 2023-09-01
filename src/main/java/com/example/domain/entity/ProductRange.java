@@ -15,6 +15,6 @@ public class ProductRange implements Range {
   private List<String> productIds;
 
   public boolean belongsTo(Product product) {
-    return true;
+    return productIds.contains(String.valueOf(product.getId()));
   }
 }
