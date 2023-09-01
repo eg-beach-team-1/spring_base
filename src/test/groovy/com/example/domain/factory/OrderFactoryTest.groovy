@@ -33,7 +33,7 @@ class OrderFactoryTest extends Specification {
 
     def "should build product successfully"() {
         given:
-        def product = new Product(1, "test", BigDecimal.ONE, VALID, BigDecimal.valueOf(0.8), 10)
+        def product = new Product(1, "test", BigDecimal.ONE, VALID, "clothes", BigDecimal.valueOf(0.8), 10)
         def amount = 1
 
         when:
@@ -43,13 +43,14 @@ class OrderFactoryTest extends Specification {
         productDetail.id == 1
         productDetail.name == "test"
         productDetail.unitPrice == BigDecimal.ONE
+        productDetail.category == "clothes"
         productDetail.quantity == 1
         productDetail.discount == BigDecimal.valueOf(0.8)
     }
 
     def "should cancel the order success"() {
         given:
-        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8) )]
+        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), category: "drink", quantity: 2, discount: BigDecimal.valueOf(0.8) )]
 
         Order order = new Order(
                 id: "8a4e94098a160b39018a160bd2f50000",

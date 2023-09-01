@@ -15,6 +15,8 @@ public class ProductDetail {
 
   private BigDecimal unitPrice;
 
+  private String category;
+
   private Integer quantity;
 
   private BigDecimal discount;

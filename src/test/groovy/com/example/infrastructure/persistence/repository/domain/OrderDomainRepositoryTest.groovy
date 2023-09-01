@@ -30,7 +30,7 @@ class OrderDomainRepositoryTest extends Specification {
         LocalDateTime updateTime = LocalDateTime.now()
         String orderIdToSave = OrderUtils.generateOrderId()
 
-        List<ProductDetail> productDetails = List.of(new ProductDetail(1, "productDetailName1", BigDecimal.TEN, 1, valueOf(0.8)))
+        List<ProductDetail> productDetails = List.of(new ProductDetail(1, "productDetailName1", BigDecimal.TEN, "clothes", 1, valueOf(0.8)))
 
         String productDetailsToSave = objectMapper.writeValueAsString(productDetails)
 
@@ -53,6 +53,7 @@ class OrderDomainRepositoryTest extends Specification {
                          "id": 1,
                          "name": "water",
                          "unitPrice": 10,
+                         "category": "drink",
                          "quantity": 2,
                          "discount": 0.8
                      }]
@@ -99,6 +100,7 @@ class OrderDomainRepositoryTest extends Specification {
         result[0].productDetails[0].id == 1
         result[0].productDetails[0].name == "water"
         result[0].productDetails[0].unitPrice == valueOf(10L)
+        result[0].productDetails[0].category == "drink"
         result[0].productDetails[0].quantity == 2
         result[0].productDetails[0].discount == valueOf(0.8)
         result[1].id == "546f4304-3be2-11ee-be56-0242ac120002"
@@ -107,6 +109,7 @@ class OrderDomainRepositoryTest extends Specification {
         result[1].productDetails[0].id == 1
         result[1].productDetails[0].name == "water"
         result[1].productDetails[0].unitPrice == valueOf(10L)
+        result[1].productDetails[0].category == "drink"
         result[1].productDetails[0].quantity == 2
         result[1].productDetails[0].discount == valueOf(0.8)
         result.size() == 2
@@ -126,6 +129,7 @@ class OrderDomainRepositoryTest extends Specification {
         result.productDetails[0].id == 1
         result.productDetails[0].name == "water"
         result.productDetails[0].unitPrice == valueOf(10L)
+        result.productDetails[0].category == "drink"
         result.productDetails[0].quantity == 2
         result.productDetails[0].discount == valueOf(0.8)
     }
@@ -147,6 +151,7 @@ class OrderDomainRepositoryTest extends Specification {
         result.productDetails[0].id == 1
         result.productDetails[0].name == "water"
         result.productDetails[0].unitPrice == valueOf(10L)
+        result.productDetails[0].category == "drink"
         result.productDetails[0].quantity == 2
         result.productDetails[0].discount == valueOf(0.8)
     }
