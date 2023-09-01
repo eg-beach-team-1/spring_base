@@ -28,5 +28,7 @@ public class ProductPo {
 
   private BigDecimal discount;
 
+  private String category;
+
   private Integer stock;
 }

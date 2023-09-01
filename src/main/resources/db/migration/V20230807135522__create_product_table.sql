@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `product`
     `price`                DECIMAL(10,2)                          COMMENT '价格',
     `status`               VARCHAR(32)    NOT NULL                COMMENT '状态',
     `discount`             DECIMAL(10,2)  NOT NULL                COMMENT '折扣',
+    `category`             VARCHAR(32)    NOT NULL                COMMENT '分类',
     `stock`                INT            NOT NULL                COMMENT '库存',
 PRIMARY KEY(`id`)
 USING BTREE
