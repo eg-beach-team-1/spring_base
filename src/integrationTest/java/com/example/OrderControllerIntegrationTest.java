@@ -278,6 +278,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .body("productDetails[0].unitPrice", equalTo(10.0F))
         .body("productDetails[0].quantity", equalTo(2))
         .body("productDetails[0].discount", equalTo(0.7F))
+        .body("productDetails[0].category", equalTo("book"))
         .body("productDetails[0].discountedPrice", equalTo(14.0F))
         .body("productDetails[0].priceDifference", equalTo(6.0F));
   }

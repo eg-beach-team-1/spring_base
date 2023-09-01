@@ -4,28 +4,33 @@ product:
     price: 10.00
     status: VALID
     discount: 0.8
+    category: book
     stock: 1
   - id: 1002
     name: Coffee
     price: 20.00
     status: VALID
     discount: 0.8
+    category: drink
     stock: 2
   - id: 1003
     name: Cat can
     price: 30.00
     status: VALID
     discount: 0.8
+    category: food
     stock: 3
   - id: 1004
     name: Cat can
     price: 30.00
     status: INVALID
     discount: 0.8
+    category: food
     stock: 3
   - id: 1005
     name: Cat can
     price: 30.00
     status: VALID
     discount: 0.8
+    category: food
     stock: 0

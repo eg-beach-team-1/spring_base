@@ -23,5 +23,7 @@ public class ProductDto {
 
   private BigDecimal discount;
 
+  private String category;
+
   private BigDecimal discountedPrice;
 }

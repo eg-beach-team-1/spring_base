@@ -21,6 +21,8 @@ public class OrderProductDetailDto {
 
   private BigDecimal discount;
 
+  private String category;
+
   private BigDecimal discountedPrice;
 
   private BigDecimal priceDifference;

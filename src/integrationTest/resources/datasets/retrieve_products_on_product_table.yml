@@ -4,4 +4,5 @@ product:
     price: 10.00
     status: VALID
     discount: 0.8
+    category: book
     stock: 1
