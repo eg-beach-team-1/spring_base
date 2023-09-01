@@ -10,8 +10,8 @@ class DiscountRuleTest extends Specification {
     def "should calculate discount correctly when all product ids in range and satisfy condition"() {
         given:
         DiscountRule discountRule = new DiscountRule(range: mockRange, conditions: [mockCondition])
-        def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, BigDecimal.ONE, 10)
-        def product2 = new Product(2, "name", BigDecimal.ONE, ProductStatus.VALID, BigDecimal.ONE, 10)
+        def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
+        def product2 = new Product(2, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
         Map<Product, Integer> productIdToQuantity = [(product1): 5, (product2): 3]
 
         when:
@@ -29,8 +29,8 @@ class DiscountRuleTest extends Specification {
     def "should calculate discount correctly when one of the product ids in range and satisfy condition"() {
         given:
         DiscountRule discountRule = new DiscountRule(range: mockRange, conditions: [mockCondition])
-        def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, BigDecimal.ONE, 10)
-        def product2 = new Product(2, "name", BigDecimal.ONE, ProductStatus.VALID, BigDecimal.ONE, 10)
+        def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
+        def product2 = new Product(2, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
         Map<Product, Integer> productIdToQuantity = [(product1): 5, (product2): 3]
 
         when:
@@ -50,8 +50,8 @@ class DiscountRuleTest extends Specification {
     def "should calculate discount correctly when condition is not satisfied"() {
         given:
         DiscountRule discountRule = new DiscountRule(range: mockRange, conditions: [mockCondition])
-        def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, BigDecimal.ONE, 10)
-        def product2 = new Product(2, "name", BigDecimal.ONE, ProductStatus.VALID, BigDecimal.ONE, 10)
+        def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
+        def product2 = new Product(2, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
         Map<Product, Integer> productIdToQuantity = [(product1): 5, (product2): 3]
 
         when:

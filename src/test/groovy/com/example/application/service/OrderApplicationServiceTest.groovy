@@ -29,11 +29,12 @@ class OrderApplicationServiceTest extends Specification {
         Integer PRODUCT_ID = 11
         String ORDER_ID = OrderUtils.generateOrderId()
         Integer QUANTITY = 10
+        String CATEGORY = "clothes"
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
         OrderReqDto orderReqDto = new OrderReqDto(UUID.fromString("AC0E8B2C-4721-47FB-A784-92DC226FF84F"), orderProducts)
 
-        List<Product> product = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, VALID, valueOf(0.8), 10)]
+        List<Product> product = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, VALID, CATEGORY, valueOf(0.8), 10)]
         productRepository.findAllById(_) >> product
 
         orderRepository.save(_) >> ORDER_ID
@@ -182,7 +183,7 @@ class OrderApplicationServiceTest extends Specification {
 
         DiscountRule discountRule = new DiscountRule(range: mockRange, conditions: [mockCondition])
 
-        def product1 = new Product(1, "testProduct", valueOf(10), VALID, valueOf(1), 10)
+        def product1 = new Product(1, "testProduct", valueOf(10), VALID, "clothes", valueOf(1), 10)
         List<Product> product = [product1]
         Map<Product, BigDecimal> productDiscount = [(product1): 0.9]
 

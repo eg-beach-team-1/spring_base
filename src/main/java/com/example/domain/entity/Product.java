@@ -31,6 +31,8 @@ public class Product {
 
   private ProductStatus status;
 
+  private String category;
+
   private BigDecimal discount;
 
   private Integer stock;

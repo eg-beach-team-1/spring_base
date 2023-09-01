@@ -158,6 +158,7 @@ public class OrderApplicationService {
                     product.getId(),
                     product.getName(),
                     product.getPrice(),
+                    product.getCategory(),
                     productToQuantity.get(product),
                     productDiscount.get(product)))
         .toList();
