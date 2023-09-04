@@ -29,6 +29,11 @@ spring:
       org.hibernate.engine.QueryParameters: debug
       org.hibernate.engine.query.HQLQueryPlan: debug
       org.hibernate.type.descriptor.sql.BasicBinder: trace
-
+  cloud:
+    openfeign:
+      client:
+        config:
+          data-service-client:
+            url: http://data-service:80/messages
 server:
   port: 9090

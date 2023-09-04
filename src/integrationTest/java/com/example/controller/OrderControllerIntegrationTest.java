@@ -1,4 +1,4 @@
-package com.example;
+package com.example.controller;
 
 import static io.restassured.RestAssured.given;
 import static java.util.List.of;
@@ -10,6 +10,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
+import com.example.BaseIntegrationTest;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import io.restassured.http.ContentType;
@@ -107,7 +108,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     orderProductOne.putAll(Map.of("productId", 2000, "quantity", 1L));
 
     JSONArray orderProducts = new JSONArray();
-    orderProducts.addAll(of(orderProductOne));
+    orderProducts.add(orderProductOne);
 
     JSONObject orderRequest = new JSONObject();
     orderRequest.putAll(
@@ -134,7 +135,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     orderProductOne.putAll(Map.of("productId", 1004, "quantity", 1L));
 
     JSONArray orderProducts = new JSONArray();
-    orderProducts.addAll(of(orderProductOne));
+    orderProducts.add(orderProductOne);
 
     JSONObject orderRequest = new JSONObject();
     orderRequest.putAll(
@@ -161,7 +162,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     orderProductOne.putAll(Map.of("productId", 1003, "quantity", 100L));
 
     JSONArray orderProducts = new JSONArray();
-    orderProducts.addAll(of(orderProductOne));
+    orderProducts.add(orderProductOne);
 
     JSONObject orderRequest = new JSONObject();
     orderRequest.putAll(
@@ -188,7 +189,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     orderProductOne.putAll(Map.of("productId", 1005, "quantity", 1L));
 
     JSONArray orderProducts = new JSONArray();
-    orderProducts.addAll(of(orderProductOne));
+    orderProducts.add(orderProductOne);
 
     JSONObject orderRequest = new JSONObject();
     orderRequest.putAll(
@@ -257,7 +258,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
     orderProductOne.putAll(Map.of("productId", 1001, "quantity", 2L));
 
     JSONArray orderProducts = new JSONArray();
-    orderProducts.addAll(of(orderProductOne));
+    orderProducts.add(orderProductOne);
 
     JSONObject orderRequest = new JSONObject();
     orderRequest.putAll(

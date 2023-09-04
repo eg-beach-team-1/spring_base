@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          data-service-client:
+            url: http://localhost:1234/messages

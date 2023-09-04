@@ -1,4 +1,4 @@
-package com.example;
+package com.example.feign;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
@@ -8,6 +8,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.HttpStatus.OK;
 
+import com.example.BaseIntegrationTest;
 import com.example.domain.feign.Message;
 import com.example.infrastructure.persistence.port.OrderDataServiceFeignImpl;
 import net.minidev.json.JSONObject;
@@ -25,7 +26,7 @@ public class OrderDataServiceFeignIntegrationTest extends BaseIntegrationTest {
     messageJson.put("message", "message content");
     String messageBody = messageJson.toJSONString();
     stubFor(
-        post(urlPathEqualTo("/data-service/messages"))
+        post(urlPathEqualTo("/messages"))
             .withRequestBody(equalToJson(messageBody))
             .willReturn(aResponse().withStatus(200)));
 

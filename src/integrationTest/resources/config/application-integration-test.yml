@@ -1,0 +1,7 @@
+Spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          data-service-client:
+            url: http://localhost:${wiremock.server.port}/messages

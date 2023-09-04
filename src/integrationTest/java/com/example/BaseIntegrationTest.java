@@ -18,14 +18,14 @@ import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DBRider
-@ActiveProfiles("integrationTest")
+@ActiveProfiles("integration-test")
 @ExtendWith(DBUnitExtension.class)
 @DBUnit(
     cacheConnection = false,
     schema = "spring_base",
     caseInsensitiveStrategy = LOWERCASE,
     alwaysCleanAfter = true)
-@AutoConfigureWireMock(port = 1234)
+@AutoConfigureWireMock(port = 0)
 public abstract class BaseIntegrationTest {
   @LocalServerPort int port;
 
