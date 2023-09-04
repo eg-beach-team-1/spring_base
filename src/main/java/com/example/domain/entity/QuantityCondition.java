@@ -2,6 +2,9 @@ package com.example.domain.entity;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+
 import lombok.Getter;
 
 @Getter
@@ -15,6 +18,9 @@ public class QuantityCondition extends Condition {
   }
 
   public boolean isSatisfied(Map<Product, Integer> productToQuantity) {
-    return true;
+    int amount = productToQuantity.values().stream()
+            .mapToInt(Integer::intValue)
+            .sum();
+    return amount >= quantity;
   }
 }
