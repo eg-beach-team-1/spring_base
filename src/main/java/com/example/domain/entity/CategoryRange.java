@@ -14,6 +14,6 @@ public class CategoryRange implements Range {
   private String category;
 
   public boolean belongsTo(Product product) {
-    return true;
+    return category.equals(product.getCategory());
   }
 }

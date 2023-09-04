@@ -22,7 +22,12 @@ public class OrderFactory {
 
   public static ProductDetail buildProductDetail(Product product, Integer quantity) {
     return new ProductDetail(
-        product.getId(), product.getName(), product.getPrice(), product.getCategory(), quantity, product.getDiscount());
+        product.getId(),
+        product.getName(),
+        product.getPrice(),
+        product.getCategory(),
+        quantity,
+        product.getDiscount());
   }
 
   public static void cancelOrder(Order order) {
