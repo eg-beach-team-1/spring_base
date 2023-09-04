@@ -15,6 +15,10 @@ public class PriceCondition extends Condition {
   }
 
   public boolean isSatisfied(Map<Product, Integer> productToQuantity) {
-    return true;
+    BigDecimal productPrice =
+        productToQuantity.entrySet().stream()
+            .map(entry -> entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    return productPrice.compareTo(price) >= 0;
   }
 }
