@@ -1,4 +1,4 @@
-package com.example.domain.feign;
+package com.example.domain.port;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

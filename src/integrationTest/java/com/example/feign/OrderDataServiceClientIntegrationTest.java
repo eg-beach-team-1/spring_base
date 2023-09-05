@@ -9,16 +9,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.example.BaseIntegrationTest;
-import com.example.domain.feign.Message;
-import com.example.infrastructure.persistence.port.OrderDataServiceFeignImpl;
+import com.example.domain.port.Message;
+import com.example.infrastructure.client.OrderDataServiceClientImpl;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
-public class OrderDataServiceFeignIntegrationTest extends BaseIntegrationTest {
+public class OrderDataServiceClientIntegrationTest extends BaseIntegrationTest {
 
-  @Autowired private OrderDataServiceFeignImpl orderDataServiceFeign;
+  @Autowired private OrderDataServiceClientImpl orderDataServiceFeign;
 
   @Test
   public void should_send_request_successfully() {
