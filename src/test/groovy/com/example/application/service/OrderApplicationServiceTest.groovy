@@ -187,7 +187,7 @@ class OrderApplicationServiceTest extends Specification {
         List<Product> product = [product1]
         Map<Product, BigDecimal> productDiscount = [(product1): 0.9]
 
-        discountRepository.findDiscountRule() >> discountRule
+        discountRepository.findDiscountRule() >> Optional.of(discountRule)
         productRepository.findAllById(_) >> product
         discountRule.calculateDiscount(_) >> productDiscount
 
@@ -203,5 +203,27 @@ class OrderApplicationServiceTest extends Specification {
         result.productDetails.get(0).discount == valueOf(0.9)
         result.productDetails.get(0).discountedPrice == valueOf(27)
         result.productDetails.get(0).priceDifference == valueOf(3)
+    }
+
+    def "should preview order detail with no discount rule"() {
+        given:
+        List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(1, 3))
+        OrderReqDto orderReqDto = new OrderReqDto(UUID.fromString("AC0E8B2C-4721-47FB-A784-92DC226FF84F"), orderProducts)
+
+        def product1 = new Product(1, "testProduct", valueOf(10), VALID, "clothes", valueOf(1), 10)
+        List<Product> product = [product1]
+
+        productRepository.findAllById(_) >> product
+        discountRepository.findDiscountRule() >> Optional.empty()
+
+        when:
+        def result = orderApplicationService.previewOrder(orderReqDto)
+
+        then:
+        result.totalPrice == valueOf(30)
+        result.paidPrice == valueOf(30)
+        result.productDetails.get(0).discount == valueOf(1)
+        result.productDetails.get(0).discountedPrice == valueOf(30)
+        result.productDetails.get(0).priceDifference == valueOf(0)
     }
 }

@@ -81,8 +81,14 @@ public class OrderApplicationService {
                             .orElse(null),
                     OrderProductReqDto::getQuantity));
 
-    DiscountRule discountRule = discountRepository.findDiscountRule();
-    Map<Product, BigDecimal> productDiscount = discountRule.calculateDiscount(productToQuantity);
+    Map<Product, BigDecimal> productDiscount =
+        discountRepository
+            .findDiscountRule()
+            .map(rule -> rule.calculateDiscount(productToQuantity))
+            .orElseGet(
+                () ->
+                    products.stream()
+                        .collect(Collectors.toMap(product -> product, product -> BigDecimal.ONE)));
 
     List<ProductDetail> productDetails =
         getProductDetailsForOrderPreview(productToQuantity, productDiscount);
