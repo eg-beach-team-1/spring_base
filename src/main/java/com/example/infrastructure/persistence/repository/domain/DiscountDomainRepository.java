@@ -3,8 +3,8 @@ package com.example.infrastructure.persistence.repository.domain;
 import com.example.domain.entity.DiscountRule;
 import com.example.domain.repository.DiscountRepository;
 import com.example.infrastructure.persistence.assembler.DiscountDataMapper;
-import com.example.infrastructure.persistence.entity.DiscountRulePo;
 import com.example.infrastructure.persistence.repository.JpaDiscountRuleRepository;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +16,7 @@ public class DiscountDomainRepository implements DiscountRepository {
   private final DiscountDataMapper mapper;
 
   @Override
-  public DiscountRule findDiscountRule() {
-    DiscountRulePo rule = jpaDiscountRuleRepository.findAll().get(0);
-    return mapper.toDO(rule);
+  public Optional<DiscountRule> findDiscountRule() {
+    return jpaDiscountRuleRepository.findAll().stream().map(mapper::toDO).findFirst();
   }
 }

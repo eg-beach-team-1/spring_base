@@ -25,7 +25,7 @@ class DiscountDomainRepositoryTest extends Specification {
             }
         """)
         mockDiscountRulePo.setDiscountConditions(
-        """
+                """
         [
             {
               "quantity": 10,
@@ -41,7 +41,7 @@ class DiscountDomainRepositoryTest extends Specification {
         jpaDiscountRuleRepository.findAll() >> [mockDiscountRulePo]
 
         when:
-        def discountRule = discountDomainRepository.findDiscountRule()
+        def discountRule = discountDomainRepository.findDiscountRule().get()
 
         then:
         discountRule.range.productIds.get(0) == "123"
@@ -82,7 +82,7 @@ class DiscountDomainRepositoryTest extends Specification {
         jpaDiscountRuleRepository.findAll() >> [mockDiscountRulePo]
 
         when:
-        def discountRule = discountDomainRepository.findDiscountRule()
+        def discountRule = discountDomainRepository.findDiscountRule().get()
 
         then:
         discountRule.range.productIds.get(0) == "123"
@@ -91,5 +91,16 @@ class DiscountDomainRepositoryTest extends Specification {
         discountRule.conditions.get(0).getPrice() == BigDecimal.valueOf(500)
         discountRule.conditions.get(1).getDiscount() == BigDecimal.valueOf(0.8)
         discountRule.conditions.get(1).getPrice() == BigDecimal.valueOf(200)
+    }
+
+    def "should find empty discount rule successfully when no rule is set"() {
+        given:
+        jpaDiscountRuleRepository.findAll() >> List.of()
+
+        when:
+        def discountRule = discountDomainRepository.findDiscountRule()
+
+        then:
+        discountRule.isEmpty()
     }
 }
