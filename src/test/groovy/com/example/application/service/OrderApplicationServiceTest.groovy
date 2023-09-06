@@ -264,4 +264,23 @@ class OrderApplicationServiceTest extends Specification {
         then:
         1 * orderDataServiceClient.sendOrderCreationData(orderSaved)
     }
+
+    def "should not send order creation message when saving order falied"() {
+        given:
+        Integer PRODUCT_ID = 11
+        Integer QUANTITY = 10
+
+        List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
+        OrderReqDto orderReqDto = new OrderReqDto(UUID.fromString("AC0E8B2C-4721-47FB-A784-92DC226FF84F"), orderProducts)
+
+        List<Product> products = List.of()
+        productRepository.findAllById(_) >> products
+
+        when:
+        orderApplicationService.createOrder(orderReqDto)
+
+        then:
+        thrown(BusinessException)
+        0 * orderDataServiceClient.sendOrderCreationData(_)
+    }
 }
