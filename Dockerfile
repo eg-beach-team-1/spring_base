@@ -1,5 +1,5 @@
-FROM amuguelove/openjdk:8-jre-alpine-apm-agent
+FROM openjdk:17-oracle
 
 COPY build/libs/*.jar /opt/app.jar
 
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-jar", "/opt/app.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/app.jar"]
