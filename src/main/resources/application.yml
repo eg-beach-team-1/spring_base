@@ -5,7 +5,7 @@ spring:
       compose:
         file: docker-compose.yaml
   datasource:
-    url: jdbc:mysql://localhost:3306/spring_base?characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Hongkong
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/spring_base?characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Hongkong
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
