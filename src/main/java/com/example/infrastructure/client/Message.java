@@ -1,4 +1,4 @@
-package com.example.domain.port;
+package com.example.infrastructure.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Message {
-  private String message;
+  private MessageType messageType;
+  private MessageData data;
 }
