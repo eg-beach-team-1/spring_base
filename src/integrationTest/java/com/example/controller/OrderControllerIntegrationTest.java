@@ -1,5 +1,9 @@
 package com.example.controller;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static io.restassured.RestAssured.given;
 import static java.util.List.of;
 import static org.hamcrest.Matchers.equalTo;
@@ -90,6 +94,8 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         Map.of(
             "customerId", "dcabcfac-6b08-47cd-883a-76c5dc366d88", "orderProducts", orderProducts));
     String orderReqBody = orderRequest.toJSONString();
+
+    stubFor(post(urlPathEqualTo("/messages")).willReturn(aResponse().withStatus(200)));
 
     given()
         .contentType(ContentType.JSON)

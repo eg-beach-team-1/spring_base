@@ -24,7 +24,7 @@ class OrderDomainRepositoryTest extends Specification {
     OrderProductDetailsDataMapper orderProductDetailsDataMapper = new OrderProductDetailsDataMapper()
     OrderDomainRepository orderDomainRepository = new OrderDomainRepository(jpaOrderRepository, orderProductDetailsDataMapper)
 
-    def "Should save order and return order Id"() {
+    def "Should save order and return order"() {
         given:
         LocalDateTime createTime = LocalDateTime.now()
         LocalDateTime updateTime = LocalDateTime.now()
@@ -34,17 +34,16 @@ class OrderDomainRepositoryTest extends Specification {
 
         String productDetailsToSave = objectMapper.writeValueAsString(productDetails)
 
+        OrderPo orderPoSaved = new OrderPo(orderIdToSave, "464547B0-C850-4238-BD23-1A30383CBE84", CREATED, createTime, updateTime, productDetailsToSave)
+        jpaOrderRepository.save(_) >> orderPoSaved
+
         Order orderToSave = new Order(orderIdToSave, UUID.fromString("464547B0-C850-4238-BD23-1A30383CBE84"), CREATED, createTime, updateTime, productDetails)
 
-        OrderPo savedOrderPo = new OrderPo(orderIdToSave, "464547B0-C850-4238-BD23-1A30383CBE84", CREATED, createTime, updateTime, productDetailsToSave)
-
-        jpaOrderRepository.save(_) >> savedOrderPo
-
         when:
-        def orderId = orderDomainRepository.save(orderToSave)
+        def order = orderDomainRepository.save(orderToSave)
 
         then:
-        Assertions.assertThat(orderId).usingRecursiveComparison().isEqualTo(orderIdToSave)
+        Assertions.assertThat(order).usingRecursiveComparison().isEqualTo(orderToSave)
     }
 
     @Shared

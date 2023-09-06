@@ -1,12 +1,16 @@
 package com.example.application.service;
 
-import static com.example.common.exception.BaseExceptionCode.*;
+import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_PRODUCT;
 
 import com.example.application.assembler.OrderListDtoMapper;
 import com.example.application.assembler.OrderPreviewDtoMapper;
 import com.example.common.exception.BusinessException;
-import com.example.domain.entity.*;
+import com.example.domain.entity.Order;
+import com.example.domain.entity.OrderPreview;
+import com.example.domain.entity.Product;
+import com.example.domain.entity.ProductDetail;
 import com.example.domain.factory.OrderFactory;
+import com.example.domain.port.OrderDataServiceClient;
 import com.example.domain.repository.DiscountRepository;
 import com.example.domain.repository.OrderRepository;
 import com.example.domain.repository.ProductRepository;
@@ -15,7 +19,10 @@ import com.example.presentation.vo.request.OrderReqDto;
 import com.example.presentation.vo.response.OrderDto;
 import com.example.presentation.vo.response.OrderPreviewDto;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +34,7 @@ public class OrderApplicationService {
   private final ProductRepository productRepository;
   private final OrderRepository orderRepository;
   private final DiscountRepository discountRepository;
+  private final OrderDataServiceClient orderDataServiceClient;
 
   public List<OrderDto> retrieveOrders(String customerId) {
     return orderRepository.findByCustomerId(customerId).stream()
@@ -58,7 +66,11 @@ public class OrderApplicationService {
 
     Order order = OrderFactory.buildOrder(orderReqDto.getCustomerId(), productDetails);
 
-    return orderRepository.save(order);
+    Order orderSaved = orderRepository.save(order);
+
+    orderDataServiceClient.sendOrderCreationData(orderSaved);
+
+    return orderSaved.getId();
   }
 
   @Transactional
@@ -115,7 +127,7 @@ public class OrderApplicationService {
           productRepository.save(product);
         });
 
-    return orderRepository.save(order);
+    return orderRepository.save(order).getId();
   }
 
   private List<Product> getProducts(OrderReqDto orderReqDto) {

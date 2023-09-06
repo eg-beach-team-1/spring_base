@@ -2,6 +2,8 @@ package com.example.application.service
 
 import com.example.common.exception.BusinessException
 import com.example.domain.entity.*
+import com.example.domain.factory.OrderFactory
+import com.example.domain.port.OrderDataServiceClient
 import com.example.domain.repository.DiscountRepository
 import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
@@ -13,6 +15,7 @@ import spock.lang.Specification
 
 import java.time.LocalDateTime
 
+import static com.example.domain.entity.OrderStatus.CANCELED
 import static com.example.domain.entity.OrderStatus.CREATED
 import static com.example.domain.entity.ProductStatus.VALID
 import static java.math.BigDecimal.valueOf
@@ -22,12 +25,13 @@ class OrderApplicationServiceTest extends Specification {
     ProductRepository productRepository = Mock()
     OrderRepository orderRepository = Mock()
     DiscountRepository discountRepository = Mock()
-    OrderApplicationService orderApplicationService = new OrderApplicationService(productRepository, orderRepository, discountRepository)
+    OrderDataServiceClient orderDataServiceClient = Mock()
+
+    OrderApplicationService orderApplicationService = new OrderApplicationService(productRepository, orderRepository, discountRepository, orderDataServiceClient)
 
     def "should save order whose all products are valid and return correct order id"() {
         given:
         Integer PRODUCT_ID = 11
-        String ORDER_ID = OrderUtils.generateOrderId()
         Integer QUANTITY = 10
         String CATEGORY = "clothes"
 
@@ -37,7 +41,9 @@ class OrderApplicationServiceTest extends Specification {
         List<Product> product = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, VALID, CATEGORY, valueOf(0.8), 10)]
         productRepository.findAllById(_) >> product
 
-        orderRepository.save(_) >> ORDER_ID
+        List<ProductDetail> productDetailList = [new ProductDetail(PRODUCT_ID, "testProduct", BigDecimal.TEN, CATEGORY, 10, valueOf(0.8))]
+        Order orderSaved = OrderFactory.buildOrder(UUID.fromString("ac0e8b2c-4721-47fb-a784-92dc226ff84f"), productDetailList)
+        orderRepository.save(_) >> orderSaved
 
         productRepository.findById(_) >> product.get(0)
 
@@ -45,7 +51,7 @@ class OrderApplicationServiceTest extends Specification {
         String result = orderApplicationService.createOrder(orderReqDto)
 
         then:
-        result == ORDER_ID
+        result == orderSaved.getId()
     }
 
     def "should throw exception given some products not in repo"() {
@@ -77,7 +83,7 @@ class OrderApplicationServiceTest extends Specification {
                 new Order(
                         id: "orderId1",
                         customerId: UUID.fromString("dcabcfac-6b08-47cd-883a-76c5dc366d88"),
-                        status: OrderStatus.CREATED,
+                        status: CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                         updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
                         productDetails: productDetailList
@@ -111,6 +117,15 @@ class OrderApplicationServiceTest extends Specification {
             productDetails: productDetailList
     )
 
+    Order orderCancelled = new Order(
+            id: "8a4e94098a160b39018a160bd2f50000",
+            customerId: UUID.fromString("dcabcfac-6b08-47cd-883a-76c5dc366d88"),
+            status: CANCELED,
+            createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
+            updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
+            productDetails: productDetailList
+    )
+
     def "should retrieve order by order id and customer id"() {
         given:
         orderRepository.findByOrderIdAndCustomerId(_, _) >> orderDetail
@@ -133,14 +148,14 @@ class OrderApplicationServiceTest extends Specification {
         def orderId = "8a4e94098a160b39018a160bd2f50000"
         def customerId = "dcabcfac-6b08-47cd-883a-76c5dc366d88"
         orderRepository.findByOrderIdAndCustomerId(_, _) >> orderDetail
-        orderRepository.save(_) >> orderId
+        orderRepository.save(_) >> orderCancelled
         productRepository.findAllById(_) >> productList
 
         when:
         def result = orderApplicationService.cancelOrder(orderId, customerId)
 
         then:
-        result == orderId
+        result == orderCancelled.getId()
     }
 
 
@@ -163,13 +178,13 @@ class OrderApplicationServiceTest extends Specification {
 
         orderRepository.findByOrderIdAndCustomerId(orderId, customerId) >> order
         productRepository.findAllById(List.of(1)) >> productList
-        orderRepository.save(_) >> orderId
+        orderRepository.save(_) >> orderCancelled
 
         when:
         def result = orderApplicationService.cancelOrder(orderId, customerId)
 
         then:
-        result == orderId
+        result == orderCancelled.getId()
         productList.get(0).stock == 12
     }
 
@@ -225,5 +240,28 @@ class OrderApplicationServiceTest extends Specification {
         result.productDetails.get(0).discount == valueOf(1)
         result.productDetails.get(0).discountedPrice == valueOf(30)
         result.productDetails.get(0).priceDifference == valueOf(0)
+    }
+
+    def "should send order creation message when saving order successfully"() {
+        given:
+        Integer PRODUCT_ID = 11
+        Integer QUANTITY = 10
+        String CATEGORY = "clothes"
+
+        List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
+        OrderReqDto orderReqDto = new OrderReqDto(UUID.fromString("AC0E8B2C-4721-47FB-A784-92DC226FF84F"), orderProducts)
+
+        List<Product> products = [new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, VALID, CATEGORY, valueOf(0.8), 10)]
+        productRepository.findAllById(_) >> products
+
+        List<ProductDetail> productDetailList = [new ProductDetail(PRODUCT_ID, "testProduct", BigDecimal.TEN, CATEGORY, 10, valueOf(0.8))]
+        Order orderSaved = OrderFactory.buildOrder(UUID.fromString("ac0e8b2c-4721-47fb-a784-92dc226ff84f"), productDetailList)
+        orderRepository.save(_) >> orderSaved
+
+        when:
+        orderApplicationService.createOrder(orderReqDto)
+
+        then:
+        1 * orderDataServiceClient.sendOrderCreationData(orderSaved)
     }
 }
