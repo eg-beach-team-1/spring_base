@@ -34,4 +34,30 @@ class OrderTest extends Specification {
         then:
         thrown(BusinessException)
     }
+
+    def "should calculate total price"() {
+        given:
+        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8)),
+                                                 new ProductDetail(id: 2, name: "soda", unitPrice: BigDecimal.valueOf(10L), quantity: 1, discount: BigDecimal.valueOf(0.8))]
+        def order = new Order("1", UUID.fromString("464547B0-C850-4238-BD23-1A30383CBE84"), CREATED, LocalDateTime.now(), LocalDateTime.now(), productDetailList)
+
+        when:
+        def result = order.calculateTotalPrice()
+
+        then:
+        result == BigDecimal.valueOf(30L)
+    }
+
+    def "should calculate paid price"() {
+        given:
+        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", unitPrice: BigDecimal.valueOf(10L), quantity: 2, discount: BigDecimal.valueOf(0.8)),
+                                                 new ProductDetail(id: 2, name: "soda", unitPrice: BigDecimal.valueOf(10L), quantity: 1, discount: BigDecimal.valueOf(0.8))]
+        def order = new Order("1", UUID.fromString("464547B0-C850-4238-BD23-1A30383CBE84"), CREATED, LocalDateTime.now(), LocalDateTime.now(), productDetailList)
+
+        when:
+        def result = order.calculatePaidPrice()
+
+        then:
+        result == BigDecimal.valueOf(24L)
+    }
 }

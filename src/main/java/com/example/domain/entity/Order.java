@@ -4,6 +4,7 @@ import static com.example.common.exception.BaseExceptionCode.ALREADY_CANCELED_OR
 import static com.example.domain.entity.OrderStatus.CANCELED;
 
 import com.example.common.exception.BusinessException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -40,5 +41,21 @@ public class Order {
     if (this.status == CANCELED) {
       throw new BusinessException(ALREADY_CANCELED_ORDER);
     }
+  }
+
+  public BigDecimal calculateTotalPrice() {
+    return productDetails.stream()
+        .map(
+            productDetail ->
+                productDetail
+                    .getUnitPrice()
+                    .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
+
+  public BigDecimal calculatePaidPrice() {
+    return productDetails.stream()
+        .map(ProductDetail::calculatePaidPrice)
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 }
