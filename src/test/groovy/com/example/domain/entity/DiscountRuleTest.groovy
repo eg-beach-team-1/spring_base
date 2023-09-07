@@ -83,4 +83,44 @@ class DiscountRuleTest extends Specification {
         result.size() == 2
         result.every { key, value -> value == 1.0 }
     }
+
+    def "should calculate discount correctly when top priority condition satisfied"() {
+        given:
+        def condition1 = new QuantityCondition(5, BigDecimal.valueOf(0.7))
+        def condition2 = new QuantityCondition(3, BigDecimal.valueOf(0.8))
+        def quantityCondition = List.of(condition1, condition2)
+        DiscountRule discountRule = new DiscountRule(range: mockRange, conditions: quantityCondition)
+        def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
+        def product2 = new Product(2, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
+        Map<Product, Integer> productIdToQuantity = [(product1): 3, (product2): 3]
+
+        when:
+        2 * mockRange.belongsTo(_) >> true
+
+        Map<Product, BigDecimal> result = discountRule.calculateDiscount(productIdToQuantity)
+
+        then:
+        result.size() == 2
+        result.every { key, value -> value == 0.7 }
+    }
+
+    def "should calculate discount correctly when lower priority condition satisfied"() {
+        given:
+        def condition1 = new QuantityCondition(5, BigDecimal.valueOf(0.7))
+        def condition2 = new QuantityCondition(3, BigDecimal.valueOf(0.8))
+        def quantityCondition = List.of(condition1, condition2)
+        DiscountRule discountRule = new DiscountRule(range: mockRange, conditions: quantityCondition)
+        def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
+        def product2 = new Product(2, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
+        Map<Product, Integer> productIdToQuantity = [(product1): 1, (product2): 3]
+
+        when:
+        2 * mockRange.belongsTo(_) >> true
+
+        Map<Product, BigDecimal> result = discountRule.calculateDiscount(productIdToQuantity)
+
+        then:
+        result.size() == 2
+        result.every { key, value -> value == 0.8 }
+    }
 }
