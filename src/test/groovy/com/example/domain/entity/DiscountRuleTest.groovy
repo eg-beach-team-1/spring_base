@@ -64,4 +64,23 @@ class DiscountRuleTest extends Specification {
         result.size() == 2
         result.every { key, value -> value == 1.0 }
     }
+
+    def "should calculate discount correctly when product is not in range"() {
+        given:
+        DiscountRule discountRule = new DiscountRule(range: mockRange, conditions: [mockCondition])
+        def product1 = new Product(1, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
+        def product2 = new Product(2, "name", BigDecimal.ONE, ProductStatus.VALID, "clothes", BigDecimal.ONE, 10)
+        Map<Product, Integer> productIdToQuantity = [(product1): 5, (product2): 3]
+
+        when:
+        2 * mockRange.belongsTo(_) >> false
+        1 * mockCondition.isSatisfied(_) >> true
+        1 * mockCondition.getDiscount() >> 0.8
+
+        Map<Product, BigDecimal> result = discountRule.calculateDiscount(productIdToQuantity)
+
+        then:
+        result.size() == 2
+        result.every { key, value -> value == 1.0 }
+    }
 }
