@@ -16,14 +16,8 @@ import org.mapstruct.ReportingPolicy;
 public interface OrderPreviewDtoMapper {
   OrderPreviewDtoMapper MAPPER = getMapper(OrderPreviewDtoMapper.class);
 
-  @Mapping(
-      target = "totalPrice",
-      expression =
-          "java(com.example.domain.util.OrderUtils.calculateTotalPrice(orderPreview.getProductDetails()))")
-  @Mapping(
-      target = "paidPrice",
-      expression =
-          "java(com.example.domain.util.OrderUtils.calculatePaidPrice(orderPreview.getProductDetails()))")
+  @Mapping(target = "totalPrice", expression = "java(orderPreview.calculateTotalPrice())")
+  @Mapping(target = "paidPrice", expression = "java(orderPreview.calculatePaidPrice())")
   @Mapping(
       target = "productDetails",
       expression = "java(mapProductDetails(orderPreview.getProductDetails()))")
